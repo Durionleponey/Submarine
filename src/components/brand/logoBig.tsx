@@ -1,7 +1,8 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export default function LogoBig() {
     return (
+
         <img
             src="/img/submarineLogo.png"
             alt="logo"

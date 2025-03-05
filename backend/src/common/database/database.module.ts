@@ -1,6 +1,10 @@
     import {Module} from "@nestjs/common";
-    import {MongooseModule} from '@nestjs/mongoose'
-    import {ConfigService} from "@nestjs/config";
+    import {ModelDefinition, MongooseModule} from '@nestjs/mongoose'
+    import {ConfigService} from "@nestjs/config"; //no clue about how it work but i just add a .env file and it's work so great
+    import {model} from "mongoose";
+
+
+    //connexion with the db with ven protection
 
     @Module({
         imports: [MongooseModule.forRootAsync({
@@ -10,4 +14,8 @@
             inject: [ConfigService],
         })],
     })
-    export class DatabaseModule {}
+    export class DatabaseModule {
+        static forFeature(models: ModelDefinition[]) {
+        return MongooseModule.forFeature(models);
+        }
+    }

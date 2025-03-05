@@ -1,12 +1,14 @@
-import {AbstractDocument} from "./abstact.schema";
+import {AbstractEntity} from "./abstact.entity";
 import {Logger, NotFoundException} from "@nestjs/common";
 import {FilterQuery, Model, Types, UpdateQuery} from "mongoose";
 
 
+//generic repository to interact with mongo DB
 
 
-export abstract class AbstractRepository<TDocument extends AbstractDocument> {
-    protected abstract readonly logger: Logger
+
+export abstract class AbstractRepository<TDocument extends AbstractEntity> {//this repo is use when the docu (mongofile) use the abstract entity template
+    protected abstract readonly logger: Logger//debug stugg
 
     constructor(protected readonly model:Model<TDocument>) {}
 
@@ -21,6 +23,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
         return (await createdDocument.save()).toJSON() as unknown as TDocument;
 
     }
+
+    //basic CRUD method
 
     async findOne(filterQuery:FilterQuery<TDocument>): Promise<TDocument>{
         const document = await this.model.findOne(filterQuery).lean<TDocument>();

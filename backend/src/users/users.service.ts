@@ -8,7 +8,8 @@ export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
 
   create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+    //console.log("frffrrfe", createUserInput);
+    return this.userRepository.create(createUserInput);
   }
 
   async findAll() {

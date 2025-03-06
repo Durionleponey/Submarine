@@ -9,7 +9,7 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.usersService.create(createUserInput);
   }
 
@@ -17,6 +17,7 @@ export class UsersResolver {
   findAll() {
     return this.usersService.findAll();
   }
+
 
   @Query(() => User, { name: 'user' })
   findOne(@Args('id', { type: () => Int }) id: number) {

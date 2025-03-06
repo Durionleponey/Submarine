@@ -12,17 +12,20 @@ export abstract class AbstractRepository<TDocument extends AbstractEntity> {//th
 
     constructor(protected readonly model:Model<TDocument>) {}
 
-    async create(document: Omit<TDocument, 'id'>): Promise<TDocument>{
-        const createdDocument = new this.model({
+    async create(document: Omit<TDocument, '_id'>): Promise<TDocument> {
+        //console.log("Dfdfd:", document);
 
+        const createdDocument = new this.model({
             ...document,
             _id: new Types.ObjectId(),
-
         });
 
+        console.log("🛠️ Document après model instanciation:", createdDocument);
         return (await createdDocument.save()).toJSON() as unknown as TDocument;
-
     }
+
+
+
 
     //basic CRUD method
 

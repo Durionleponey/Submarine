@@ -6,10 +6,10 @@ import {DatabaseModule} from "../common/database/database.module";
 import {User, UserSchema} from "./entities/user.entity";
 
 @Module({
-  imports: [DatabaseModule.forFeature([
-    {name: User.name, schema:UserSchema},
-  ]),
+  imports: [
+    DatabaseModule.forFeature([{ name: User.name, schema: UserSchema }])
   ],
-  providers: [UsersResolver, UsersService, UsersRepository],
+  providers: [UsersRepository, UsersService, UsersResolver],
+  exports: [UsersRepository, UsersService],
 })
 export class UsersModule {}

@@ -5,7 +5,7 @@ import {Field, ObjectType} from "@nestjs/graphql";
 
 //we import our abstarct docuement to extend userDocument with our abstrat document
 
-@Schema({ versionKey: false})// delete the versionning in the table
+@Schema({ _id:true, versionKey: false})// delete the versionning in the table
 @ObjectType()// this mean 'hey user is graphQL type' is not no resend to the request
 export class User extends AbstractEntity {
     @Prop()//prop mean this thing have to be stored in the db prop -> proprity a proprety have to be stored
@@ -13,8 +13,11 @@ export class User extends AbstractEntity {
     email:string;
 
     @Prop()// here with a password we cannot expose it so no field || if you try to query pasword you will gate a error
-    //@Field()//just to test
+    @Field()//just to test
     password: string;
+
+
+
 
 }
 

@@ -7,6 +7,8 @@ import {DatabaseModule} from "./common/database/database.module";
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import {GraphQLModule} from "@nestjs/graphql";
 import { UsersModule } from './users/users.module';
+import {LoggerModule} from "nestjs-pino";
+import {pinoHttp} from "pino-http";
 
 @Module({
   imports: [
@@ -22,6 +24,14 @@ import { UsersModule } from './users/users.module';
       }),
       DatabaseModule,
       UsersModule,
+      LoggerModule.forRoot({
+          pinoHttp:{
+              transport:{
+                  target: "pino-pretty",
+                  options:{singleLine:true}
+              }
+          }
+      })
   ],
   controllers: [AppController],
   providers: [AppService],

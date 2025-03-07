@@ -10,6 +10,7 @@ import {FilterQuery, Model, Types, UpdateQuery} from "mongoose";
 export abstract class AbstractRepository<TDocument extends AbstractEntity> {//this repo is use when the docu (mongofile) use the abstract entity template
     protected abstract readonly logger: Logger//debug stugg
 
+
     constructor(protected readonly model:Model<TDocument>) {}
 
     async create(document: Omit<TDocument, '_id'>): Promise<TDocument> {
@@ -20,7 +21,7 @@ export abstract class AbstractRepository<TDocument extends AbstractEntity> {//th
             _id: new Types.ObjectId(),
         });
 
-        console.log("🛠️ Document après model instanciation:", createdDocument);
+        //console.log("Document après model instanciation:", createdDocument);
         return (await createdDocument.save()).toJSON() as unknown as TDocument;
     }
 
@@ -61,6 +62,8 @@ export abstract class AbstractRepository<TDocument extends AbstractEntity> {//th
     }
 
     async findOneAndDelete(filterQuery:FilterQuery<TDocument>,): Promise<TDocument | null>{
+        const document = await this.model.findOne(filterQuery).lean<TDocument>();
+
 
 
         if (!document){

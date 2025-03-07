@@ -12,8 +12,12 @@ export class UsersService {
     //console.log("frffrrfe", createUserInput);
     return this.userRepository.create({
       ...createUserInput,
-      password: await bcrypt.hash(createUserInput.password, 10)//bcrypt is a library
+      password: await this.hashPassword(createUserInput.password)
     });
+  }
+
+  private async hashPassword(password:string){//bcrypt is a library
+    return bcrypt.hash(password, 10)
   }
 
   async findAll() {
@@ -28,11 +32,17 @@ export class UsersService {
     return this.userRepository.findOne({ email:mail});
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(_id: string, updateUserInput: UpdateUserInput) {
+    return this.userRepository.findOneAndUpdate({ _id:_id}, {
+      $set:{
+        ...updateUserInput,
+        password:await this.hashPassword(<string>updateUserInput.password)
+
+      }
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(_id: string) {
+    return this.userRepository.findOneAndDelete({_id})//in fact here '_id:_id' or '_id' i'ts the same because there are the same but is faster to type '_id'
   }
 }

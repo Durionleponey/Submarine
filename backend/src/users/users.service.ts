@@ -20,8 +20,12 @@ export class UsersService {
     return this.userRepository.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {//mongo db's _id can be search as a string apparently
+    return this.userRepository.findOne({ _id:id});
+  }
+
+  async findOneWithMail(mail: string) {//useless but i want to exercice
+    return this.userRepository.findOne({ email:mail});
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {

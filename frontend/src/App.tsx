@@ -17,7 +17,7 @@ const darkTheme = createTheme({
 
 const App = () => {
     return (
-        <ApolloProvider client={client}>//appolo shoud be there to allow other components to acces graphql
+        <ApolloProvider client={client}>
             <ThemeProvider theme={darkTheme}>
                 <Container>
                     <CssBaseline>

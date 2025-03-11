@@ -9,6 +9,7 @@ import {GraphQLModule} from "@nestjs/graphql";
 import { UsersModule } from './users/users.module';
 import {LoggerModule} from "nestjs-pino";
 import {pinoHttp} from "pino-http";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import {pinoHttp} from "pino-http";
                   options:{singleLine:true}
               }
           }
-      })
+      }),
+      AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

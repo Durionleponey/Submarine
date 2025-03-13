@@ -7,7 +7,7 @@ import {UsersService} from "../../users/users.service";
 
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalStrategy extends PassportStrategy(Strategy) {//with a second parametter we can rename the stratgey
     constructor(private readonly userService:UsersService) {
         super({
             usernameField: 'email',

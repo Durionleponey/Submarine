@@ -10,5 +10,5 @@ import {Field, ID, ObjectType} from "@nestjs/graphql";
 export class AbstractEntity {
     @Prop( {type: SchemaTypes.ObjectId} )
     @Field(() => ID)
-    _id?: Types.ObjectId;
+    _id: Types.ObjectId;
 }

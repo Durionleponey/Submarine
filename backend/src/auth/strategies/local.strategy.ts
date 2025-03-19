@@ -9,7 +9,7 @@ import {UsersService} from "../../users/users.service";
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {//with a second parametter we can rename the stratgey
     constructor(private readonly userService:UsersService) {
-        super({
+        super({//we overwrite the parent class because by default bcrypt use heuuuuu usernameFied
             usernameField: 'email',
 
         });

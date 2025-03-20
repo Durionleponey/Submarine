@@ -2,7 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {ValidationPipe} from "@nestjs/common";
 import {Logger} from "nestjs-pino"
-import {ConfigService} from "@nestjs/config";
+import {ConfigService} from "@nestjs/config";//ce fichier c'est genre tt ce qui se passe à haut niveau en global les modules ectect
+import * as cookieParser from "cookie-parser";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {bufferLogs: true});
@@ -11,6 +12,7 @@ async function bootstrap() {
   )
   app.useLogger(app.get(Logger))
   const configService = app.get(ConfigService);
+  app.use(cookieParser());
 
   await app.listen(process.env.PORT ?? configService.getOrThrow('PORT'));
 }

@@ -17,8 +17,6 @@ export class User extends AbstractEntity {
     password: string;
 
 
-
-
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)//convert the class for mongodb

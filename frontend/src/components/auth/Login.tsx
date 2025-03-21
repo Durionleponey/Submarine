@@ -7,7 +7,8 @@ import useLogin from "../../hooks/useLogin";
 const Login = () => {
     const { login, error } = useLogin()
     return (
-        <Auth submitLabel="Login" submitColor={"secondary"} onSubmit={(request) => login(request)}>
+        <Auth submitLabel="Login" submitColor={"secondary"} onSubmit={(request) => login(request)} error={
+            error ? "Credential are wrong! try 'Azerty123!' if you are loking for the password" : ""}>
             <Link to="/signup" style={{alignSelf:"center"}}>
                 <MUIlink >
                     Signup

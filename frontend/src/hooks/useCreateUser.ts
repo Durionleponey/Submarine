@@ -1,6 +1,8 @@
 import {gql, useMutation} from "@apollo/client";
 import {User} from "../model/User";
 
+//this hook is for graphQL
+
 
 interface CreateUserInput {
     createUserInput: {

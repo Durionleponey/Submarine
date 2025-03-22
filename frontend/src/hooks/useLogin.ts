@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {API_URL} from "../constants/urls";
 import client from "../constants/apollo-client";
+//this hoock is not for graphQL
 
 
 interface LoginRequest {

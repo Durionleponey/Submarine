@@ -30,7 +30,7 @@ const Signup = () => {
                     })
                 }catch (error) {
                     //alert("Password not strong anought or email already use!")
-                    setIsError("Password not strong anought or email already use!")
+                    setIsError("Password not strong anought, or bad email !")
                 }
 
                 //console.log("Signup clicked", variables);

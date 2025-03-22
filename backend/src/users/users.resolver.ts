@@ -53,6 +53,11 @@ export class UsersResolver {
     return this.usersService.remove(user._id);
   }
 
+  @Query(() => User, { name: 'me' })
+  @UseGuards(GqlAuthGuard)
+  getMe(@CurrentUser() user: TokenPayload) {//getMe will return the current login user idk how it's work but it's work
+    return user;
+  }
 /*
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard, AdminGuard)

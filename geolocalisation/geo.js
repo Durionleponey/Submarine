@@ -6,18 +6,20 @@ function checkCity(cityName) {
     }
 
     const apiKey = 'e0b6f34609826a'; // Remplace par ta clé API IPinfo.io
-
     const url = `https://ipinfo.io/json?token=${apiKey}`;
 
-    // Récupérer la position de l'utilisateur via IPinfo.io
+    // Récupérer la position et la ville de l'utilisateur via IPinfo.io
     fetch(url)
         .then(response => response.json())
         .then(data => {
             const userLocation = data.loc.split(',');
             const userLat = parseFloat(userLocation[0]);
             const userLon = parseFloat(userLocation[1]);
+            const userCity = data.city;
 
-            console.log(`Votre position : Lat ${userLat}, Lon ${userLon}`);
+            console.log(`🌍 Vous êtes actuellement à ${userCity} (Lat: ${userLat}, Lon: ${userLon})`);
+
+            console.log(`Votre position : ${userCity} (Lat ${userLat}, Lon ${userLon})`);
 
             // Récupérer les coordonnées des villes qui correspondent
             const geoUrl = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(cityName)}&format=json`;
@@ -35,7 +37,7 @@ function checkCity(cityName) {
                         verifyCity(userLat, userLon, data[0].lat, data[0].lon, cityName);
                     } else {
                         // Si plusieurs villes sont trouvées, demander à l'utilisateur de choisir
-                        let cityOptions = "Plusieurs villes trouvées. Choisis un numéro :\n";
+                        let cityOptions = "Plusieurs villes trouvées. Choisissez un numéro :\n";
                         data.forEach((city, index) => {
                             cityOptions += `${index + 1}. ${city.display_name}\n`;
                         });

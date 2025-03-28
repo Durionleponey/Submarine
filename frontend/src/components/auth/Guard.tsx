@@ -1,5 +1,6 @@
 import {useGetMe} from "../../hooks/useGetMe";
 import {JSX} from "react";
+import excludedRoutes from "../../constants/excluded-routes";
 
 interface GuardProps {
     children: JSX.Element;
@@ -7,8 +8,16 @@ interface GuardProps {
 
 const Guard = ({children}:GuardProps) =>  {
     const { data: user } = useGetMe();
-    console.log(user);
-    return children;
+    console.log('USER ----> ',user);
+
+
+    return(<>
+        {
+            excludedRoutes.includes(window.location.pathname) ? children: (user && children)
+        }
+    </>)
+
+
 
 
 }

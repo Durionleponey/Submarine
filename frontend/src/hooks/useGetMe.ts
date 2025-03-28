@@ -13,10 +13,10 @@ interface GetMe {
 
 
 
-
     const GET_ME = gql`
   query {
     me {
+      _id
       email
     }
   }

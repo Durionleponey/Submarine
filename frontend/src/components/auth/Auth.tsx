@@ -40,7 +40,7 @@ const Auth = ({submitLabel, submitColor, onSubmit, children, error, success}:Aut
                 align="center"
                 sx={{ color: "white", fontWeight: "bold" }}
             >
-                You are successfully signup 💖 !
+                You are successfully signup 💖🤿!
             </Typography></>}</>
             { children }
         </Stack>

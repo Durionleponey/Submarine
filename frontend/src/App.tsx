@@ -8,6 +8,8 @@ import router from "./components/Routes";
 import {ApolloClient, ApolloProvider} from "@apollo/client";
 import client from "./constants/apollo-client";
 import Guard from "./components/auth/Guard";
+import Header from "./components/header/Header";
+import Toolbar from "@mui/material/Toolbar";
 
 const darkTheme = createTheme({
     palette:{
@@ -20,6 +22,7 @@ const App = () => {
     return (
         <ApolloProvider client={client}>
             <ThemeProvider theme={darkTheme}>
+                <Header/>
                 <Container>
                     <CssBaseline>
                         <Guard>

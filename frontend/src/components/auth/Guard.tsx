@@ -7,7 +7,8 @@ interface GuardProps {
 }
 
 const Guard = ({children}:GuardProps) =>  {
-    const { data: user } = useGetMe();
+    const { data: user,error } = useGetMe();
+
     console.log('USER ----> ',user);
 
 

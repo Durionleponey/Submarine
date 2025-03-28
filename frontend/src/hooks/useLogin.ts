@@ -27,7 +27,7 @@ const useLogin = () => {
             return;
         }
         setError(false)
-        await client.refetchQueries({include: 'active'});
+        await client.refetchQueries({include: 'active'});//emplty the cache
 
     };
 

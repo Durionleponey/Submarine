@@ -27,12 +27,11 @@ interface GetMe {
 
 
 
-
-    const useGetMe = () => {
-
-        return useQuery<{me:User,}>(GET_ME);
-    }
-
+const useGetMe = () => {
+    return useQuery<{ me: User }>(GET_ME, {
+        errorPolicy: "all", // 👈 évite le "Uncaught ApolloError"
+    });
+}
 
 
 

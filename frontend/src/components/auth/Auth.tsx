@@ -24,7 +24,6 @@ const Auth = ({submitLabel, submitColor, onSubmit, children, error, success}:Aut
     useEffect(() =>{
         if (data) {
             navigate("/");
-
         }
     }, [data,navigate]);//i have to put navigate in the array because is good practice
 

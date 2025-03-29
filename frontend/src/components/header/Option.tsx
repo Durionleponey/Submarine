@@ -17,6 +17,7 @@ import router from "../Routes";
 import client from "../../constants/apollo-client";
 import {SnackInterface, snackVar} from "../../constants/snack";
 import {text} from "node:stream/consumers";
+import {authenticateVar} from "../../constants/authenticated";
 
 
 const erreurLogout:SnackInterface = {
@@ -71,6 +72,7 @@ const Option = () => {
                         <MenuItem key={'logout'} onClick={async() => {
                             try {
                                 await logout();
+                                authenticateVar(false);
                                 router.navigate("/login");
                                 client.resetStore();
                                 handleCloseUserMenu();

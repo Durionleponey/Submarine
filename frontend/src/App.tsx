@@ -1,43 +1,46 @@
-
 import './style.css'
-import React, { useState } from 'react';
-import Auth from "./components/auth/Auth";
-import {Container, createTheme, CssBaseline, ThemeProvider} from "@mui/material";
-import {RouterProvider} from "react-router-dom";
-import router from "./components/Routes";
-import {ApolloClient, ApolloProvider} from "@apollo/client";
+import React from 'react';
+import {
+    Container, createTheme, CssBaseline, Grid, ThemeProvider
+} from "@mui/material";
+import { RouterProvider } from "react-router-dom";
+import { ApolloProvider, useReactiveVar } from "@apollo/client";
+import Snackbar from "@mui/material/Snackbar";
+
 import client from "./constants/apollo-client";
+import router from "./components/Routes";
+import { authenticateVar } from "./constants/authenticated";
 import Guard from "./components/auth/Guard";
 import StolenHeader from "./components/header/Header";
-import Toolbar from "@mui/material/Toolbar";
-import Snackbar from "@mui/material/Snackbar";
+import ChatList from "./components/chat-list/ChatList";
 import Snackbarr from "./components/snackbar/Snackbar";
 
 
 const darkTheme = createTheme({
-    palette:{
-        mode : "dark"
-    }
-
-})
+    palette: { mode: "dark" },
+});
 
 const App = () => {
+    const authenticated = useReactiveVar(authenticateVar);
+
     return (
         <ApolloProvider client={client}>
             <ThemeProvider theme={darkTheme}>
-                <StolenHeader/>
-                <Container>
-                    <CssBaseline>
-                        <Guard>
-                            <RouterProvider router={router}/>
-                        </Guard>
-                    </CssBaseline>
-                </Container>
-                <Snackbarr/>
+                <CssBaseline />
+                <StolenHeader />
+
+                <Grid container spacing={2}>
+                    {authenticated && (<Grid><ChatList /></Grid>)}
+                        <Container>
+                            <Guard>
+                                <RouterProvider router={router} />
+                            </Guard>
+                        </Container>
+                </Grid>
+                <Snackbarr />
             </ThemeProvider>
         </ApolloProvider>
-)
+    );
 };
 
 export default App;
-

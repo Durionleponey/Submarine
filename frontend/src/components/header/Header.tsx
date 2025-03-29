@@ -17,15 +17,21 @@ import MobileNavigation from "./MobileNavigation";
 import MobileBranding from "./MobileBranding";
 import Navigation from "./Navigation";
 import Option from "./Option";
+import {useReactiveVar} from "@apollo/client";
+import {authenticateVar} from "../../constants/authenticated";
 
-const pages:string[] = [];
+const pages:string[] = ["COUCOU"];
 
+const Header = () =>{
+
+}
 
 
 //idk what this code is doing but its there
 const StolenHeader= () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const authenticated = useReactiveVar(authenticateVar)
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -51,7 +57,8 @@ const StolenHeader= () => {
                     <MobileNavigation pages={pages}/>
                     <MobileBranding/>
                     <Navigation pages={pages}/>
-                    <Option/>
+                    {authenticated && <Option/>}
+
 
 
                 </Toolbar>

@@ -15,6 +15,16 @@ import {useState} from "react";
 import {useLogout} from "../../hooks/useLogout";
 import router from "../Routes";
 import client from "../../constants/apollo-client";
+import {SnackInterface, snackVar} from "../../constants/snack";
+import {text} from "node:stream/consumers";
+
+
+const erreurLogout:SnackInterface = {
+
+    text:"Erreur Logout Failed!",
+    type:"error",
+
+}
 
 
 
@@ -59,10 +69,20 @@ const Option = () => {
                 >
 
                         <MenuItem key={'logout'} onClick={async() => {
-                            await logout();
-                            router.navigate("/login");
-                            client.resetStore();
-                            handleCloseUserMenu();
+                            try {
+                                await logout();
+                                router.navigate("/login");
+                                client.resetStore();
+                                handleCloseUserMenu();
+
+                            }catch (err) {
+
+                                snackVar(erreurLogout);
+
+
+                            }
+
+
 
                         }}>
                             <Typography sx={{ textAlign: 'center' }}>Logout</Typography>

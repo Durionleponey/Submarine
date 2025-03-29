@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {API_URL} from "../constants/urls";
 import client from "../constants/apollo-client";
+import {SnackInterface, snackVar} from "../constants/snack";
 //this hoock is not for graphQL
 
 
@@ -8,6 +9,13 @@ interface LoginRequest {
 
         email: string;
         password: string;
+}
+
+const succesLogin:SnackInterface = {
+
+    text:"Login in successfully!",
+    type:"success",
+
 }
 
 const useLogin = () => {
@@ -27,6 +35,7 @@ const useLogin = () => {
             return;
         }
         setError(false)
+        snackVar(succesLogin)
         await client.refetchQueries({include: 'active'});//emplty the cache
 
     };

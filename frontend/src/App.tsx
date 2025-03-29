@@ -10,6 +10,9 @@ import client from "./constants/apollo-client";
 import Guard from "./components/auth/Guard";
 import StolenHeader from "./components/header/Header";
 import Toolbar from "@mui/material/Toolbar";
+import Snackbar from "@mui/material/Snackbar";
+import Snackbarr from "./components/snackbar/Snackbar";
+
 
 const darkTheme = createTheme({
     palette:{
@@ -30,6 +33,7 @@ const App = () => {
                         </Guard>
                     </CssBaseline>
                 </Container>
+                <Snackbarr/>
             </ThemeProvider>
         </ApolloProvider>
 )

@@ -20,7 +20,7 @@ const chatList  = () =>  {
 
                 <ChatListHeader/>
                 <Divider/>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', maxHeight: "90vh", overflowY: 'auto' }}>
+                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', maxHeight: "86.5vh", overflowY: 'auto' }}>
                         <ChatListItem/>
                         <ChatListItem/>
                         <ChatListItem/>

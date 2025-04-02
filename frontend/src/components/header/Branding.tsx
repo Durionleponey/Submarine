@@ -24,7 +24,6 @@ const branding = () => {
                 variant="h6"
                 noWrap
                 component="a"
-                onClick={() => {router.navigate("/")}}
                 sx={{
                     mr: 2,
                     display: {xs: 'none', md: 'flex'},
@@ -33,7 +32,7 @@ const branding = () => {
                     letterSpacing: '.3rem',
                     color: 'inherit',
                     textDecoration: 'none',
-                    cursor: 'pointer',
+                    //cursor: 'pointer',
                 }}
             >
                 Submarine

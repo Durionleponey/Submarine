@@ -7,11 +7,19 @@ import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import DisabledVisibleIcon from '@mui/icons-material/DisabledVisible';
+import CompareIcon from '@mui/icons-material/Compare';
 import Tooltip from "@mui/material/Tooltip";
 
 
 
-const ChatListHeader = () => {
+interface ChatListHeaderProps {
+    handleAddChat:() => void;
+
+}
+
+
+
+const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
 
 
     return (
@@ -21,14 +29,20 @@ const ChatListHeader = () => {
             <Toolbar>
 
                 <Tooltip title="Start a new conversation">
-                    <IconButton size="large" edge="start">
+                    <IconButton size="large" edge="start" onClick={handleAddChat}>
                         <AddCircleIcon />
                     </IconButton>
                 </Tooltip>
 
-                <Tooltip title="Toggle visibility of the conv">
+                <Tooltip title="Toggle visibility of the conversation">
                     <IconButton size="large" edge="start">
                         <DisabledVisibleIcon />
+                    </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Toggle visibility of the Submarine Brainding">
+                    <IconButton size="large" edge="start">
+                        <CompareIcon />
                     </IconButton>
                 </Tooltip>
 

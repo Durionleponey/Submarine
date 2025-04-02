@@ -24,7 +24,7 @@ const Snackbarr= () => {
         <>
             {//!! force to return a bool
                 snack && (
-                    <Snackbar open={!!snack} autoHideDuration={6000} onClose={handleClose}>
+                    <Snackbar open={!!snack} autoHideDuration={2000} onClose={handleClose}>
                         <Alert
                             onClose={handleClose}
                             severity={snack?.type}

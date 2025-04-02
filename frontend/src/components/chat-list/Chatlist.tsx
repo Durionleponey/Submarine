@@ -9,41 +9,41 @@ import Typography from '@mui/material/Typography';
 import ChatListItem from "./chat-list-item/ChatList-Item";
 import ChatListHeader from "./chat-list-header/ChatListHeader";
 import {Stack} from "@mui/material";
+import {useState} from "react";
+import ChatListAdd from "./chat-list-add/ChatListAdd";
 
-const chatList  = () =>  {
+const ChatList  = () =>  {
+
+    const [chatListaddModel, setChatListaddModel] = useState(false);
+
     return (
+        <>
+            <ChatListAdd open={chatListaddModel} handleClose={() => setChatListaddModel(false)} />
+            <Stack>
 
-        <Stack>
 
-
-
-
-                <ChatListHeader/>
+                <ChatListHeader handleAddChat={() => setChatListaddModel(true)}/>
                 <Divider/>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', maxHeight: "86.5vh", overflowY: 'auto' }}>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
-                        <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
+                    <ChatListItem/>
                 </List>
-
-
-
-        </Stack>
-
-
+            </Stack>
+        </>
 
     );
 }
 
-export default chatList;
+export default ChatList;

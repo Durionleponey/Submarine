@@ -19,6 +19,7 @@ import Navigation from "./Navigation";
 import Option from "./Option";
 import {useReactiveVar} from "@apollo/client";
 import {authenticateVar} from "../../constants/authenticated";
+import {Grid} from "@mui/material";
 
 const pages:string[] = ["COUCOU"];
 
@@ -49,21 +50,25 @@ const StolenHeader= () => {
     };
 
     return (
-        <AppBar position="static">
-            <Container >
-                <Toolbar disableGutters>
 
-                    <Branding/>
-                    <MobileNavigation pages={pages}/>
-                    <MobileBranding/>
-                    <Navigation pages={pages}/>
-                    {authenticated && <Option/>}
+            <AppBar position="static">
+                <Container >
+                    <Toolbar disableGutters>
+
+                        <Branding/>
+                        <MobileNavigation pages={pages}/>
+                        <MobileBranding/>
+                        <Navigation pages={pages}/>
+                        {authenticated && <Option/>}
 
 
 
-                </Toolbar>
-            </Container>
-        </AppBar>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+
+
+
     );
 }
 export default StolenHeader;

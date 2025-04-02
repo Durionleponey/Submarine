@@ -28,6 +28,14 @@ const erreurLogout:SnackInterface = {
 }
 
 
+const succesLogout:SnackInterface = {
+
+    text:"You are now logged out!",
+    type:"info",
+
+}
+
+
 
 
 const Option = () => {
@@ -73,6 +81,7 @@ const Option = () => {
                             try {
                                 await logout();
                                 authenticateVar(false);
+                                snackVar(succesLogout);
                                 router.navigate("/login");
                                 client.resetStore();
                                 handleCloseUserMenu();

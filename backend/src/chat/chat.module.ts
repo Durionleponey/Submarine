@@ -3,6 +3,6 @@ import { ChatService } from './chat.service';
 import { ChatResolver } from './chat.resolver';
 
 @Module({
-  providers: [ChatResolver, ChatService],
+  providers: [ChatResolver, ChatService, ChatResolver],
 })
 export class ChatModule {}

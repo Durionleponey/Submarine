@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import {LoggerModule} from "nestjs-pino";
 import {pinoHttp} from "pino-http";
 import { AuthModule } from './auth/auth.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { AuthModule } from './auth/auth.module';
               }
           }
       }),
-      AuthModule
+      AuthModule,
+      ChatModule
   ],
   controllers: [AppController],
   providers: [AppService],

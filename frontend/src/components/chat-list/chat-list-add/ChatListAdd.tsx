@@ -7,6 +7,7 @@ import {useState} from "react";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
 import Button from "@mui/material/Button";
+import {useCreateChat} from "../../../hooks/useCreateChat";
 
 
 
@@ -15,9 +16,15 @@ interface ChatListAddInterface {
     handleClose: () => void;
 }
 
+
+
+
 const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
     const [isPrivate, setIsPrivate] = useState(true);
+    const [name, setName] = useState<string | undefined>("")
+    const [createChat] = useCreateChat();
+
 
 
     return(
@@ -56,11 +63,22 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
                         </Box>
                     ) : (
-                        <TextField label={"User Name"}/>
+                        <TextField label={"User Name"} onChange={(event) => setName(event.target.value)}/>
                     )
                 }
 
-                <Button variant="contained">Add</Button>
+
+                <Button variant="contained" onClick={() => {
+                    createChat({
+                        variables: {
+                            createChatInput: {
+                                isPrivate,
+                                name: name || undefined
+                            }
+                        }
+                    })
+
+                }}>Add</Button>
                 </Stack>
 
 

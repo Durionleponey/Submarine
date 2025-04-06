@@ -3,12 +3,12 @@ import {User} from "../model/User";
 
 
 
-interface GetMe {
+/*interface GetMe {
     GetMeInput: {
         _id: string;
         email: string;
     }
-}
+}*/
 
 
 

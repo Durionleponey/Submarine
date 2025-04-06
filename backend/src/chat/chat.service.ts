@@ -18,8 +18,8 @@ export class ChatService {
     return this.chatRepository.create({...createChatInput, userId, userIds: createChatInput.userIds || []});
   }
 
-  findAll() {
-    return `This action returns all chat`;
+  async findAll() {
+    return this.chatRepository.find({});
   }
 
   findOne(id: number) {

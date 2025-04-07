@@ -11,10 +11,12 @@ import ChatListHeader from "./chat-list-header/ChatListHeader";
 import {Stack} from "@mui/material";
 import {useState} from "react";
 import ChatListAdd from "./chat-list-add/ChatListAdd";
+import {useGetChat} from "../../hooks/useGetChat";
 
 const ChatList  = () =>  {
 
     const [chatListaddModel, setChatListaddModel] = useState(false);
+    const {data} = useGetChat();
 
     return (
         <>
@@ -25,20 +27,11 @@ const ChatList  = () =>  {
                 <ChatListHeader handleAddChat={() => setChatListaddModel(true)}/>
                 <Divider/>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', maxHeight: "86.5vh", overflowY: 'auto' }}>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
-                    <ChatListItem/>
+
+                    {data?.chatss.map((chat: { name: string | undefined }) => (
+                        <ChatListItem name={chat.name} />
+                    ))}
+
                 </List>
             </Stack>
         </>

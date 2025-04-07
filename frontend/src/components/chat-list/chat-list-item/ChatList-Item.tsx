@@ -6,8 +6,13 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
+interface ChatListItemProps {
+    name?:string | null;
 
-const ChatListItem  = () => {
+}
+
+
+const ChatListItem  = ({name}:ChatListItemProps) => {
 
 
     return (
@@ -16,7 +21,7 @@ const ChatListItem  = () => {
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText
-                primary="Brunch this weekend?"
+                primary={name}
                 secondary={
                     <React.Fragment>
                         <Typography

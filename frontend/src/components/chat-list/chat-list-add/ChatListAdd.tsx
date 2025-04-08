@@ -21,9 +21,16 @@ interface ChatListAddInterface {
 
 const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
-    const [isPrivate, setIsPrivate] = useState(true);
-    const [name, setName] = useState<string | undefined>("")
+    const [isPrivate, setIsPrivate] = useState(false);
+    const [isError, setIsError] = useState("");
+    const [name, setName] = useState("")
     const [createChat] = useCreateChat();
+
+    const onClose = () => {
+        setIsPrivate(false);
+        setIsPrivate(false);
+        setName("")
+    }
 
 
 
@@ -51,7 +58,7 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
                 <Typography variant="h5" component="h2">Add Chat</Typography>
                 <FormGroup>
-                    <FormControlLabel style={{ width:0}} control={<Switch defaultChecked={true} value={isPrivate} onChange={(event) => setIsPrivate(event.target.checked)}/>} label="Private"/>
+                    <FormControlLabel style={{ width:0}} control={<Switch defaultChecked={isPrivate} value={isPrivate} onChange={(event) => setIsPrivate(event.target.checked)}/>} label="Private"/>
                 </FormGroup>
                 {
                     isPrivate ? (
@@ -63,21 +70,36 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
                         </Box>
                     ) : (
-                        <TextField label={"User Name"} onChange={(event) => setName(event.target.value)}/>
+                        <TextField error={!!isError} helperText={isError} label={"Groupe Name"} onChange={(event) => setName(event.target.value)}/>
                     )
                 }
 
 
                 <Button variant="contained" onClick={async () => {
-                    await createChat({
-                        variables: {
-                            createChatInput: {
-                                isPrivate,
-                                name: name || undefined
+
+                    if (name.length == 0) {
+                        setIsError("Please enter a chatName");
+                        return;
+
+                    }
+
+                    try {
+                        await createChat({
+                            variables: {
+                                createChatInput: {
+                                    isPrivate,
+                                    name: name || undefined
+                                }
                             }
-                        }
-                    })
+                        })
+
+                    }catch {
+                        setIsError("Unknow Error while creating Chat");
+
+                    }
+
                     handleClose()
+                    onClose()
 
                 }}>Add</Button>
                 </Stack>

@@ -17,7 +17,7 @@ const createChatDocument = graphql(`
     }
 `);
 
-const ChatFragment = graphql(`
+export const ChatFragment = graphql(`
     fragment ChatFragment on Chat {
         _id
         userId

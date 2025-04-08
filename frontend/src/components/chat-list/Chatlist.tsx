@@ -12,11 +12,14 @@ import {Stack} from "@mui/material";
 import {useState} from "react";
 import ChatListAdd from "./chat-list-add/ChatListAdd";
 import {useGetChat} from "../../hooks/useGetChat";
+import {Chat} from "../../gql/graphql";
 
 const ChatList  = () =>  {
 
     const [chatListaddModel, setChatListaddModel] = useState(false);
     const {data} = useGetChat();
+
+    // @ts-ignore
 
     return (
         <>
@@ -28,8 +31,8 @@ const ChatList  = () =>  {
                 <Divider/>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', maxHeight: "86.5vh", overflowY: 'auto' }}>
 
-                    {data?.chatss.map((chat: { name: string | undefined }) => (
-                        <ChatListItem name={chat.name} />
+                    {data?.chatss.map((chat: Chat) => (
+                        <ChatListItem chat={chat} />
                     ))}
 
                 </List>

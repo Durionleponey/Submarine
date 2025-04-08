@@ -68,8 +68,8 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
                 }
 
 
-                <Button variant="contained" onClick={() => {
-                    createChat({
+                <Button variant="contained" onClick={async () => {
+                    await createChat({
                         variables: {
                             createChatInput: {
                                 isPrivate,
@@ -77,6 +77,7 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
                             }
                         }
                     })
+                    handleClose()
 
                 }}>Add</Button>
                 </Stack>

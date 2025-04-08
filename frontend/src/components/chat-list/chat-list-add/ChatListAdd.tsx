@@ -26,7 +26,7 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
     const [name, setName] = useState("")
     const [createChat] = useCreateChat();
 
-    const onClose = () => {
+    const onClosee = () => {
         setIsError("");
         setIsPrivate(false);
         setName("")
@@ -37,7 +37,7 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
     return(
         <Modal open={open} onClose={() => {
             handleClose();
-            onClose();
+            onClosee();
         }}>
             <Box
                 sx={{
@@ -102,6 +102,7 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
                     }
 
                     handleClose()
+                    onClosee();
 
 
                 }}>Add</Button>

@@ -22,8 +22,8 @@ export class ChatService {
     return this.chatRepository.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} chat`;
+  async findOne(_id: string) {
+    return this.chatRepository.findOne({_id});
   }
 
   update(id: number, updateChatInput: UpdateChatInput) {

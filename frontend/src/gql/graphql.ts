@@ -83,7 +83,7 @@ export type Query = {
 
 
 export type QueryChatArgs = {
-  id: Scalars['Int']['input'];
+  _id: Scalars['String']['input'];
 };
 
 

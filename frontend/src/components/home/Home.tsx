@@ -2,14 +2,8 @@
 
 const Home = () => {
     return <>
-        <h1>Conversation placeholder</h1>
-        <h1>Conversation placeholder</h1>
-        <h1>Conversation placeholder</h1>
-        <h1>Conversation placeholder</h1>
-        <h1>Conversation placeholder</h1>
-        <h1>Conversation placeholder</h1>
-        <h1>Conversation placeholder</h1>
-        <h1>Conversation placeholder</h1>
+        <h1>Home</h1>
+
 
     </>
 }

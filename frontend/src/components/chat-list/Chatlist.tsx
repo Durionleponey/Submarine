@@ -6,13 +6,14 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import ChatListItem from "./chat-list-item/ChatList-Item";
+
 import ChatListHeader from "./chat-list-header/ChatListHeader";
 import {Stack} from "@mui/material";
 import {useState} from "react";
 import ChatListAdd from "./chat-list-add/ChatListAdd";
 import {useGetChat} from "../../hooks/useGetChat";
 import {Chat} from "../../gql/graphql";
+import ChatListItem from './chat-list-item/ChatList-Item';
 
 const ChatList  = () =>  {
 

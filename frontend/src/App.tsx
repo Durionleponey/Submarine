@@ -12,7 +12,7 @@ import router from "./components/Routes";
 import { authenticateVar } from "./constants/authenticated";
 import Guard from "./components/auth/Guard";
 import StolenHeader from "./components/header/Header";
-import ChatList from "./components/chat-list/ChatList";
+import ChatList from "./components/chat-list/Chatlist";
 import Snackbarr from "./components/snackbar/Snackbar";
 
 

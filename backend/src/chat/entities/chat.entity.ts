@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import {AbstractEntity} from "../../common/database/abstact.entity";
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import {Message} from "../messages/entities/message.entity";
 
 @ObjectType()
 @Schema()
@@ -21,6 +22,9 @@ export class Chat extends AbstractEntity{
   @Field( {nullable:true} )
   @Prop()
   name?: string;// it's optional because if the chat is private we don't need a name it's juste the name of the guy
+
+  @Prop([Message])
+  messages: Message[];
 }
 
 

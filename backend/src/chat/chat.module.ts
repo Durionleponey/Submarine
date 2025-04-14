@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {forwardRef, Module} from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { ChatResolver } from './chat.resolver';
 import {ChatRepository} from "./chat.repository";
@@ -12,8 +12,10 @@ import { MessagesModule } from './messages/messages.module';
     MongooseModule.forFeature([
       { name: Chat.name, schema: ChatSchema }
     ]),
-    MessagesModule
+
+    forwardRef(() => MessagesModule),
   ],
   providers: [ChatResolver, ChatService, ChatRepository],
+  exports: [ChatRepository],
 })
 export class ChatModule {}

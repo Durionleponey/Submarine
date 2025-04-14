@@ -12,10 +12,8 @@ export class ChatService {
 
 
 
-
-
   async create(createChatInput: CreateChatInput, userId:string): Promise<Chat> {
-    return this.chatRepository.create({...createChatInput, userId, userIds: createChatInput.userIds || []});
+    return this.chatRepository.create({...createChatInput, userId, userIds: createChatInput.userIds || [], messages:[],});
   }
 
   async findAll() {

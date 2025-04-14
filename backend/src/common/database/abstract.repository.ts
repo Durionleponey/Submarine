@@ -47,6 +47,10 @@ export abstract class AbstractRepository<TDocument extends AbstractEntity> {//th
             new: true,
         }).lean<TDocument>();
 
+        console.log("repository-->", document);
+        console.log("fQuery-->", filterQuery);
+        console.log("up", update);
+
         if (!document){
             this.logger.warn("", filterQuery)
             throw new NotFoundException('Document not found.');

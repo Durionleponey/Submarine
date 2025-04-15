@@ -1,4 +1,4 @@
-import {Args, Mutation, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import { MessagesService } from './messages.service';
 import {Message} from "./entities/message.entity";
 import {UseGuards} from "@nestjs/common";
@@ -7,6 +7,8 @@ import {CreateChatInput} from "../dto/create-chat.input";
 import {CreateMessageInput} from "./dto/create-message.input";
 import {CurrentUser} from "../../auth/current-user.decorator";
 import {TokenPayload} from "../../auth/token-payload.interface";
+import {query} from "express";
+import {GetMessages} from "./dto/get-messages";
 
 @Resolver(() => Message)
 export class MessagesResolver {
@@ -22,4 +24,17 @@ export class MessagesResolver {
     //console.log(user);
     return this.messagesService.createMessage(createMessageInput, user._id)
   }
+
+
+  @Query(() => [Message])
+  @UseGuards(GqlAuthGuard)
+  async getMessages(
+    @Args() getMessageArgs: GetMessages,//defautl argument no name required
+    @CurrentUser() user:TokenPayload
+  ) {
+    return this.messagesService.getMessages(getMessageArgs, user._id);
+  }
+
+
 }
+

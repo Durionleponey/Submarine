@@ -1,11 +1,12 @@
 import {useParams} from "react-router-dom";
 import {useGetSingleChat} from "../../hooks/useGetSingleChat";
-import {InputBase, Paper, Stack} from "@mui/material";
+import {Box, InputBase, Paper, Stack} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {useCreateMessage} from "../../hooks/useCeateMessage";
 import {useState} from "react";
+import {useGetMessages} from "../../hooks/useGetMessages";
 
 const Chat = () => {
     const params = useParams();
@@ -14,6 +15,10 @@ const Chat = () => {
     //console.log("chatId", chatId);
     const { data, loading} = useGetSingleChat({_id: chatId || ""})
     const [createMessage] = useCreateMessage();
+
+    const {data:messages} = useGetMessages({chatId});
+
+    console.log(messages)
 
     if (loading) {
         return <h1>Chargement du chat...</h1>;
@@ -29,6 +34,11 @@ const Chat = () => {
         <Stack sx={{ height: "100%", justifyContent: "space-between",}}>
 
             <h1>{data?.chat.name}</h1>
+            <Box>
+                {messages?.getMessages.map((message) => (
+                    <p>{message.content} 👉 {message.createdAt}</p>
+                ))}
+            </Box>
             <Paper
                 sx={{
 

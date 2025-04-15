@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+    "mutation createMessage($createMessageInput: CreateMessageInput!) {\n        createMessage(createMessageInput: $createMessageInput) {\n            _id\n            content\n            createdAt\n        }}": typeof types.CreateMessageDocument,
     "\n    mutation CreateChat($createChatInput: CreateChatInput!) {\n        createChat(createChatInput: $createChatInput) {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n        }\n    }\n": typeof types.CreateChatDocument,
     "\n    fragment ChatFragment on Chat {\n        _id\n        userId\n        isPrivate\n        userIds\n        name\n    }\n": typeof types.ChatFragmentFragmentDoc,
     "\n  mutation CreateUser($createUserInput: CreateUserInput!) {\n    createUser(createUserInput: $createUserInput) {\n      _id\n      email\n    }\n  }\n": typeof types.CreateUserDocument,
@@ -21,6 +22,7 @@ type Documents = {
     "\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n            \n        }\n    }\n": typeof types.ChatDocument,
 };
 const documents: Documents = {
+    "mutation createMessage($createMessageInput: CreateMessageInput!) {\n        createMessage(createMessageInput: $createMessageInput) {\n            _id\n            content\n            createdAt\n        }}": types.CreateMessageDocument,
     "\n    mutation CreateChat($createChatInput: CreateChatInput!) {\n        createChat(createChatInput: $createChatInput) {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n        }\n    }\n": types.CreateChatDocument,
     "\n    fragment ChatFragment on Chat {\n        _id\n        userId\n        isPrivate\n        userIds\n        name\n    }\n": types.ChatFragmentFragmentDoc,
     "\n  mutation CreateUser($createUserInput: CreateUserInput!) {\n    createUser(createUserInput: $createUserInput) {\n      _id\n      email\n    }\n  }\n": types.CreateUserDocument,
@@ -42,6 +44,10 @@ const documents: Documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation createMessage($createMessageInput: CreateMessageInput!) {\n        createMessage(createMessageInput: $createMessageInput) {\n            _id\n            content\n            createdAt\n        }}"): (typeof documents)["mutation createMessage($createMessageInput: CreateMessageInput!) {\n        createMessage(createMessageInput: $createMessageInput) {\n            _id\n            content\n            createdAt\n        }}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

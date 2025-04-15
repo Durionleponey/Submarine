@@ -4,10 +4,26 @@ import {InputBase, Paper, Stack} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import {useCreateMessage} from "../../hooks/useCeateMessage";
+import {useState} from "react";
 
 const Chat = () => {
     const params = useParams();
-    const { data } = useGetSingleChat({_id: params._id!})
+    const [messageState, setMessageState] = useState("");
+    const chatId = params._id || ""
+    //console.log("chatId", chatId);
+    const { data, loading} = useGetSingleChat({_id: chatId || ""})
+    const [createMessage] = useCreateMessage();
+
+    if (loading) {
+        return <h1>Chargement du chat...</h1>;
+    }
+
+    if (!data || !data.chat) {
+        return <h1>Nous avons cherché partout, votre chat n'existe pas</h1>;
+    }
+
+
 
     return (
         <Stack sx={{ height: "100%", justifyContent: "space-between",}}>
@@ -26,6 +42,7 @@ const Chat = () => {
             >
                 <InputBase
                     placeholder="Message"
+                    onChange={(e) => setMessageState(e.target.value)}
                     sx={{
                         flex: 1,
 
@@ -45,7 +62,9 @@ const Chat = () => {
                     }}
                 />
 
-                <IconButton color="secondary">
+                <IconButton color="secondary" onClick={() => {
+                    createMessage({variables:{createMessageInput: {content:messageState, chatId:chatId}}})
+                }}>
                     <ArrowCircleUpIcon sx={{ fontSize: 30 }} />
                 </IconButton>
             </Paper>

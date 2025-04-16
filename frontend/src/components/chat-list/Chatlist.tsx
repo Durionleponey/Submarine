@@ -34,7 +34,7 @@ const ChatList  = () =>  {
 
                     {data?.chatss.map((chat: Chat) => (
                         <ChatListItem chat={chat} />
-                    ))}
+                    )).reverse()}
 
                 </List>
             </Stack>

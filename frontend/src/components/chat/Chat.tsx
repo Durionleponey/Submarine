@@ -13,19 +13,19 @@ const Chat = () => {
     const [messageState, setMessageState] = useState("");
     const chatId = params._id || ""
     //console.log("chatId", chatId);
-    const { data, loading} = useGetSingleChat({_id: chatId || ""})
+    const { data, loading, error} = useGetSingleChat({_id: chatId || ""})
     const [createMessage] = useCreateMessage(chatId);
 
     const {data:messages} = useGetMessages({chatId});
 
-    console.log(messages)
+    //console.log(messages)
 
     if (loading) {
         return <h1>Chargement du chat...</h1>;
     }
 
-    if (!data || !data.chat) {
-        return <h1>Nous avons cherché partout, votre chat n'existe pas</h1>;
+    if (error) {
+        return <h1>Nous avons cherché partout, votre chat n'existe pas 😯</h1>;
     }
 
 

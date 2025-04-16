@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
 import Button from "@mui/material/Button";
 import {useCreateChat} from "../../../hooks/useCreateChat";
+import router from "../../Routes";
 
 
 
@@ -86,8 +87,10 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
                     }
 
+                    let chattt
+
                     try {
-                        await createChat({
+                        chattt = await createChat({
                             variables: {
                                 createChatInput: {
                                     isPrivate,
@@ -99,10 +102,19 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
                     }catch {
                         setIsError("Unknow Error while creating Chat");
 
+
                     }
+
+
+
 
                     handleClose()
                     onClosee();
+
+                    if (!chattt){return;}
+
+                    router.navigate(`/chats/${chattt.data?.createChat._id}`);
+
 
 
                 }}>Add</Button>

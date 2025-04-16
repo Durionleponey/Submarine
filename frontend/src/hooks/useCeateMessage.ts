@@ -31,8 +31,8 @@ const useCreateMessage = () => {
 
 const useCreateMessage = (chatId: string) => {
     return useMutation(createMessageDocument, {
-        update(cache, { data }) {
-            const newMessage = data?.createMessage;
+        update(cache, { data }) {//update is play if the mutation worked
+            const newMessage = data?.createMessage;//call back from graphql data.createMessage.content ect
             if (!newMessage) return;
 
             try {
@@ -47,7 +47,7 @@ const useCreateMessage = (chatId: string) => {
                     query: getMessagesDocument,
                     variables: { chatId },
                     data: {
-                        getMessages: [...existingMessages.getMessages, newMessage]
+                        getMessages: [...existingMessages.getMessages, newMessage]//merge the new and the old messages
                     }
                 });
             } catch (e) {

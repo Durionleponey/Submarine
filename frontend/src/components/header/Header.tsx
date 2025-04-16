@@ -21,7 +21,7 @@ import {useReactiveVar} from "@apollo/client";
 import {authenticateVar} from "../../constants/authenticated";
 import {Grid} from "@mui/material";
 
-const pages:string[] = ["struff"];
+const pages:string[] = ["infos"];
 
 const Header = () =>{
 

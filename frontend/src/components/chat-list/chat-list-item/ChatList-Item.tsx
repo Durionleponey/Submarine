@@ -12,17 +12,26 @@ import {Chat} from "../../../gql/graphql";
 
 interface ChatListItemProps {
     chat: Chat;
+    selected: boolean;
 
 }
 
 
-const ChatListItem  = ({chat}:ChatListItemProps) => {
+const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
 
 
     return (
         <>
         <ListItem alignItems="flex-start" disablePadding={true}>
-            <ListItemButton onClick={()=> router.navigate(`/chats/${chat._id}`)}>
+            <ListItemButton onClick={()=> router.navigate(`/chats/${chat._id}`)} selected={selected}   sx={{
+                '&.Mui-selected': {
+                    backgroundColor: 'rgba(244,189,48,0.37)',
+                    color: 'white',
+                },
+                '&.Mui-selected:hover': {
+                    backgroundColor: 'rgba(244,189,48,0.2)',
+                },
+            }}>
 
             <ListItemAvatar>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

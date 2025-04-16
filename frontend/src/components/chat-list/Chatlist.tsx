@@ -9,16 +9,29 @@ import Typography from '@mui/material/Typography';
 
 import ChatListHeader from "./chat-list-header/ChatListHeader";
 import {Stack} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ChatListAdd from "./chat-list-add/ChatListAdd";
 import {useGetChat} from "../../hooks/useGetChat";
 import {Chat} from "../../gql/graphql";
 import ChatListItem from './chat-list-item/ChatList-Item';
+import {usePath} from "../../hooks/usePatch";
 
 const ChatList  = () =>  {
 
     const [chatListaddModel, setChatListaddModel] = useState(false);
     const {data} = useGetChat();
+    const {path} = usePath();
+
+    const [selectedChatId, setSelectedChatId] = useState("");
+
+    useEffect(() => {
+        const pathSplit = path.split('chats/');
+        if (pathSplit.length ===2){
+            setSelectedChatId(pathSplit[1]);
+
+        }
+
+    },[path])
 
     // @ts-ignore
 
@@ -33,7 +46,7 @@ const ChatList  = () =>  {
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', maxHeight: "86.5vh", overflowY: 'auto' }}>
 
                     {data?.chatss.map((chat: Chat) => (
-                        <ChatListItem chat={chat} />
+                        <ChatListItem chat={chat} selected={chat._id === selectedChatId}/>
                     )).reverse()}
 
                 </List>

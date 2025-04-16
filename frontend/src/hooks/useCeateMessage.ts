@@ -1,5 +1,6 @@
 import {graphql} from "../gql";
 import {useMutation} from "@apollo/client";
+import {getMessagesDocument} from "./useGetMessages";
 
 
 
@@ -28,24 +29,32 @@ const useCreateMessage = () => {
 }
 */
 
-
-const useCreateMessage = () => {
-    // @ts-ignore
+const useCreateMessage = (chatId: string) => {
     return useMutation(createMessageDocument, {
-        update(cache, { data }){
-            cache.modify({
-                fields: {
-                    getMessages(existringMessage=[]) {//default value
+        update(cache, { data }) {
+            const newMessage = data?.createMessage;
+            if (!newMessage) return;
 
-                        const newMessageRef = cache.writeFragment({
-                            data: data?.createMessage,
-                            fragment: MessageFragment
-                        })
-                        return [...existringMessage, newMessageRef];
+            try {
+                const existingMessages = cache.readQuery({
+                    query: getMessagesDocument,
+                    variables: { chatId }
+                });
+
+                if (!existingMessages?.getMessages) return;
+
+                cache.writeQuery({
+                    query: getMessagesDocument,
+                    variables: { chatId },
+                    data: {
+                        getMessages: [...existingMessages.getMessages, newMessage]
                     }
-                }
-            })
+                });
+            } catch (e) {
+                console.warn("No existing messages found in cache", e);
+            }
         },
     });
 }
+
 export {useCreateMessage};

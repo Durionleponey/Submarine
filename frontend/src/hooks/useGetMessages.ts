@@ -2,7 +2,7 @@ import {graphql} from "../gql";
 import {GetMessagesQueryVariables} from "../gql/graphql";
 import {useQuery} from "@apollo/client";
 
-const getMessagesDocument = graphql(`
+export const getMessagesDocument = graphql(`
     query getMessages ($chatId: String!) {
         getMessages(chatId: $chatId) {
             _id

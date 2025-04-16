@@ -14,7 +14,7 @@ const Chat = () => {
     const chatId = params._id || ""
     //console.log("chatId", chatId);
     const { data, loading} = useGetSingleChat({_id: chatId || ""})
-    const [createMessage] = useCreateMessage();
+    const [createMessage] = useCreateMessage(chatId);
 
     const {data:messages} = useGetMessages({chatId});
 

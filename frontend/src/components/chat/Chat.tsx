@@ -16,6 +16,15 @@ const Chat = () => {
     const { data, loading, error} = useGetSingleChat({_id: chatId || ""})
     const [createMessage] = useCreateMessage(chatId);
 
+    const createMessageLogic = async () => {
+        await createMessage({variables:{createMessageInput: {content:messageState, chatId:chatId}}})
+        //wait for createMessage before setMessageState("")
+        setMessageState("");
+
+
+    };
+
+
     const {data:messages} = useGetMessages({chatId});
 
     //console.log(messages)
@@ -51,11 +60,17 @@ const Chat = () => {
                 }}
             >
                 <InputBase
+                    value={messageState}
                     placeholder="Message"
                     onChange={(e) => setMessageState(e.target.value)}
+                    onKeyDown={async event =>  {
+                        if (event.key == "Enter") {
+                            await createMessageLogic()
+                        }
+
+                    }}
                     sx={{
                         flex: 1,
-
                         minHeight: 28,
                         fontSize: "1.3rem",
                         ml: -4,
@@ -72,9 +87,7 @@ const Chat = () => {
                     }}
                 />
 
-                <IconButton color="secondary" onClick={() => {
-                    createMessage({variables:{createMessageInput: {content:messageState, chatId:chatId}}})
-                }}>
+                <IconButton color="secondary" onClick={createMessageLogic}>
                     <ArrowCircleUpIcon sx={{ fontSize: 30 }} />
                 </IconButton>
             </Paper>

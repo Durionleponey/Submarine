@@ -1,12 +1,13 @@
 import {useParams} from "react-router-dom";
 import {useGetSingleChat} from "../../hooks/useGetSingleChat";
-import {Box, InputBase, Paper, Stack} from "@mui/material";
+import {Box, InputBase, Paper, Stack, Typography} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {useCreateMessage} from "../../hooks/useCeateMessage";
 import {useState} from "react";
 import {useGetMessages} from "../../hooks/useGetMessages";
+import Avatar from "@mui/material/Avatar";
 
 const Chat = () => {
     const params = useParams();
@@ -42,10 +43,42 @@ const Chat = () => {
     return (
         <Stack sx={{ height: "100%", justifyContent: "space-between",}}>
 
+
+
             <h1>{data?.chat.name}</h1>
-            <Box>
+            <Box sx={{maxHeight:"74vh",height:"74vh", overflowY:"auto"}}>
                 {messages?.getMessages.map((message) => (
-                    <p>{message.content} 👉 {message.createdAt}</p>
+                    <Stack
+                        direction="row"
+                        spacing={2}
+                        alignItems="flex-start"
+                        sx={{ mb: 2 }}
+                    >
+                        <Avatar src=""   sx={{
+                            width: 25,
+                            height: 25,
+                        }}/>
+                        <Stack spacing={0.5} alignItems="flex-start">  {}
+                            <Paper
+                                component="span"
+                                elevation={1}
+                                sx={{
+                                    display: "inline-block",
+                                    width: "fit-content",
+                                    p: "0.7rem 1.2rem",
+                                    backgroundColor: "rgba(244,189,48,0.56)",
+                                    borderRadius: "15px"
+                                }}
+                            >
+                                <Typography variant={"body1"}>{message.content}</Typography>
+                            </Paper>
+                            <Typography variant="caption" color="text.secondary">
+                                Le {new Date(message.createdAt).toLocaleDateString()} à {new Date(message.createdAt).toLocaleTimeString()}
+
+                            </Typography>
+                        </Stack>
+                    </Stack>
+
                 ))}
             </Box>
             <Paper

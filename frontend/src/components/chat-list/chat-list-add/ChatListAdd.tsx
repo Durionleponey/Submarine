@@ -3,7 +3,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {FormControlLabel, FormGroup, InputBase, Paper, Stack, Switch, TextField} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
 import Button from "@mui/material/Button";
@@ -20,6 +20,10 @@ interface ChatListAddInterface {
 
 
 
+
+
+
+
 const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
     const [isPrivate, setIsPrivate] = useState(false);
@@ -32,6 +36,57 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
         setIsPrivate(false);
         setName("")
     }
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 0);
+    }, [open, isPrivate]);
+
+
+
+
+
+
+    const handleChatAdd = async () => {
+
+
+
+
+        if (name.length == 0) {
+                setIsError("Please enter a chatName");
+                return;
+
+            }
+
+            let chattt
+
+            try {
+                chattt = await createChat({
+                    variables: {
+                        createChatInput: {
+                            isPrivate,
+                            name: name || undefined
+                        }
+                    }
+                })
+
+            }catch {
+                setIsError("Unknow Error while creating Chat");
+
+
+            }
+
+            handleClose()
+            onClosee();
+
+            if (!chattt){return;}
+
+            router.navigate(`/chats/${chattt.data?.createChat._id}`);
+        }
+
 
 
 
@@ -74,50 +129,18 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
                         </Box>
                     ) : (
-                        <TextField error={!!isError} helperText={isError} label={"Groupe Name"} onChange={(event) => setName(event.target.value)}/>
+                        <TextField inputRef={inputRef} error={!!isError} helperText={isError} label={"Groupe Name"} onChange={(event) => setName(event.target.value)} onKeyDown={async event =>  {
+                            if (event.key == "Enter") {
+                                await handleChatAdd()
+                            }
+
+                        }}/>
+
                     )
                 }
 
 
-                <Button variant="contained" onClick={async () => {
-
-                    if (name.length == 0) {
-                        setIsError("Please enter a chatName");
-                        return;
-
-                    }
-
-                    let chattt
-
-                    try {
-                        chattt = await createChat({
-                            variables: {
-                                createChatInput: {
-                                    isPrivate,
-                                    name: name || undefined
-                                }
-                            }
-                        })
-
-                    }catch {
-                        setIsError("Unknow Error while creating Chat");
-
-
-                    }
-
-
-
-
-                    handleClose()
-                    onClosee();
-
-                    if (!chattt){return;}
-
-                    router.navigate(`/chats/${chattt.data?.createChat._id}`);
-
-
-
-                }}>Add</Button>
+                <Button variant="contained" onClick={handleChatAdd}>Add</Button>
                 </Stack>
 
 

@@ -18,7 +18,7 @@ const Chat = () => {
     const [createMessage] = useCreateMessage(chatId);
     const divRef = useRef<HTMLDivElement | null>(null);
     const location = useLocation();
-
+    const [isSendButtonDisabled, SetisSendButtonDisabled] = useState(false);
     console.log("hello",location)
 
 
@@ -30,8 +30,11 @@ const Chat = () => {
     }
 
     const createMessageLogic = async () => {
+
+        if (!messageState) {return}
         await createMessage({variables:{createMessageInput: {content:messageState, chatId:chatId}}})
         //wait for createMessage before setMessageState("")
+
         setMessageState("");
         scrollToBottom()
 
@@ -45,6 +48,17 @@ const Chat = () => {
         scrollToBottom()
 
     },[location, messages])
+
+    useEffect(() => {
+        if (!messageState){
+            SetisSendButtonDisabled(true);
+        }else{
+            SetisSendButtonDisabled(false);
+
+        }
+
+
+    }, [messageState]);
 
     //console.log(messages)
 
@@ -143,7 +157,7 @@ const Chat = () => {
                     }}
                 />
 
-                <IconButton color="secondary" onClick={createMessageLogic}>
+                <IconButton disabled={isSendButtonDisabled}  color="secondary" onClick={createMessageLogic}>
                     <ArrowCircleUpIcon sx={{ fontSize: 30 }} />
                 </IconButton>
             </Paper>

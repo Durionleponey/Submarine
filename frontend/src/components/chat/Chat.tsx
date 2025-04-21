@@ -87,7 +87,7 @@ const Chat = () => {
 
 
     return (
-        <Stack sx={{ height: "100%", justifyContent: "space-between",}}>
+        <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between",}}>
 
 
 
@@ -137,7 +137,7 @@ const Chat = () => {
                     display: "flex",
                     alignItems: "center",
                     width: "100%",
-                    marginBottom: "16px",
+                    marginBottom: "-50px",
                     backgroundColor: "rgba(255,255,255,0.1)",
                 }}
             >

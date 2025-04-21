@@ -32,7 +32,7 @@ const App = () => {
         <CssBaseline />
         <StolenHeader />
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2}  wrap="nowrap">
           {authenticated && (
             <Grid>
               <ChatList />

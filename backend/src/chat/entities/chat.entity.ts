@@ -25,6 +25,10 @@ export class Chat extends AbstractEntity{
 
   @Prop([Message])
   messages: Message[];
+
+  @Field(() => Message, { nullable: true })
+  lastMessage?: Message;
+
 }
 
 

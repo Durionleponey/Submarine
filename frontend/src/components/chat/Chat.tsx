@@ -1,11 +1,11 @@
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {useGetSingleChat} from "../../hooks/useGetSingleChat";
 import {Box, InputBase, Paper, Stack, Typography} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {useCreateMessage} from "../../hooks/useCeateMessage";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useGetMessages} from "../../hooks/useGetMessages";
 import Avatar from "@mui/material/Avatar";
 
@@ -16,17 +16,35 @@ const Chat = () => {
     //console.log("chatId", chatId);
     const { data, loading, error} = useGetSingleChat({_id: chatId || ""})
     const [createMessage] = useCreateMessage(chatId);
+    const divRef = useRef<HTMLDivElement | null>(null);
+    const location = useLocation();
+
+    console.log("hello",location)
+
+
+
+    const scrollToBottom = () => {
+
+        divRef.current?.scrollIntoView();
+
+    }
 
     const createMessageLogic = async () => {
         await createMessage({variables:{createMessageInput: {content:messageState, chatId:chatId}}})
         //wait for createMessage before setMessageState("")
         setMessageState("");
-
+        scrollToBottom()
 
     };
 
 
     const {data:messages} = useGetMessages({chatId});
+
+    useEffect(() => {
+        setMessageState("");
+        scrollToBottom()
+
+    },[location, messages])
 
     //console.log(messages)
 
@@ -37,6 +55,8 @@ const Chat = () => {
     if (error) {
         return <h1>Nous avons cherché partout, votre chat n'existe pas 😯</h1>;
     }
+
+
 
 
 
@@ -58,7 +78,7 @@ const Chat = () => {
                             width: 25,
                             height: 25,
                         }}/>
-                        <Stack spacing={0.5} alignItems="flex-start">  {}
+                        <Stack spacing={0.5} alignItems="flex-start" sx={{maxWidth: "80%"}}>  {}
                             <Paper
                                 component="span"
                                 elevation={1}
@@ -67,19 +87,22 @@ const Chat = () => {
                                     width: "fit-content",
                                     p: "0.7rem 1.2rem",
                                     backgroundColor: "rgba(244,189,48,0.56)",
-                                    borderRadius: "15px"
+                                    borderRadius: "15px",
                                 }}
                             >
-                                <Typography variant={"body1"}>{message.content}</Typography>
+                                <Typography sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }} variant={"body1"}>{message.content}</Typography>
                             </Paper>
                             <Typography variant="caption" color="text.secondary">
-                                Le {new Date(message.createdAt).toLocaleDateString()} à {new Date(message.createdAt).toLocaleTimeString()}
+                                On {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
 
                             </Typography>
                         </Stack>
                     </Stack>
 
                 ))}
+
+
+                <div ref={divRef}></div>
             </Box>
             <Paper
                 sx={{
@@ -124,9 +147,6 @@ const Chat = () => {
                     <ArrowCircleUpIcon sx={{ fontSize: 30 }} />
                 </IconButton>
             </Paper>
-
-
-
         </Stack>)
 }
 

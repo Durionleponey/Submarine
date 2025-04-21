@@ -34,7 +34,7 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
             }}>
 
             <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <Avatar alt={""} src="" />
             </ListItemAvatar>
             <ListItemText
                 primary={chat.name}
@@ -45,9 +45,17 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
                             variant="body2"
                             sx={{ color: 'text.primary', display: 'inline' }}
                         >
-                            Ali Connors
+                            <p>
+                                creator :{chat.userId}
+
+                            </p>
+                            <p>
+                                guests :{chat.userIds}
+
+                            </p>
+
                         </Typography>
-                        {" — I'll be in your neighborhood doing errands this…"}
+
                     </React.Fragment>
                 }
             />

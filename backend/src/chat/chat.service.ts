@@ -17,8 +17,14 @@ export class ChatService {
   }
 
   async findAll() {
-    return this.chatRepository.find({});
+    const chats = await this.chatRepository.find({});
+
+    return chats.map(chat => ({
+      ...chat,
+      lastMessage: chat.messages?.[chat.messages.length - 1] ?? null,
+    }));
   }
+
 
   async findOne(_id: string) {
     return this.chatRepository.findOne({_id});

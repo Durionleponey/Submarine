@@ -23,6 +23,8 @@ const Chat = () => {
 
 
 
+
+
     const scrollToBottom = () => {
 
         divRef.current?.scrollIntoView();
@@ -49,6 +51,14 @@ const Chat = () => {
 
     },[location, messages])
 
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        setTimeout(() => {
+            inputRef.current?.focus();
+        }, 0);
+    }, [location, messages]);
+
     useEffect(() => {
         if (!messageState){
             SetisSendButtonDisabled(true);
@@ -69,6 +79,8 @@ const Chat = () => {
     if (error) {
         return <h1>Nous avons cherché partout, votre chat n'existe pas 😯</h1>;
     }
+
+
 
 
 
@@ -130,6 +142,7 @@ const Chat = () => {
                 }}
             >
                 <InputBase
+                    inputRef={inputRef}
                     value={messageState}
                     placeholder="Message"
                     onChange={(e) => setMessageState(e.target.value)}

@@ -9,6 +9,7 @@ import ClearAllIcon from '@mui/icons-material/ClearAll';
 import DisabledVisibleIcon from '@mui/icons-material/DisabledVisible';
 import CompareIcon from '@mui/icons-material/Compare';
 import Tooltip from "@mui/material/Tooltip";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 
 
@@ -28,9 +29,15 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
         <AppBar position="static" color="transparent">
             <Toolbar>
 
-                <Tooltip title="Start a new conversation">
-                    <IconButton size="large" edge="start" onClick={handleAddChat}>
+                <Tooltip title="Start a new private conversation">
+                    <IconButton size="large" edge="start">
                         <AddCircleIcon />
+                    </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Create a new group">
+                    <IconButton size="large" edge="start" onClick={handleAddChat}>
+                        <GroupAddIcon />
                     </IconButton>
                 </Tooltip>
 

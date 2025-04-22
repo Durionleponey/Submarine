@@ -115,21 +115,10 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
                 <Stack spacing={2}>
 
-                <Typography variant="h5" component="h2">Add Chat</Typography>
-                <FormGroup>
-                    <FormControlLabel style={{ width:0}} control={<Switch defaultChecked={isPrivate} value={isPrivate} onChange={(event) => setIsPrivate(event.target.checked)}/>} label="Private"/>
-                </FormGroup>
-                {
-                    isPrivate ? (
-                        <Box sx={{p: "2px 4px", display: "flex", alignItems: "center"}} >
-                            <TextField label={"Group Name"}/>
-                            <IconButton>
-                                <SearchIcon/>
-                            </IconButton>
+                <Typography variant="h5" component="h2">Create a new Submarine group</Typography>
 
-                        </Box>
-                    ) : (
-                        <TextField inputRef={inputRef} error={!!isError} helperText={isError} label={"Groupe Name"} onChange={(event) => setName(event.target.value)} onKeyDown={async event =>  {
+                {(
+                        <TextField inputRef={inputRef} error={!!isError} helperText={isError} label={"Name of the Group"} onChange={(event) => setName(event.target.value)} onKeyDown={async event =>  {
                             if (event.key == "Enter") {
                                 await handleChatAdd()
                             }
@@ -140,7 +129,7 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
                 }
 
 
-                <Button variant="contained" onClick={handleChatAdd}>Add</Button>
+                <Button variant="contained" onClick={handleChatAdd} sx={{ textTransform: "none" }}>Create</Button>
                 </Stack>
 
 

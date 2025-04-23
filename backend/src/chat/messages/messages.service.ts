@@ -16,6 +16,7 @@ export class MessagesService {
         const message: Message = {
             content,
             userId,
+            chatId,
             createdAt: new Date(),
             _id: new Types.ObjectId(),
         };
@@ -41,10 +42,14 @@ export class MessagesService {
         console.log("--->", message)
 
 
+/*        await this.pubSub.publish('messageCreated', {
+            messageCreated: 'pommes de terre'
+        })*/
 
         await this.pubSub.publish('messageCreated', {
             messageCreated: message
         })
+
 
         return message;
     }

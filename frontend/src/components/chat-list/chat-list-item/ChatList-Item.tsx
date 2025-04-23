@@ -43,8 +43,12 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
                         <Typography
                             component="span"
                             variant="body2"
-                            sx={{ color: 'text.primary', display: 'inline' }}
+                            sx={{color: 'text.primary', display: 'inline',userSelect: 'text',}}
                         >
+                            <p>
+                                chatId :{chat._id}
+
+                            </p>
                             <p>
                                 creator :{chat.userId}
 

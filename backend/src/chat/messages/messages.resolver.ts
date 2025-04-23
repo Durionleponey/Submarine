@@ -10,6 +10,7 @@ import {TokenPayload} from "../../auth/token-payload.interface";
 import {query} from "express";
 import {GetMessages} from "./dto/get-messages";
 import {PubSub} from "graphql-subscriptions";
+import {MessageCreatedArgs} from "../dto/message-created.args";
 
 @Resolver(() => Message)
 export class MessagesResolver {
@@ -36,8 +37,14 @@ export class MessagesResolver {
     return this.messagesService.getMessages(getMessageArgs, user._id);
   }
 
-  @Subscription(() => Message)
-  messageCreated(){
+  @Subscription(() => Message, {
+    filter:(payload, variables) => {//payload --> in the message, variables --> graphQL request
+
+      return payload.messageCreated.chatId === variables.chatId
+
+    }
+  })
+  messageCreated(@Args()chatId:MessageCreatedArgs){
 
     console.log("yo")
 

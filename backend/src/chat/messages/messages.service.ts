@@ -5,10 +5,12 @@ import { CreateMessageInput } from "./dto/create-message.input";
 import { Message } from "./entities/message.entity";
 import { Types } from "mongoose";
 import {GetMessages} from "./dto/get-messages";
+import {PubSub} from "graphql-subscriptions";
+import {string} from "joi";
 
 @Injectable()
 export class MessagesService {
-    constructor(private readonly chatRepository: ChatRepository) {}
+    constructor(private readonly chatRepository: ChatRepository, @Inject('PUB_SUB') private readonly pubSub:PubSub) {}
 
     async createMessage({ content, chatId }: CreateMessageInput, userId: string) {
         const message: Message = {
@@ -35,6 +37,14 @@ export class MessagesService {
                 }
             }
         );
+
+        console.log("--->", message)
+
+
+
+        await this.pubSub.publish('messageCreated', {
+            messageCreated: message
+        })
 
         return message;
     }

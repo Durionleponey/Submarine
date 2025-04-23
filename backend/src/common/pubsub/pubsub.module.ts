@@ -12,4 +12,4 @@ import {PubSub} from "graphql-subscriptions";
     exports:['PUB_SUB']
 })
 
-export class PubsubModule {}
+export class PubSubModule {}

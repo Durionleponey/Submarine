@@ -11,7 +11,7 @@ import {LoggerModule} from "nestjs-pino";
 import {pinoHttp} from "pino-http";
 import { AuthModule } from './auth/auth.module';
 import { ChatModule } from './chat/chat.module';
-import {PubsubModule} from "./common/pubsub/pubsub.module";
+import {PubSubModule} from "./common/pubsub/pubsub.module";
 
 @Module({
   imports: [
@@ -40,7 +40,7 @@ import {PubsubModule} from "./common/pubsub/pubsub.module";
       }),
       AuthModule,
       ChatModule,
-      PubsubModule
+      PubSubModule
   ],
   controllers: [AppController],
   providers: [AppService],

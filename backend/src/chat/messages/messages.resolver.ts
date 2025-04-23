@@ -1,7 +1,7 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
 import { MessagesService } from './messages.service';
 import {Message} from "./entities/message.entity";
-import {UseGuards} from "@nestjs/common";
+import {Inject, UseGuards} from "@nestjs/common";
 import {GqlAuthGuard} from "../../auth/guards/gql-auth.guard";
 import {CreateChatInput} from "../dto/create-chat.input";
 import {CreateMessageInput} from "./dto/create-message.input";
@@ -9,10 +9,11 @@ import {CurrentUser} from "../../auth/current-user.decorator";
 import {TokenPayload} from "../../auth/token-payload.interface";
 import {query} from "express";
 import {GetMessages} from "./dto/get-messages";
+import {PubSub} from "graphql-subscriptions";
 
 @Resolver(() => Message)
 export class MessagesResolver {
-  constructor(private readonly messagesService: MessagesService) {}
+  constructor(private readonly messagesService: MessagesService, @Inject('PUB_SUB') private readonly pubSub:PubSub) {}
 
   @Mutation(() => Message)
   @UseGuards(GqlAuthGuard)
@@ -33,6 +34,15 @@ export class MessagesResolver {
     @CurrentUser() user:TokenPayload
   ) {
     return this.messagesService.getMessages(getMessageArgs, user._id);
+  }
+
+  @Subscription(() => Message)
+  messageCreated(){
+
+    console.log("yo")
+
+    return this.pubSub.asyncIterableIterator('messageCreated');
+
   }
 
 

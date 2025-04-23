@@ -17,6 +17,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "graphql": "^16.10.0",
+    "graphql-ws": "^6.0.4",
     "localforage": "^1.10.0",
     "match-sorter": "^8.0.0",
     "react": "^19.0.0",

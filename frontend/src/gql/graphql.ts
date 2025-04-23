@@ -22,6 +22,7 @@ export type Chat = {
   __typename?: 'Chat';
   _id: Scalars['ID']['output'];
   isPrivate: Scalars['Boolean']['output'];
+  lastMessage?: Maybe<Message>;
   name?: Maybe<Scalars['String']['output']>;
   userId: Scalars['String']['output'];
   userIds: Array<Scalars['String']['output']>;
@@ -46,6 +47,7 @@ export type CreateUserInput = {
 export type Message = {
   __typename?: 'Message';
   _id: Scalars['ID']['output'];
+  chatId: Scalars['String']['output'];
   content: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   userId: Scalars['String']['output'];
@@ -121,6 +123,16 @@ export type QueryUserArgs = {
 
 export type QueryUserMailArgs = {
   email: Scalars['String']['input'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  messageCreated: Message;
+};
+
+
+export type SubscriptionMessageCreatedArgs = {
+  chatId: Scalars['String']['input'];
 };
 
 export type UpdateChatInput = {

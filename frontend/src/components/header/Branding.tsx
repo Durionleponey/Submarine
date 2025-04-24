@@ -1,4 +1,4 @@
-import AdbIcon from "@mui/icons-material/esm/icon";
+import AdbIcon from "@mui/icons-material/Adb";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import Auth from "../auth/Auth";

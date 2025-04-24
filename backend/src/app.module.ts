@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { ChatModule } from './chat/chat.module';
 import {PubSubModule} from "./common/pubsub/pubsub.module";
 
+
 @Module({
   imports: [
       ConfigModule.forRoot({
@@ -25,7 +26,14 @@ import {PubSubModule} from "./common/pubsub/pubsub.module";
           driver: ApolloDriver,
           autoSchemaFile:true,
           subscriptions: {
-              'graphql-ws':true
+              'graphql-ws':{
+                  onConnect:(context:any) => {
+                      try{
+                          const request:Request = context.extra.request;
+                          const user = authService.verifyWs(request)
+                      }
+                  }catch(err){}
+              }
           }
       }),
       DatabaseModule,

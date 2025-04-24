@@ -8,6 +8,7 @@ import {useCreateMessage} from "../../hooks/useCeateMessage";
 import {useEffect, useRef, useState} from "react";
 import {useGetMessages} from "../../hooks/useGetMessages";
 import Avatar from "@mui/material/Avatar";
+import {useMessageCreated} from "../../hooks/useMessageCreated";
 
 const Chat = () => {
     const params = useParams();
@@ -20,6 +21,9 @@ const Chat = () => {
     const location = useLocation();
     const [isSendButtonDisabled, SetisSendButtonDisabled] = useState(false);
     console.log("hello",location)
+    const {data: latestMessage} = useMessageCreated({chatId})
+
+    console.log(latestMessage)
 
 
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, UnauthorizedException} from '@nestjs/common';
 import {User} from "../users/entities/user.entity";
 import {ConfigService} from "@nestjs/config";
 import {TokenPayload} from "./token-payload.interface";
@@ -33,5 +33,17 @@ export class AuthService {
             httpOnly: true,
             expires: new Date(),
         })
+    }
+
+    verifyWs(request: Request):TokenPayload{
+        const cookies: string[] = request.headers.cookie.split('; ');
+        const authCookie = cookies.find((cookie) => cookie.includes('Authentication'))
+
+        if (!authCookie) {
+            throw new UnauthorizedException('No cookie found');
+        }
+
+        const jwt = authCookie.split('Authentication=')[1];
+        return this.jwtService.verify(jwt);
     }
 }

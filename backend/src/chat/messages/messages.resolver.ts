@@ -40,9 +40,11 @@ export class MessagesResolver {
   @Subscription(() => Message, {
     filter:(payload, variables, context) => {//payload --> in the message, variables --> graphQL request
 
+      const userId= context.req.user._id
+
       console.log("🏓🏓",context.req.user._id);
 
-      return payload.messageCreated.chatId === variables.chatId
+      return payload.messageCreated.chatId === variables.chatId && userId !== payload.messageCreated.userId;
 
     }
   })

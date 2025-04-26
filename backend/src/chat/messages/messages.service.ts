@@ -7,6 +7,7 @@ import { Types } from "mongoose";
 import {GetMessages} from "./dto/get-messages";
 import {PubSub} from "graphql-subscriptions";
 import {string} from "joi";
+import {MessageCreatedArgs} from "../dto/message-created.args";
 
 @Injectable()
 export class MessagesService {
@@ -66,5 +67,21 @@ export class MessagesService {
         ]
         })
         ).messages;
+    }
+
+
+    async messageCreated({chatId}: MessageCreatedArgs, userId:string) {
+
+        await this.chatRepository.findOne(
+            {   //findOneAndUpdate take two argument, first is the filter and the second is the update
+                //_id: chatId --> finding the correct chat to update
+                _id: chatId,
+                $or: [//a leaste one of the two condition shoud be true
+                    { userId },
+                    { userIds: { $in: [userId] } }
+                ]
+            })
+        return this.pubSub.asyncIterableIterator('messageCreated');
+
     }
 }

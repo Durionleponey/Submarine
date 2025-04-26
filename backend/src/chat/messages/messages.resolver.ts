@@ -16,6 +16,7 @@ import {MessageCreatedArgs} from "../dto/message-created.args";
 export class MessagesResolver {
   constructor(private readonly messagesService: MessagesService, @Inject('PUB_SUB') private readonly pubSub:PubSub) {}
 
+
   @Mutation(() => Message)
   @UseGuards(GqlAuthGuard)
   async createMessage(
@@ -48,12 +49,14 @@ export class MessagesResolver {
 
     }
   })
-  messageCreated(@Args()chatId:MessageCreatedArgs){
 
-    console.log("yo")
 
-    return this.pubSub.asyncIterableIterator('messageCreated');
 
+
+  messageCreated(@Args()chatId:MessageCreatedArgs, @CurrentUser() user:TokenPayload) {
+
+
+    return this.messagesService.messageCreated(chatId,user._id)
   }
 
 

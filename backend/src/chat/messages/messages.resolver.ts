@@ -38,7 +38,9 @@ export class MessagesResolver {
   }
 
   @Subscription(() => Message, {
-    filter:(payload, variables) => {//payload --> in the message, variables --> graphQL request
+    filter:(payload, variables, context) => {//payload --> in the message, variables --> graphQL request
+
+      console.log("🏓🏓",context.req.user._id);
 
       return payload.messageCreated.chatId === variables.chatId
 

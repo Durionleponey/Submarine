@@ -36,14 +36,15 @@ export class AuthService {
     }
 
     verifyWs(request: Request):TokenPayload{
+        // @ts-ignore
         const cookies: string[] = request.headers.cookie.split('; ');
-        const authCookie = cookies.find((cookie) => cookie.includes('Authentication'))
+        const authCookie = cookies.find((cookie) => cookie.includes('Authentification'))
 
         if (!authCookie) {
             throw new UnauthorizedException('No cookie found');
         }
 
-        const jwt = authCookie.split('Authentication=')[1];
+        const jwt = authCookie.split('Authentification=')[1];
         return this.jwtService.verify(jwt);
     }
 }

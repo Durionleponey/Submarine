@@ -20,7 +20,7 @@ const Chat = () => {
     const divRef = useRef<HTMLDivElement | null>(null);
     const location = useLocation();
     const [isSendButtonDisabled, SetisSendButtonDisabled] = useState(false);
-    console.log("hello",location)
+    //console.log("hello",location)
     const {data: latestMessage} = useMessageCreated({chatId})
 
     console.log(latestMessage)

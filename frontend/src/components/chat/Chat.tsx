@@ -10,6 +10,9 @@ import {useGetMessages} from "../../hooks/useGetMessages";
 import Avatar from "@mui/material/Avatar";
 import {useMessageCreated} from "../../hooks/useMessageCreated";
 
+import { Message } from "../../gql/graphql";
+
+
 const Chat = () => {
     const params = useParams();
     const [messageState, setMessageState] = useState("");
@@ -23,9 +26,10 @@ const Chat = () => {
     //console.log("hello",location)
     const {data: latestMessage} = useMessageCreated({chatId})
 
-    console.log(latestMessage)
 
+    const [messagesLocal, setMessagesLocal] = useState<Message[]>([]);
 
+    console.log("🔔🔔🔔🔔", latestMessage)
 
 
 
@@ -47,13 +51,34 @@ const Chat = () => {
     };
 
 
-    const {data:messages} = useGetMessages({chatId});
+    const {data:dbMessages} = useGetMessages({chatId});
+
 
     useEffect(() => {
-        setMessageState("");
-        scrollToBottom()
+        if(dbMessages){
+            // @ts-ignore
+            setMessagesLocal(dbMessages.getMessages);
+        }
 
-    },[location, messages])
+    }, [dbMessages]);
+
+    useEffect(() => {
+
+        // @ts-ignore
+        const LastMessage = messagesLocal[messagesLocal.length - 1]?._id;
+
+
+
+        // @ts-ignore
+        if(latestMessage?.messageCreated && LastMessage !== latestMessage?.messageCreated._id) {
+
+            // @ts-ignore
+            setMessagesLocal([...messagesLocal, latestMessage.messageCreated]);
+        }
+        scrollToBottom()
+        console.log("🦬🦬 Nouvelle valeur de messagesLocal :", messagesLocal);
+    }, [messagesLocal, latestMessage]);
+
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -61,7 +86,9 @@ const Chat = () => {
         setTimeout(() => {
             inputRef.current?.focus();
         }, 0);
-    }, [location, messages]);
+        setMessageState("");
+        scrollToBottom()
+    }, [location, dbMessages]);
 
     useEffect(() => {
         if (!messageState){
@@ -85,11 +112,6 @@ const Chat = () => {
     }
 
 
-
-
-
-
-
     return (
         <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between",}}>
 
@@ -97,7 +119,7 @@ const Chat = () => {
 
             <h1>{data?.chat.name}</h1>
             <Box sx={{maxHeight:"74vh",height:"74vh", overflowY:"auto"}}>
-                {messages?.getMessages.map((message) => (
+                {messagesLocal.map((message) => (
                     <Stack
                         direction="row"
                         spacing={2}
@@ -120,9 +142,10 @@ const Chat = () => {
                                     borderRadius: "15px",
                                 }}
                             >
-                                <Typography sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }} variant={"body1"}>{message.content}</Typography>
+                                <Typography sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }} variant={"body1"}>{message?.content}</Typography>
                             </Paper>
                             <Typography variant="caption" color="text.secondary">
+
                                 On {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
 
                             </Typography>

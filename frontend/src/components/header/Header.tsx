@@ -21,7 +21,7 @@ import {useReactiveVar} from "@apollo/client";
 import {authenticateVar} from "../../constants/authenticated";
 import {Grid} from "@mui/material";
 
-const pages:string[] = ["infos"];
+
 
 const Header = () =>{
 
@@ -53,13 +53,17 @@ const StolenHeader= () => {
 
             <AppBar position="static">
                 <Container >
-                    <Toolbar disableGutters>
+                    <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
 
-                        <Branding/>
-                        <MobileNavigation pages={pages}/>
-                        <MobileBranding/>
-                        <Navigation pages={pages}/>
-                        {authenticated && <Option/>}
+                        <Box sx={{ display: 'flex', alignItems: 'center', pl: 2 }}>
+                            <Branding />
+                            <MobileBranding />
+                        </Box>
+
+
+                        {authenticated && (<Box sx={{ ml: 2 }}>
+                            <Option />
+                        </Box>)}
 
 
 

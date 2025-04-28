@@ -38,9 +38,9 @@ import {AuthService} from "./auth/auth.service";
                               //console.log('✨✨✨', request, '🥰🥰🥰');
                               const user = authService.verifyWs(request);
                               context.user = user;
-                              console.log('✨✨✨', user, '🥰🥰🥰');
+                              //console.log('✨✨✨', user, '🥰🥰🥰');
                           } catch (err) {
-                              console.log('no auth cookie 👻👻👻👻👻👻');
+                              //console.log('no auth cookie 👻👻👻👻👻👻');
                               new Logger().error(err);
                               throw new UnauthorizedException();
                           }

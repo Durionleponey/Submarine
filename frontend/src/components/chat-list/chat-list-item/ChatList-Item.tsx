@@ -43,7 +43,7 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
                         <Typography
                             component="span"
                             variant="body2"
-                            sx={{color: 'text.primary', display: 'inline',userSelect: 'text',}}
+                            sx={{color: 'text.primary', display: 'inline', userSelect: 'text',}}
                         >
                             <p>
                                 chatId :{chat._id}
@@ -53,10 +53,13 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
                                 creator :{chat.userId}
 
                             </p>
-                            <p>
-                                guests :{chat.userIds}
+                            <p>guests :</p>
+                            <ul style={{margin: 0, paddingLeft: "1rem"}}>
+                                {chat.userIds.map((id) => (
+                                    <li key={id} style={{listStyleType: "circle"}}>{id}</li>
+                                ))}
+                            </ul>
 
-                            </p>
 
                         </Typography>
 

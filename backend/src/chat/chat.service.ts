@@ -1,4 +1,4 @@
-import {Inject, Injectable, UseGuards} from '@nestjs/common';
+import {Inject, Injectable, NotFoundException, UseGuards} from '@nestjs/common';
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import {ChatRepository} from "./chat.repository";
@@ -39,11 +39,23 @@ export class ChatService {
 
 
   async addUserToChat(userId:string,email: string,chatId:string) {
-    const user = await this.usersRepository.findOne({email:email});
 
-    if (user){
 
-      try{      await this.chatRepository.findOneAndUpdate(
+    let user
+
+
+    try {
+      user = await this.usersRepository.findOne({email:email});
+
+    } catch (err){
+      return('User not found!');
+
+    }
+
+
+    try{
+
+      await this.chatRepository.findOneAndUpdate(
           {
             _id: chatId,
             $or: [//a leaste one of the two condition shoud be true
@@ -55,14 +67,17 @@ export class ChatService {
             $push: {
               userIds: user._id,
             }
+
           }
-      );}catch(err){
-        return("unknow error, do you have permission ?");
-      }
+      );
+
+    }catch (err){
+      return "unknow error are you trying to hack the system 😉? it's was a good try!"
+    }
+
+
+
       return("succes")
-
-}else{return("user not found")}
-
   }
 
   update(id: number, updateChatInput: UpdateChatInput) {

@@ -29,9 +29,6 @@ const Chat = () => {
 
     const [messagesLocal, setMessagesLocal] = useState<Message[]>([]);
 
-    console.log("🔔🔔🔔🔔", latestMessage)
-
-
 
     const scrollToBottom = () => {
 
@@ -55,6 +52,7 @@ const Chat = () => {
 
 
     useEffect(() => {
+        console.log("useEffect1 - dbMessageChange copy in messageLocal")
         if(dbMessages){
             // @ts-ignore
             setMessagesLocal(dbMessages.getMessages);
@@ -63,6 +61,7 @@ const Chat = () => {
     }, [dbMessages]);
 
     useEffect(() => {
+        console.log("useEffect2 - adding last message to messageLocal")
 
         // @ts-ignore
         const LastMessage = messagesLocal[messagesLocal.length - 1]?._id;
@@ -83,6 +82,7 @@ const Chat = () => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
+        console.log("useEffect3 - enter a conv")
         setTimeout(() => {
             inputRef.current?.focus();
         }, 0);
@@ -91,6 +91,7 @@ const Chat = () => {
     }, [location, dbMessages]);
 
     useEffect(() => {
+        console.log("useEffect4 - enable disable send button")
         if (!messageState){
             SetisSendButtonDisabled(true);
         }else{

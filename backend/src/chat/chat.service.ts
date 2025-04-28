@@ -5,11 +5,12 @@ import {ChatRepository} from "./chat.repository";
 import {GqlAuthGuard} from "../auth/guards/gql-auth.guard";
 import {Chat} from "./entities/chat.entity";
 import {string} from "joi";
+import {UsersRepository} from "../users/users.repository";
 
 @Injectable()
 export class ChatService {
 
-  constructor(private readonly chatRepository: ChatRepository) {} // i need a instance of chatRepostroy give it to me please
+  constructor(private readonly chatRepository: ChatRepository, private readonly usersRepository: UsersRepository) {} // i need a instance of chatRepostroy give it to me please
 
 
 
@@ -34,6 +35,34 @@ export class ChatService {
 
   async findOne(_id: string) {
     return this.chatRepository.findOne({_id});
+  }
+
+
+  async addUserToChat(userId:string,email: string,chatId:string) {
+    const user = await this.usersRepository.findOne({email:email});
+
+    if (user){
+
+      try{      await this.chatRepository.findOneAndUpdate(
+          {
+            _id: chatId,
+            $or: [//a leaste one of the two condition shoud be true
+              { userId },
+              { userIds: { $in: [userId] } }
+            ]
+          },
+          {
+            $push: {
+              userIds: user._id,
+            }
+          }
+      );}catch(err){
+        return("unknow error, do you have permission ?");
+      }
+      return("succes")
+
+}else{return("user not found")}
+
   }
 
   update(id: number, updateChatInput: UpdateChatInput) {

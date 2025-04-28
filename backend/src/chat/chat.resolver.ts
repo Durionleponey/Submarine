@@ -29,9 +29,11 @@ export class ChatResolver {
     return this.chatService.findOne(_id);
   }
 
-  @Mutation(() => Chat)
-  updateChat(@Args('updateChatInput') updateChatInput: UpdateChatInput) {
-    return this.chatService.update(updateChatInput.id, updateChatInput);
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => String)
+  addUserToChat(@Args('email') email: string,@Args('chatId') chatId: string,@CurrentUser() user:TokenPayload) {
+    console.log("hello frot resolveur")
+    return this.chatService.addUserToChat(user._id,email,chatId);
   }
 
   @Mutation(() => Chat)

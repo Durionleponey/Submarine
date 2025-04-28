@@ -5,12 +5,16 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {useCreateMessage} from "../../hooks/useCeateMessage";
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useGetMessages} from "../../hooks/useGetMessages";
 import Avatar from "@mui/material/Avatar";
 import {useMessageCreated} from "../../hooks/useMessageCreated";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import { Message } from "../../gql/graphql";
+import Tooltip from "@mui/material/Tooltip";
+import ClearAllIcon from "@mui/icons-material/esm/icon";
+import ChatHeader from "./chat-header/Chat-header";
 
 
 const Chat = () => {
@@ -124,7 +128,7 @@ const Chat = () => {
 
 
 
-            <h1>{data?.chat.name}</h1>
+            <ChatHeader chatName={data?.chat.name} />
             <Box sx={{maxHeight:"74vh",height:"74vh", overflowY:"auto"}}>
                 {[...messagesLocal]
                     .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map((message) => (

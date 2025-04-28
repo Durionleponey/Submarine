@@ -4,6 +4,7 @@ import { UpdateChatInput } from './dto/update-chat.input';
 import {ChatRepository} from "./chat.repository";
 import {GqlAuthGuard} from "../auth/guards/gql-auth.guard";
 import {Chat} from "./entities/chat.entity";
+import {string} from "joi";
 
 @Injectable()
 export class ChatService {
@@ -16,13 +17,18 @@ export class ChatService {
     return this.chatRepository.create({...createChatInput, userId, userIds: createChatInput.userIds || [], messages:[],});
   }
 
-  async findAll() {
-    const chats = await this.chatRepository.find({});
-
-    return chats.map(chat => ({
+  async findAll(userId:string) {
+    console.log("💿💿💿💿",userId);
+    return await this.chatRepository.find({
+      $or: [
+        { userId },
+        { userIds: { $in: [userId] } }
+      ]
+    })
+/*    return chats.map(chat => ({
       ...chat,
       lastMessage: chat.messages?.[chat.messages.length - 1] ?? null,
-    }));
+    }));*/
   }
 
 

@@ -47,8 +47,14 @@ const Chat = () => {
 
     };
 
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const {data:dbMessages} = useGetMessages(chatId, !hasLoaded);
 
-    const {data:dbMessages} = useGetMessages({chatId});
+    useEffect(() => {
+        if (chatId && !hasLoaded) {
+            setHasLoaded(true);
+        }
+    }, [chatId]);
 
 
     useEffect(() => {
@@ -120,7 +126,8 @@ const Chat = () => {
 
             <h1>{data?.chat.name}</h1>
             <Box sx={{maxHeight:"74vh",height:"74vh", overflowY:"auto"}}>
-                {messagesLocal.map((message) => (
+                {[...messagesLocal]
+                    .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map((message) => (
                     <Stack
                         direction="row"
                         spacing={2}

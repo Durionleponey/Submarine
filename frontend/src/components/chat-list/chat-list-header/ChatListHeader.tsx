@@ -30,7 +30,7 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
             <Toolbar>
 
                 <Tooltip title="Start a new private conversation">
-                    <IconButton size="large" edge="start">
+                    <IconButton size="large" edge="start" disabled={true}>
                         <AddCircleIcon />
                     </IconButton>
                 </Tooltip>
@@ -42,25 +42,25 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                 </Tooltip>
 
                 <Tooltip title="Toggle visibility of the conversation">
-                    <IconButton size="large" edge="start">
+                    <IconButton size="large" edge="start" disabled={true}>
                         <DisabledVisibleIcon />
                     </IconButton>
                 </Tooltip>
 
                 <Tooltip title="Toggle visibility of the Submarine Brainding">
-                    <IconButton size="large" edge="start">
+                    <IconButton size="large" edge="start" disabled={true}>
                         <CompareIcon />
                     </IconButton>
                 </Tooltip>
 
                 <Tooltip title="Delete all chats">
-                    <IconButton size="large" edge="start">
+                    <IconButton size="large" edge="start" disabled={true}>
                         <ClearAllIcon />
                     </IconButton>
                 </Tooltip>
 
                 <Tooltip title="Delete all your chats and your account">
-                    <IconButton size="large" edge="start">
+                    <IconButton size="large" edge="start" disabled={true}>
                         <CrisisAlertIcon />
                     </IconButton>
                 </Tooltip>

@@ -21,12 +21,16 @@ const ChatHeader = ({ chatName }: IChatHeaderProps) => {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    mb: 2,
+                    justifyContent: 'space-between',
+                    mb: {md: -8, sm: -5},
+                    pb: {md: 5, sm: 1},
+
                 }}
             >
-                <h1>
+                <h1 style={{marginTop: '4px'}}>
                     {chatName}
                 </h1>
+
 
                 <Tooltip title="Add a user to the group">
                     <Button
@@ -36,7 +40,7 @@ const ChatHeader = ({ chatName }: IChatHeaderProps) => {
                         }}
                         variant="text"
                         onClick={handleOpen}
-                        startIcon={<PersonAddIcon />}
+                        startIcon={<PersonAddIcon/>}
                     >
                         Add member
                     </Button>

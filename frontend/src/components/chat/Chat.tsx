@@ -129,7 +129,7 @@ const Chat = () => {
 
 
             <ChatHeader chatName={data?.chat.name} />
-            <Box sx={{maxHeight:"74vh",height:"74vh", overflowY:"auto"}}>
+            <Box sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto"}}>
                 {[...messagesLocal]
                     .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map((message) => (
                     <Stack
@@ -176,7 +176,7 @@ const Chat = () => {
                     display: "flex",
                     alignItems: "center",
                     width: "100%",
-                    marginBottom: "-50px",
+                    marginBottom: "-60px",
                     backgroundColor: "rgba(255,255,255,0.1)",
                 }}
             >

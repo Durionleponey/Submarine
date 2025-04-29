@@ -43,7 +43,7 @@ const ChatList  = () =>  {
 
                 <ChatListHeader handleAddChat={() => setChatListaddModel(true)}/>
                 <Divider/>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', height: `calc(100dvh - 140px)`, overflowY: 'auto' }}>
+                <List sx={{ width: '100%', maxWidth: 390, bgcolor: 'background.paper', height: `calc(101dvh - 140px)`, overflowY: 'auto' }}>
 
                     {data?.chatss.map((chat: Chat) => (
                         <ChatListItem chat={chat} selected={chat._id === selectedChatId}/>

@@ -21,6 +21,7 @@ const Auth = ({submitLabel, submitColor, onSubmit, children, error, success}:Aut
     const {data} = useGetMe();
     const navigate = useNavigate();
 
+
     useEffect(() =>{
         if (data) {
             navigate("/");

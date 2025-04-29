@@ -116,9 +116,9 @@ const Option = () => {
                         try {
                             await logout();
                             authenticateVar(false);
+                            await client.clearStore();
                             snackVar(succesLogout);
                             router.navigate("/login");
-                            client.resetStore();
                         } catch (err) {
                             snackVar(erreurLogout);
                         }

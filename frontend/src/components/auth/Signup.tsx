@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Link as MUIlink } from "@mui/material";
 import { useCreateUser } from "../../hooks/useCreateUser";
 import {useState} from "react";
+import {authenticateVar} from "../../constants/authenticated";
 
 
 const Signup = () => {
@@ -30,6 +31,7 @@ const Signup = () => {
 
                     })
                     setIsSucces(true);
+                    authenticateVar(true);
 
 
                 }catch (error) {

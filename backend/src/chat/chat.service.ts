@@ -48,7 +48,7 @@ export class ChatService {
       user = await this.usersRepository.findOne({email:email});
 
     } catch (err){
-      return('User not found!');
+      throw new Error('User not found!');
 
     }
 
@@ -72,7 +72,8 @@ export class ChatService {
       );
 
     }catch (err){
-      return "unknow error are you trying to hack the system 😉? it's was a good try!"
+
+      throw new Error("unknow error are you trying to hack the system 😉? it's was a good try!");
     }
 
 

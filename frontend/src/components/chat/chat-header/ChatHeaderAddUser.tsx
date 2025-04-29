@@ -61,25 +61,30 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
 
             }
 
-            let userAddToGroup
+        let userAddToGroup
 
-            try {
-                userAddToGroup = await addUser({
-                    variables: {
-                        email: email,
-                        chatId:chatId
+        try{
 
-                    }
-                })
+            userAddToGroup = await addUser({
+                variables: {
+                    email: email,
+                    chatId:chatId
 
-            }catch {
-                setIsError("Unknow Error while creating Chat");
-            }
+                }
+            })
+
+
+        }catch (err) {
+
+            // @ts-ignore
+            setIsError((err.message).toString());
+            console.log(err)
+            return;
+
+        }
 
             handleClose()
             onClosee();
-
-
         }
 
 

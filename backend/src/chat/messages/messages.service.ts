@@ -56,17 +56,30 @@ export class MessagesService {
     }
 
     async getMessages({chatId}:GetMessages, userId:string){
-        return (
-            await this.chatRepository.findOne(
-        {   //findOneAndUpdate take two argument, first is the filter and the second is the update
-            //_id: chatId --> finding the correct chat to update
-            _id: chatId,
-                $or: [//a leaste one of the two condition shoud be true
-            { userId },
-            { userIds: { $in: [userId] } }
-        ]
-        })
-        ).messages;
+
+        let messages
+
+        try {
+
+            messages = (
+                await this.chatRepository.findOne(
+                    {   //findOneAndUpdate take two argument, first is the filter and the second is the update
+                        //_id: chatId --> finding the correct chat to update
+                        _id: chatId,
+                        $or: [//a leaste one of the two condition shoud be true
+                            { userId },
+                            { userIds: { $in: [userId] } }
+                        ]
+                    })
+            )
+
+
+        }catch (err){
+            throw new Error('Error getting messages!, do you have the acces to this chat ?');
+        }
+
+        return messages.messages;
+
     }
 
 

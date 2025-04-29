@@ -52,7 +52,7 @@ const Chat = () => {
     };
 
     const [hasLoaded, setHasLoaded] = useState(false);
-    const {data:dbMessages} = useGetMessages(chatId, !hasLoaded);
+    const {data:dbMessages,error:dbMessagesError} = useGetMessages(chatId, !hasLoaded);
 
     useEffect(() => {
         if (chatId && !hasLoaded) {
@@ -115,12 +115,16 @@ const Chat = () => {
     //console.log(messages)
 
     if (loading) {
-        return <h1>Chargement du chat...</h1>;
+        return <h1>Loading chat...</h1>;
     }
 
     if (error) {
-        return <h1>Nous avons cherché partout, votre chat n'existe pas 😯</h1>;
-    }
+        return <h1>We looked everywhere, but your chat doesn’t exist 😯</h1>;    }
+
+
+    if (dbMessagesError) {return<h1>{dbMessagesError.message}</h1>}
+
+
 
 
     return (

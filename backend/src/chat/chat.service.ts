@@ -48,7 +48,7 @@ export class ChatService {
       user = await this.usersRepository.findOne({email:email});
 
     } catch (err){
-      throw new Error('User not found!');
+      throw new Error('Email of the user not found!');
 
     }
 

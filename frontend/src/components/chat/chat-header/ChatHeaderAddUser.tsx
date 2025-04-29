@@ -12,12 +12,21 @@ import router from "../../Routes";
 import {useAddUserToChat} from "../../../hooks/useAddUserToChat";
 import any = jasmine.any;
 import {useParams} from "react-router-dom";
+import {SnackInterface, snackVar} from "../../../constants/snack";
 
 
 interface ChatListAddMenberInterface {
     open: boolean;
     handleClose: () => void;
 }
+
+
+const successAddUser = (email:String) => ({
+    text: `${email} added to chat.`,
+    type: "success" as const
+});
+
+
 
 
 
@@ -73,7 +82,6 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                 }
             })
 
-
         }catch (err) {
 
             // @ts-ignore
@@ -84,7 +92,9 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
         }
 
             handleClose()
+        snackVar(successAddUser(email));
             onClosee();
+
         }
 
 

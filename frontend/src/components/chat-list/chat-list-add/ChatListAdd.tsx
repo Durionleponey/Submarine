@@ -9,6 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Button from "@mui/material/Button";
 import {useCreateChat} from "../../../hooks/useCreateChat";
 import router from "../../Routes";
+import {SnackInterface, snackVar} from "../../../constants/snack";
 
 
 
@@ -16,6 +17,13 @@ interface ChatListAddInterface {
     open: boolean;
     handleClose: () => void;
 }
+
+
+const successAddChat = (): SnackInterface => ({
+    text: `New chat created.`,
+    type: "success" as const
+});
+
 
 
 
@@ -80,6 +88,7 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
             }
 
             handleClose()
+        snackVar(successAddChat());
             onClosee();
 
             if (!chattt){return;}

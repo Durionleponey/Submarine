@@ -11,4 +11,8 @@ export class AppService {
     return 'Hello Submarine !';
   }
 
+  pong(): string {
+    return 'pong';
+  }
+
 }

@@ -20,6 +20,9 @@ import Option from "./Option";
 import {useReactiveVar} from "@apollo/client";
 import {authenticateVar} from "../../constants/authenticated";
 import {Grid} from "@mui/material";
+import {useGetMe} from "../../hooks/useGetMe";
+
+
 
 
 
@@ -49,6 +52,12 @@ const StolenHeader= () => {
         setAnchorElUser(null);
     };
 
+
+
+
+
+    //console.log("😶‍🌫️😶‍🌫️😶‍🌫️😶‍🌫️",me?.data?.me.email)
+
     return (
 
             <AppBar position="static">
@@ -61,17 +70,14 @@ const StolenHeader= () => {
                         </Box>
 
 
-                        {authenticated && (<Box sx={{ ml: 2 }}>
-                            <Option />
-                        </Box>)}
+                        {authenticated && (<Option />)}
+
 
 
 
                     </Toolbar>
                 </Container>
             </AppBar>
-
-
 
     );
 }

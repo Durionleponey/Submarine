@@ -14,6 +14,7 @@ export class AuthController {
         @CurrentUser()user:User,
         @Res({ passthrough: true }) response: Response,//res is the current reponds
         ) {
+        console.log("®️",response);console.log("🧑‍🏭",user)
         return this.authService.login(user, response);
     }
 

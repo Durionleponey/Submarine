@@ -1,6 +1,6 @@
 import {useLocation, useParams} from "react-router-dom";
 import {useGetSingleChat} from "../../hooks/useGetSingleChat";
-import {Box, InputBase, Paper, Stack, Typography} from "@mui/material";
+import {Box, CircularProgress, InputBase, Paper, Stack, Typography} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
@@ -15,6 +15,7 @@ import { Message } from "../../gql/graphql";
 import Tooltip from "@mui/material/Tooltip";
 import ClearAllIcon from "@mui/icons-material/esm/icon";
 import ChatHeader from "./chat-header/Chat-header";
+import {LoadingChat} from "./chat-header/LoadingChat";
 
 
 const Chat = () => {
@@ -115,7 +116,7 @@ const Chat = () => {
     //console.log(messages)
 
     if (loading) {
-        return <h1>Loading chat...</h1>;
+        return <LoadingChat/>;
     }
 
     if (error) {
@@ -127,6 +128,7 @@ const Chat = () => {
 
 
 
+
     return (
         <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between",}}>
 
@@ -134,6 +136,16 @@ const Chat = () => {
 
             <ChatHeader chatName={data?.chat.name} />
             <Box sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto"}}>
+
+
+                {messagesLocal.length === 0 && (
+                    <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 4 }}>
+                        <Typography variant="h6" color="text.secondary">
+                            No message yet — be the first to start the conversation ✨
+                        </Typography>
+                    </Box>
+                )}
+
                 {[...messagesLocal]
                     .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map((message) => (
                     <Stack

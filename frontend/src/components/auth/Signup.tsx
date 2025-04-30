@@ -31,7 +31,6 @@ const Signup = () => {
 
                     })
                     setIsSucces(true);
-                    authenticateVar(true);
 
 
                 }catch (error) {

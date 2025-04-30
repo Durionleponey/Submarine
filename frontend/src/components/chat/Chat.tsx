@@ -32,6 +32,7 @@ const Chat = () => {
     const {data: latestMessage} = useMessageCreated({chatId})
 
 
+
     const [messagesLocal, setMessagesLocal] = useState<Message[]>([]);
 
 
@@ -115,7 +116,7 @@ const Chat = () => {
 
     //console.log(messages)
 
-    if (loading) {
+    if (!messagesLocal || loading) {
         return <LoadingChat/>;
     }
 
@@ -138,7 +139,7 @@ const Chat = () => {
             <Box sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto"}}>
 
 
-                {messagesLocal.length === 0 && (
+                {(!messagesLocal || messagesLocal.length === 0) && (
                     <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 4 }}>
                         <Typography variant="h6" color="text.secondary">
                             No message yet — be the first to start the conversation ✨

@@ -11,7 +11,7 @@ export abstract class AbstractRepository<TDocument extends AbstractEntity> {//th
     protected abstract readonly logger: Logger//debug stugg
 
 
-    constructor(protected readonly model:Model<TDocument>) {}
+    constructor(protected readonly model:Model<TDocument>) {}//master mongo model
 
     async create(document: Omit<TDocument, '_id'>): Promise<TDocument> {
         //console.log("Dfdfd:", document);
@@ -67,7 +67,6 @@ export abstract class AbstractRepository<TDocument extends AbstractEntity> {//th
 
     async findOneAndDelete(filterQuery:FilterQuery<TDocument>,): Promise<TDocument | null>{
         const document = await this.model.findOne(filterQuery).lean<TDocument>();
-
 
 
         if (!document){

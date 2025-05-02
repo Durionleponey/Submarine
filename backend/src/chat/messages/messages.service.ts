@@ -8,15 +8,25 @@ import {GetMessages} from "./dto/get-messages";
 import {PubSub} from "graphql-subscriptions";
 import {string} from "joi";
 import {MessageCreatedArgs} from "../dto/message-created.args";
+import {UsersRepository} from "../../users/users.repository";
 
 @Injectable()
 export class MessagesService {
-    constructor(private readonly chatRepository: ChatRepository, @Inject('PUB_SUB') private readonly pubSub:PubSub) {}
+    constructor(private readonly chatRepository: ChatRepository, @Inject('PUB_SUB') private readonly pubSub:PubSub,private readonly usersRepository: UsersRepository) {}
 
     async createMessage({ content, chatId }: CreateMessageInput, userId: string) {
+
+
+        const userEmail = await this.usersRepository.findMailWithId({_id:userId});
+
+        if (!userEmail) {
+            throw new Error("Impossible to math a email with UserId");
+        }
+
         const message: Message = {
             content,
             userId,
+            userEmail,
             chatId,
             createdAt: new Date(),
             _id: new Types.ObjectId(),

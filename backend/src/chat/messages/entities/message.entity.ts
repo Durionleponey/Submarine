@@ -20,6 +20,10 @@ export class Message extends AbstractEntity{
 
     @Field()
     @Prop()
+    userEmail:string;
+
+    @Field()
+    @Prop()
     chatId:string;
 
 }

@@ -8,7 +8,11 @@ import {Model} from "mongoose";
 export class UsersRepository extends AbstractRepository<User>{
     protected readonly logger = new Logger(UsersRepository.name);
 
-    constructor(@InjectModel(User.name) userModel: Model<User>) {
-        super(userModel)
-}
+    constructor(@InjectModel(User.name) userModel: Model<User>) {super(userModel)}
+
+
+    async findMailWithId(userId: { _id: string }): Promise<string | null> {
+        const user = await this.model.findOne({_id:userId}, { email: true, _id: false }).lean();
+        return user?.email ?? null; //if the value is null or undifined take the one on the left
+    }
 }

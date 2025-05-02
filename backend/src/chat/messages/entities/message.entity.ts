@@ -20,7 +20,7 @@ export class Message extends AbstractEntity{
 
     @Field()
     @Prop()
-    userEmail:string;
+    userPseudo:string;
 
     @Field()
     @Prop()

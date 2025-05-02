@@ -17,16 +17,16 @@ export class MessagesService {
     async createMessage({ content, chatId }: CreateMessageInput, userId: string) {
 
 
-        const userEmail = await this.usersRepository.findMailWithId({_id:userId});
+        const userPseudo = await this.usersRepository.findPseudoWithId({_id:userId});
 
-        if (!userEmail) {
+        if (!userPseudo) {
             throw new Error("Impossible to math a email with UserId");
         }
 
         const message: Message = {
             content,
             userId,
-            userEmail,
+            userPseudo,
             chatId,
             createdAt: new Date(),
             _id: new Types.ObjectId(),

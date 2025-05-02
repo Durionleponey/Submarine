@@ -15,4 +15,9 @@ export class UsersRepository extends AbstractRepository<User>{
         const user = await this.model.findOne({_id:userId}, { email: true, _id: false }).lean();
         return user?.email ?? null; //if the value is null or undifined take the one on the left
     }
+
+    async findPseudoWithId(userId: { _id: string }): Promise<string | null> {
+        const user = await this.model.findOne({_id:userId}, { pseudo: true, _id: false }).lean();
+        return user?.pseudo ?? null; //if the value is null or undifined take the one on the left
+    }
 }

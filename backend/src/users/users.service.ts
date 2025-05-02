@@ -3,6 +3,7 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import {UsersRepository} from "./users.repository";
 import * as bcrypt from 'bcryptjs'
+import {uniqueNamesGenerator, adjectives, colors, animals} from 'unique-names-generator';
 
 @Injectable()
 export class UsersService {
@@ -10,9 +11,22 @@ export class UsersService {
 
   async create(createUserInput: CreateUserInput) {
     //console.log("frffrrfe", createUserInput);
+
+
+    const pseudoBeforeNumber = uniqueNamesGenerator({
+      dictionaries: [adjectives, colors, animals],
+      separator: '',
+      style: 'capital',
+
+    });
+
+    const randomNumber = Math.floor(Math.random() * 9000) + 1000;
+    const pseudo = `${pseudoBeforeNumber}${randomNumber}`;
+
     return this.userRepository.create({
       ...createUserInput,
-      password: await this.hashPassword(createUserInput.password)
+      password: await this.hashPassword(createUserInput.password),
+      pseudo,
     });
   }
 

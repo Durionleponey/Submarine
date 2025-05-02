@@ -7,7 +7,6 @@ import {CreateChatInput} from "../dto/create-chat.input";
 import {CreateMessageInput} from "./dto/create-message.input";
 import {CurrentUser} from "../../auth/current-user.decorator";
 import {TokenPayload} from "../../auth/token-payload.interface";
-import {query} from "express";
 import {GetMessages} from "./dto/get-messages";
 import {PubSub} from "graphql-subscriptions";
 import {MessageCreatedArgs} from "../dto/message-created.args";

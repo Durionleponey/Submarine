@@ -12,6 +12,7 @@ export const getMessagesDocument = graphql(`
             content
             createdAt
             userPseudo
+            userId
         }
     }
 `);

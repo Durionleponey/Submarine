@@ -16,10 +16,13 @@ import Tooltip from "@mui/material/Tooltip";
 import ClearAllIcon from "@mui/icons-material/esm/icon";
 import ChatHeader from "./chat-header/Chat-header";
 import {LoadingChat} from "./chat-header/LoadingChat";
+import ChatBubble from "./Chat-bubble";
+import {useGetMe} from "../../hooks/useGetMe";
 
 
 const Chat = () => {
     const params = useParams();
+    const {data: user} = useGetMe();
     const [messageState, setMessageState] = useState("");
     const chatId = params._id || ""
     //console.log("chatId", chatId);
@@ -149,40 +152,10 @@ const Chat = () => {
 
                 {[...messagesLocal]
                     .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map((message) => (
-                    <Stack
-                        direction="row"
-                        spacing={2}
-                        alignItems="flex-start"
-                        sx={{ mb: 2 }}
-                    >
 
-                        <Avatar src=""   sx={{
-                            width: 25,
-                            height: 25,
-                        }}/>
-                        <Stack spacing={0.5} alignItems="flex-start" sx={{maxWidth: "80%"}}>  {}
-                            <Paper
-                                component="span"
-                                elevation={1}
-                                sx={{
-                                    display: "inline-block",
-                                    width: "fit-content",
-                                    p: "0.7rem 1.2rem",
-                                    backgroundColor: "rgba(244,189,48,0.56)",
-                                    borderRadius: "15px",
-                                }}
-                            >
-                                <Typography sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }} variant={"body1"}>{message?.content}</Typography>
-                            </Paper>
-                            <Typography variant="caption" color="text.secondary">
+                        <ChatBubble message={message} loggedUserId={user?.me?._id}/>
 
-                                {message.userPseudo} - {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
-
-                            </Typography>
-                        </Stack>
-                    </Stack>
-
-                ))}
+                    ))}
 
 
                 <div ref={divRef}></div>

@@ -13,7 +13,7 @@ export class User extends AbstractEntity {
     email:string;
 
     @Prop()// here with a password we cannot expose it so no field || if you try to query pasword you will gate a error
-    @Field()//just to test
+    //@Field()//just to test
     password: string;
 
 

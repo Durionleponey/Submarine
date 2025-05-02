@@ -155,6 +155,7 @@ const Chat = () => {
                         alignItems="flex-start"
                         sx={{ mb: 2 }}
                     >
+
                         <Avatar src=""   sx={{
                             width: 25,
                             height: 25,
@@ -175,7 +176,7 @@ const Chat = () => {
                             </Paper>
                             <Typography variant="caption" color="text.secondary">
 
-                                On {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
+                                {message.userPseudo} - {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
 
                             </Typography>
                         </Stack>

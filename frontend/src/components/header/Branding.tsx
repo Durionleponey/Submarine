@@ -4,7 +4,7 @@ import * as React from "react";
 import Auth from "../auth/Auth";
 import router from "../Routes";
 
-const branding = () => {
+const Branding = () => {
 
 
     return(// TODO:modifier ca c'est moche lol
@@ -41,4 +41,4 @@ const branding = () => {
     )
 }
 
-export default branding;
+export default Branding;

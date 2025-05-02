@@ -142,7 +142,7 @@ const Chat = () => {
                 {(!messagesLocal || messagesLocal.length === 0) && (
                     <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 4 }}>
                         <Typography variant="h6" color="text.secondary">
-                            No message yet — be the first to start the conversation ✨
+                            No message yet, be the first to start the conversation ✨
                         </Typography>
                     </Box>
                 )}

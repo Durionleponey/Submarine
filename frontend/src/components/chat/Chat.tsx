@@ -5,7 +5,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {useCreateMessage} from "../../hooks/useCeateMessage";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useGetMessages} from "../../hooks/useGetMessages";
 import Avatar from "@mui/material/Avatar";
 import {useMessageCreated} from "../../hooks/useMessageCreated";
@@ -45,13 +45,21 @@ const Chat = () => {
 
 
     const [messagesLocal, setMessagesLocal] = useState<Message[]>([]);
+    const [messagesLocal2, setMessagesLocal2] = useState<Message[]>([]);
 
 
+
+/*
     const scrollToBottom = () => {
 
         divRef.current?.scrollIntoView();
 
     }
+*/
+
+    useLayoutEffect(() => {
+        divRef.current?.scrollIntoView({ block: "end" });
+    }, [messagesLocal]);
 
     const createMessageLogic = async () => {
 
@@ -60,7 +68,7 @@ const Chat = () => {
         //wait for createMessage before setMessageState("")
 
         setMessageState("");
-        scrollToBottom()
+        
 
     };
 
@@ -76,27 +84,21 @@ const Chat = () => {
 
     useEffect(() => {
         console.log("useEffect1 - cache message change copy in messageLocal")
-        if(dbMessages){
+        if (dbMessages) {
             // @ts-ignore
-            setMessagesLocal(prevMessages => {
-                const existingIds = new Set(prevMessages.map(m => m._id));
-
-                const newUniqueMessages = dbMessages.getMessages.filter(
-                    m => !existingIds.has(m._id)
-                );
-
-                return [...prevMessages, ...newUniqueMessages];
-            });
+            setMessagesLocal([...dbMessages.getMessages, ...messagesLocal2]);
+            
 
         }
 
-    }, [dbMessages]);
+
+    }, [dbMessages,messagesLocal2]);
 
     useEffect(() => {
         console.log("useEffect2 - adding last message to messageLocal")
 
         // @ts-ignore
-        const LastMessage = messagesLocal[messagesLocal.length - 1]?._id;
+        const LastMessage = messagesLocal2[messagesLocal2.length - 1]?._id;
 
 
 
@@ -104,11 +106,10 @@ const Chat = () => {
         if(latestMessage?.messageCreated && LastMessage !== latestMessage?.messageCreated._id) {
 
             // @ts-ignore
-            setMessagesLocal([...messagesLocal, latestMessage.messageCreated]);
+            setMessagesLocal2([...messagesLocal2, latestMessage.messageCreated]);
         }
-        scrollToBottom()
-        console.log("🦬🦬 Nouvelle valeur de messagesLocal :", messagesLocal);
-    }, [messagesLocal, latestMessage]);
+        console.log("🦬🦬 Nouvelle valeur de messagesLocal2 :", messagesLocal2);
+    }, [latestMessage]);
 
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -119,7 +120,7 @@ const Chat = () => {
             inputRef.current?.focus();
         }, 0);
         setMessageState("");
-        scrollToBottom()
+        
     }, [location, dbMessages]);
 
     useEffect(() => {

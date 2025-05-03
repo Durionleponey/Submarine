@@ -13,8 +13,8 @@ interface ChatBubbleProps {
 
 const ChatBubble = ({ message, loggedUserId }:ChatBubbleProps) => {
 
-    console.log(message);
-    console.log(loggedUserId);
+    //console.log(message);
+    //console.log(loggedUserId);
 
     if (message.userId === loggedUserId) {
         return(

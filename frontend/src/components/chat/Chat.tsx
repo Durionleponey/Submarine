@@ -75,10 +75,19 @@ const Chat = () => {
 
 
     useEffect(() => {
-        console.log("useEffect1 - dbMessageChange copy in messageLocal")
+        console.log("useEffect1 - cache message change copy in messageLocal")
         if(dbMessages){
             // @ts-ignore
-            setMessagesLocal(dbMessages.getMessages);
+            setMessagesLocal(prevMessages => {
+                const existingIds = new Set(prevMessages.map(m => m._id));
+
+                const newUniqueMessages = dbMessages.getMessages.filter(
+                    m => !existingIds.has(m._id)
+                );
+
+                return [...prevMessages, ...newUniqueMessages];
+            });
+
         }
 
     }, [dbMessages]);

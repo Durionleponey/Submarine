@@ -37,7 +37,7 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
     const [isPrivate, setIsPrivate] = useState(false);
     const [isError, setIsError] = useState("");
     const [name, setName] = useState("")
-    const [createChat] = useCreateChat();
+    const [createChat, {error}] = useCreateChat();
 
     const onClosee = () => {
         setIsError("");
@@ -60,14 +60,17 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
 
     const handleChatAdd = async () => {
 
-
+        setIsError("")
 
 
         if (name.length == 0) {
                 setIsError("Please enter a chatName");
                 return;
-
             }
+        if (name.length > 25) {
+            setIsError("The name for the group must have maximum 25 caracters.");
+            return;
+        }
 
             let chattt
 
@@ -81,19 +84,17 @@ const ChatListAdd = ({open, handleClose}:ChatListAddInterface) => {
                     }
                 })
 
+                handleClose()
+                snackVar(successAddChat());
+                onClosee();
+                router.navigate(`/chats/${chattt.data?.createChat._id}`);
+
             }catch {
-                setIsError("Unknow Error while creating Chat");
 
-
+            if (!error){setIsError("unknow error");return;}
+            setIsError(error.toString());
             }
 
-            handleClose()
-        snackVar(successAddChat());
-            onClosee();
-
-            if (!chattt){return;}
-
-            router.navigate(`/chats/${chattt.data?.createChat._id}`);
         }
 
 

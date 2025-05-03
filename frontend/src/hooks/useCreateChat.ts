@@ -1,11 +1,14 @@
 import {graphql} from "../gql";
 import {useMutation} from "@apollo/client";
-import {CreateChatInput, CreateChatMutation} from "../gql/graphql";
+import {
+    CreateChatInput,
+    CreateChatMutation, CreateChatMutationVariables,
+} from "../gql/graphql";
 import {TypedDocumentNode} from "@graphql-typed-document-node/core";
 
 
 
-const createChatDocument = graphql(`
+const createChatDocument:TypedDocumentNode<CreateChatMutation, CreateChatMutationVariables> = graphql(`
     mutation CreateChat($createChatInput: CreateChatInput!) {
         createChat(createChatInput: $createChatInput) {
             _id
@@ -31,8 +34,10 @@ export const ChatFragment = graphql(`
 
 
 //i for update the cache so when we create a new chat it will be add directly in the ui but it is a mess i know
-
 const useCreateChat = () =>{
+
+
+
 
 
     return useMutation(createChatDocument,{

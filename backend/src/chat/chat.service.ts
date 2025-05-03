@@ -15,11 +15,19 @@ export class ChatService {
 
 
   async create(createChatInput: CreateChatInput, userId:string): Promise<Chat> {
+
+    if (!createChatInput.name) {throw new Error("Your input is empty")}
+
+    //console.log("🛑🛑🛑🛑",createChatInput.name);
+
+    if (createChatInput.name.length>25) {{throw new Error("The name for the group must have maximum 25 caracters. but good try !😉")}}
+
+
     return this.chatRepository.create({...createChatInput, userId, userIds: createChatInput.userIds || [], messages:[],});
   }
 
   async findAll(userId:string) {
-    console.log("💿💿💿💿",userId);
+    //console.log("💿💿💿💿",userId);
     return await this.chatRepository.find({
       $or: [
         { userId },

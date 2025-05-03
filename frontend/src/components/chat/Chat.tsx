@@ -18,6 +18,14 @@ import ChatHeader from "./chat-header/Chat-header";
 import {LoadingChat} from "./chat-header/LoadingChat";
 import ChatBubble from "./Chat-bubble";
 import {useGetMe} from "../../hooks/useGetMe";
+import {SnackInterface, snackVar} from "../../constants/snack";
+
+const messageToLong:SnackInterface = {
+
+    text:"Message must have max 2000 caracter",
+    type:"warning",
+
+}
 
 
 const Chat = () => {
@@ -107,12 +115,17 @@ const Chat = () => {
 
     useEffect(() => {
         console.log("useEffect4 - enable disable send button")
-        if (!messageState){
+        if (!messageState || messageState.length>2000){
             SetisSendButtonDisabled(true);
         }else{
             SetisSendButtonDisabled(false);
-
         }
+        if(messageState.length>2000){
+            snackVar(messageToLong)
+        }
+
+
+
 
 
     }, [messageState]);
@@ -177,9 +190,12 @@ const Chat = () => {
                     placeholder="Message"
                     onChange={(e) => setMessageState(e.target.value)}
                     onKeyDown={async event =>  {
-                        if (event.key == "Enter") {
+                        if (event.key == "Enter" && messageState.length<2000 && messageState.length>0) {
                             await createMessageLogic()
+                        }if (messageState.length>2000){
+                            snackVar(messageToLong)
                         }
+
 
                     }}
                     sx={{

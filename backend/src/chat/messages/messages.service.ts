@@ -23,6 +23,9 @@ export class MessagesService {
             throw new Error("Impossible to math a email with UserId");
         }
 
+        if (content.length < 1) {throw new Error("Message can't be empty");}
+        if (content.length > 2000) {throw new Error("Message to long");}
+
         const message: Message = {
             content,
             userId,

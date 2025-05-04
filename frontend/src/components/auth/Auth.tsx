@@ -1,4 +1,4 @@
-import {Button, Stack, TextField, Typography} from "@mui/material";
+import {Button, Container, Stack, TextField, Typography} from "@mui/material";
 import LogoBig from "../brand/logoBig"
 import React, {useEffect, useState} from "react";
 import {useGetMe} from "../../hooks/useGetMe";
@@ -16,6 +16,7 @@ interface AuthProps {
 
 const Auth = ({submitLabel, submitColor, onSubmit, children, error, success}:AuthProps) => {
 
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {data} = useGetMe();
@@ -29,6 +30,7 @@ const Auth = ({submitLabel, submitColor, onSubmit, children, error, success}:Aut
     }, [data,navigate]);//i have to put navigate in the array because is good practice
 
     return(
+        <Container>
         <Stack spacing={5} sx={
             { height: "100vh", maxWidth: {xs: '70%', md: '30%'}, margin: "0 auto", justifyContent: "center"}}>
             <LogoBig/>
@@ -44,6 +46,7 @@ const Auth = ({submitLabel, submitColor, onSubmit, children, error, success}:Aut
             </Typography></>}</>
             { children }
         </Stack>
+        </Container>
     )
 
 

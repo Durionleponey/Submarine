@@ -234,12 +234,12 @@ const Chat = () => {
                 sx={{
                     display: "flex",
                     alignItems: "center",
-                    width: "100%",
+                    width: "99%",
                     p: "8px 16px",
                     bgcolor: "rgba(35,39,42,0.8)",
                     borderRadius: "24px",
                     marginY: 1,
-                    marginBottom: "-70px"
+                    marginBottom: "-70px",
                 }}
             >
                 <IconButton sx={{ mr: 1 }} disabled={true}>

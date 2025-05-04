@@ -10,6 +10,7 @@ import DisabledVisibleIcon from '@mui/icons-material/DisabledVisible';
 import CompareIcon from '@mui/icons-material/Compare';
 import Tooltip from "@mui/material/Tooltip";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 
 
@@ -26,8 +27,8 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
     return (
 
 
-        <AppBar position="static" color="transparent">
-            <Toolbar>
+        <AppBar position="static" color="transparent" sx={{ mt: 1 }}>
+            <Toolbar sx={{ justifyContent: "center" }}>
 
                 <Tooltip title="Start a new private conversation">
                     <IconButton size="large" edge="start" disabled={true}>
@@ -62,6 +63,12 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                 <Tooltip title="Delete all your chats and your account">
                     <IconButton size="large" edge="start" disabled={true}>
                         <CrisisAlertIcon />
+                    </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Refresh the chat list">
+                    <IconButton size="large" edge="start" disabled={true}>
+                        <RefreshIcon />
                     </IconButton>
                 </Tooltip>
 

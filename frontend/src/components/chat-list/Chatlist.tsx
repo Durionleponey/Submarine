@@ -42,8 +42,8 @@ const ChatList  = () =>  {
 
 
                 <ChatListHeader handleAddChat={() => setChatListaddModel(true)}/>
-                <Divider/>
-                <List sx={{ width: '100%', maxWidth: 390, bgcolor: 'background.paper', height: `calc(101dvh - 140px)`, overflowY: 'auto',                "&::-webkit-scrollbar": {
+
+                <List sx={{ width: '100%', maxWidth: 380, bgcolor: 'background.paper', height: `calc(101dvh - 150px)`, overflowY: 'auto',                "&::-webkit-scrollbar": {
                         width: 8,
                     },
                     "&::-webkit-scrollbar-track": {

@@ -166,7 +166,7 @@ const Chat = () => {
 
 
     return (
-        <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between",}}>
+        <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between"}}>
 
 
 

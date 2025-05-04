@@ -38,7 +38,7 @@ const App = () => {
               <ChatList />
             </Grid>
           )}
-          <Container>
+          <Container disableGutters maxWidth={false} sx={{ px: 0, width: "75%" }}>
             <Guard>
               <RouterProvider router={router} />
             </Guard>

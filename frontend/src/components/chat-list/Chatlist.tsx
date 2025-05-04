@@ -43,7 +43,20 @@ const ChatList  = () =>  {
 
                 <ChatListHeader handleAddChat={() => setChatListaddModel(true)}/>
                 <Divider/>
-                <List sx={{ width: '100%', maxWidth: 390, bgcolor: 'background.paper', height: `calc(101dvh - 140px)`, overflowY: 'auto' }}>
+                <List sx={{ width: '100%', maxWidth: 390, bgcolor: 'background.paper', height: `calc(101dvh - 140px)`, overflowY: 'auto',                "&::-webkit-scrollbar": {
+                        width: 8,
+                    },
+                    "&::-webkit-scrollbar-track": {
+                        background: "transparent",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "rgba(255,255,255,0.2)",
+                        borderRadius: 4,
+                    },
+
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "rgba(255,255,255,0.2) transparent",}}>
+
 
                     {data?.chatss.map((chat: Chat) => (
                         <ChatListItem chat={chat} selected={chat._id === selectedChatId}/>

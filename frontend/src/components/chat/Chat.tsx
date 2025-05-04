@@ -20,6 +20,7 @@ import ChatBubble from "./Chat-bubble";
 import {useGetMe} from "../../hooks/useGetMe";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {SnackInterface, snackVar} from "../../constants/snack";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 const messageToLong:SnackInterface = {
 
@@ -172,7 +173,20 @@ const Chat = () => {
 
             <ChatHeader chatName={data?.chat.name} />
             <Box   ref={boxRef}
-                   onScroll={handleScroll} sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto"}}>
+                   onScroll={handleScroll} sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto", /* pour WebKit (Chrome, Safari) */
+                "&::-webkit-scrollbar": {
+                    width: 8,
+                },
+                "&::-webkit-scrollbar-track": {
+                    background: "transparent",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "rgba(255,255,255,0.2)",
+                    borderRadius: 4,
+                },
+
+                scrollbarWidth: "thin",
+                scrollbarColor: "rgba(255,255,255,0.2) transparent",}}>
 
 
                 {(!messagesLocal || messagesLocal.length === 0) && (
@@ -212,16 +226,26 @@ const Chat = () => {
                 <div ref={divRef}></div>
             </Box>
             <Paper
+                onSubmit={e => {
+                    e.preventDefault();
+                }}
+                component="form"
+                elevation={0}
                 sx={{
-
-                    p: "5px 64px",
                     display: "flex",
                     alignItems: "center",
                     width: "100%",
-                    marginBottom: "-60px",
-                    backgroundColor: "rgba(255,255,255,0.1)",
+                    p: "8px 16px",
+                    bgcolor: "rgba(35,39,42,0.8)",
+                    borderRadius: "24px",
+                    marginY: 1,
+                    marginBottom: "-70px"
                 }}
             >
+                <IconButton sx={{ mr: 1 }} disabled={true}>
+                    <AttachFileIcon fontSize="small"/>
+                </IconButton>
+
                 <InputBase
                     inputRef={inputRef}
                     value={messageState}
@@ -238,26 +262,21 @@ const Chat = () => {
                     }}
                     sx={{
                         flex: 1,
-                        minHeight: 28,
-                        fontSize: "1.3rem",
-                        ml: -4,
+                        ml: 1,
+                        fontSize: "1.1rem",
+                        color: "inherit",
+                        ".MuiInputBase-input::placeholder": { opacity: 0.6 },
                     }}
                 />
-                <Divider
-                    orientation="vertical"
-                    flexItem
-                    sx={{
-                        height: "50px",
-                        borderRightWidth: "2px",
-                        borderColor: "white",
-                        m: 1,
-                    }}
-                />
-
-                <IconButton disabled={isSendButtonDisabled}  color="secondary" onClick={createMessageLogic}>
-                    <ArrowCircleUpIcon sx={{ fontSize: 30 }} />
+                <IconButton
+                    disabled={isSendButtonDisabled}
+                    color="secondary"
+                    onClick={createMessageLogic}
+                >
+                    <ArrowCircleUpIcon sx={{ fontSize: 28 }} />
                 </IconButton>
             </Paper>
+
         </Stack>)
 }
 

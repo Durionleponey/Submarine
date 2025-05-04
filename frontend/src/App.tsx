@@ -35,10 +35,10 @@ const App = () => {
         <Grid container spacing={2}  wrap="nowrap">
           {authenticated && (
             <Grid>
-              <ChatList />
+              <ChatList/>
             </Grid>
           )}
-          <Container disableGutters maxWidth={false} sx={{ px: 0, width: "75%" }}>
+          <Container>
             <Guard>
               <RouterProvider router={router} />
             </Guard>

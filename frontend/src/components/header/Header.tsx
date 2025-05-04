@@ -60,7 +60,11 @@ const StolenHeader= () => {
 
     return (
 
-            <AppBar position="static">
+                <AppBar position="static"   sx={{
+                    borderRadius: "0 0 16px 16px",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                }}>
                 <Container >
                     <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
 
@@ -71,8 +75,6 @@ const StolenHeader= () => {
 
 
                         {authenticated && (<Option />)}
-
-
 
 
                     </Toolbar>

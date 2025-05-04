@@ -38,7 +38,7 @@ const ChatList  = () =>  {
     return (
         <>
             <ChatListAdd open={chatListaddModel} handleClose={() => setChatListaddModel(false)} />
-            <Stack>
+            <Stack >
 
 
                 <ChatListHeader handleAddChat={() => setChatListaddModel(true)}/>

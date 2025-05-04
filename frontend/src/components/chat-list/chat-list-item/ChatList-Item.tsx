@@ -24,12 +24,16 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
         <>
         <ListItem alignItems="flex-start" disablePadding={true}>
             <ListItemButton onClick={()=> router.navigate(`/chats/${chat._id}`)} selected={selected}   sx={{
-                '&.Mui-selected': {
-                    backgroundColor: 'rgba(244,189,48,0.37)',
-                    color: 'white',
+                borderRadius: "12px",
+                "&.Mui-selected": {
+                    backgroundColor: "rgba(244,189,48,0.37)",
+                    color: "#fff",
                 },
-                '&.Mui-selected:hover': {
-                    backgroundColor: 'rgba(244,189,48,0.2)',
+                "&.Mui-selected:hover": {
+                    backgroundColor: "rgba(244,189,48,0.2)",
+                },
+                "&:hover": {
+                    backgroundColor: "rgba(255,255,255,0.08)",
                 },
             }}>
 
@@ -71,7 +75,6 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
 
         </ListItem>
 
-            <Divider variant="inset" component="li" />
         </>
     )
 

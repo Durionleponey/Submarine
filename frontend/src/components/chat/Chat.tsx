@@ -18,6 +18,7 @@ import ChatHeader from "./chat-header/Chat-header";
 import {LoadingChat} from "./chat-header/LoadingChat";
 import ChatBubble from "./Chat-bubble";
 import {useGetMe} from "../../hooks/useGetMe";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {SnackInterface, snackVar} from "../../constants/snack";
 
 const messageToLong:SnackInterface = {
@@ -43,19 +44,27 @@ const Chat = () => {
     const {data: latestMessage} = useMessageCreated({chatId})
 
 
+    const [isAtBottom, setIsAtBottom] = useState(true);
+    const boxRef = useRef<HTMLDivElement | null>(null);
+
+    const handleScroll = () => {
+        if (!boxRef.current) return;
+        const { scrollTop, scrollHeight, clientHeight } = boxRef.current;
+        setIsAtBottom(scrollHeight - scrollTop <= clientHeight + 20);
+    };
+
+
 
     const [messagesLocal, setMessagesLocal] = useState<Message[]>([]);
     const [messagesLocal2, setMessagesLocal2] = useState<Message[]>([]);
 
 
 
-/*
     const scrollToBottom = () => {
 
-        divRef.current?.scrollIntoView();
+        divRef.current?.scrollIntoView({ block: "end" });
 
     }
-*/
 
     useLayoutEffect(() => {
         divRef.current?.scrollIntoView({ block: "end" });
@@ -68,7 +77,7 @@ const Chat = () => {
         //wait for createMessage before setMessageState("")
 
         setMessageState("");
-        
+
 
     };
 
@@ -87,7 +96,7 @@ const Chat = () => {
         if (dbMessages) {
             // @ts-ignore
             setMessagesLocal([...dbMessages.getMessages, ...messagesLocal2]);
-            
+
 
         }
 
@@ -120,7 +129,7 @@ const Chat = () => {
             inputRef.current?.focus();
         }, 0);
         setMessageState("");
-        
+
     }, [location, dbMessages]);
 
     useEffect(() => {
@@ -162,7 +171,8 @@ const Chat = () => {
 
 
             <ChatHeader chatName={data?.chat.name} />
-            <Box sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto"}}>
+            <Box   ref={boxRef}
+                   onScroll={handleScroll} sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto"}}>
 
 
                 {(!messagesLocal || messagesLocal.length === 0) && (
@@ -179,6 +189,24 @@ const Chat = () => {
                         <ChatBubble message={message} loggedUserId={user?.me?._id}/>
 
                     ))}
+
+
+
+                {!isAtBottom &&(
+                <KeyboardArrowDownIcon   sx={{
+                    position: 'fixed',
+                    bottom: 150,
+                    right: 16,
+                    cursor: 'pointer',
+                    bgcolor: 'background.paper',
+                    borderRadius: '50%',
+                    boxShadow: 3,
+                    p: 1,
+                    backgroundColor: "#2b2d30",
+                    zIndex: 1000,
+                    fontSize:50
+                }}  onClick={() =>{scrollToBottom()}}></KeyboardArrowDownIcon>)}
+
 
 
                 <div ref={divRef}></div>

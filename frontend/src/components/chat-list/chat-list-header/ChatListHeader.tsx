@@ -66,11 +66,11 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                     </IconButton>
                 </Tooltip>
 
-                <Tooltip title="Refresh the chat list">
+{/*                <Tooltip title="Refresh the chat list">
                     <IconButton size="large" edge="start" disabled={true}>
                         <RefreshIcon />
-                    </IconButton>
-                </Tooltip>
+                    </IconButton>//i will make a subscription
+                </Tooltip>*/}
 
             </Toolbar>
         </AppBar>)

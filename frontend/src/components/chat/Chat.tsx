@@ -82,14 +82,8 @@ const Chat = () => {
 
     };
 
-    const [hasLoaded, setHasLoaded] = useState(false);
-    const {data:dbMessages,error:dbMessagesError} = useGetMessages(chatId, !hasLoaded);
+    const {data:dbMessages,error:dbMessagesError} = useGetMessages(chatId);
 
-    useEffect(() => {
-        if (chatId && !hasLoaded) {
-            setHasLoaded(true);
-        }
-    }, [chatId]);
 
 
     useEffect(() => {
@@ -132,6 +126,12 @@ const Chat = () => {
         setMessageState("");
 
     }, [location, dbMessages]);
+
+
+    useEffect(() => {
+        console.log("useEffect5 - reset db local")
+        setMessagesLocal2([])
+    }, [location]);
 
     useEffect(() => {
         console.log("useEffect4 - enable disable send button")

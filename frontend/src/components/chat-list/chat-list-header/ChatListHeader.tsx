@@ -11,6 +11,7 @@ import CompareIcon from '@mui/icons-material/Compare';
 import Tooltip from "@mui/material/Tooltip";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import AlertDialog from "./AlertDialog";
 
 
 
@@ -21,7 +22,11 @@ interface ChatListHeaderProps {
 
 
 
+
+
 const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
+    const [open, setOpen] = React.useState(false);
+
 
 
     return (
@@ -54,8 +59,8 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                     </IconButton>
                 </Tooltip>
 
-                <Tooltip title="Delete all chats">
-                    <IconButton size="large" edge="start" disabled={true}>
+                <Tooltip title="Leave all your the chat">
+                    <IconButton onClick={() => {setOpen(true)}} size="large" edge="start">
                         <ClearAllIcon />
                     </IconButton>
                 </Tooltip>
@@ -66,7 +71,10 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                     </IconButton>
                 </Tooltip>
 
-{/*                <Tooltip title="Refresh the chat list">
+                {open && <AlertDialog title={"Leave all your chats ?"} AlertMessage="Leave all chats ? Your messages will not be deleted ! This action can't be undone." open={open} setOpen={setOpen} />}
+
+
+                {/*                <Tooltip title="Refresh the chat list">
                     <IconButton size="large" edge="start" disabled={true}>
                         <RefreshIcon />
                     </IconButton>//i will make a subscription

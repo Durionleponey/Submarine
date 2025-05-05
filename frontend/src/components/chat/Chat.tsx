@@ -99,7 +99,7 @@ const Chat = () => {
                 (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
             );
 
-            const limitedMessages = sortedMessages.slice(-50); // garde les 50 derniers
+            const limitedMessages = sortedMessages.slice(-50);
 
             // @ts-ignore
             setMessagesLocal(limitedMessages);

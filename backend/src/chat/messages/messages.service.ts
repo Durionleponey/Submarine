@@ -53,6 +53,31 @@ export class MessagesService {
             }
         );
 
+        const chat = await this.chatRepository.findOne({_id:chatId});
+        if (!chat) return;
+
+        if (chat.messages.length >= 50) {
+
+            await this.chatRepository.findOneAndUpdate(
+                {   //findOneAndUpdate take two argument, first is the filter and the second is the update
+                    //_id: chatId --> finding the correct chat to update
+                    _id: chatId,
+                },
+                {
+                    $pop: {
+                        messages: -1,
+                    }
+                }
+            );
+
+
+        }
+
+
+
+
+
+
         console.log("--->", message)
 
 

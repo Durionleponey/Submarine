@@ -87,12 +87,24 @@ const Chat = () => {
 
 
     useEffect(() => {
-        console.log("useEffect1 - cache message change copy in messageLocal")
+        console.log("useEffect1 - cache message change copy in messageLocal");
+
         if (dbMessages) {
+            const mergedMessages = [
+                ...dbMessages.getMessages,
+                ...messagesLocal2
+            ];
+
+            const sortedMessages = mergedMessages.sort(
+                (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            );
+
+            const limitedMessages = sortedMessages.slice(-50); // garde les 50 derniers
+
             // @ts-ignore
-            setMessagesLocal([...dbMessages.getMessages, ...messagesLocal2]);
+            setMessagesLocal(limitedMessages);
 
-
+            console.log("🦬🦬 Nouvelle valeur de messagesLocal :", limitedMessages);
         }
 
 
@@ -112,7 +124,7 @@ const Chat = () => {
             // @ts-ignore
             setMessagesLocal2([...messagesLocal2, latestMessage.messageCreated]);
         }
-        console.log("🦬🦬 Nouvelle valeur de messagesLocal2 :", messagesLocal2);
+        //console.log("🦬🦬 Nouvelle valeur de messagesLocal2 :", messagesLocal2);
     }, [latestMessage]);
 
 
@@ -197,8 +209,7 @@ const Chat = () => {
                     </Box>
                 )}
 
-                {[...messagesLocal]
-                    .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map((message) => (
+                {[...messagesLocal].map((message) => (
 
                         <ChatBubble message={message} loggedUserId={user?.me?._id}/>
 

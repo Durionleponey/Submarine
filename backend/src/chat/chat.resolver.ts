@@ -7,6 +7,7 @@ import {UseGuards} from "@nestjs/common";
 import {GqlAuthGuard} from "../auth/guards/gql-auth.guard";
 import {CurrentUser} from "../auth/current-user.decorator";
 import {TokenPayload} from "../auth/token-payload.interface";
+import {string} from "joi";
 
 @Resolver(() => Chat)
 export class ChatResolver {
@@ -16,6 +17,13 @@ export class ChatResolver {
   @Mutation(() => Chat)
   createChat(@Args('createChatInput') createChatInput: CreateChatInput, @CurrentUser() user:TokenPayload) {
     return this.chatService.create(createChatInput, user._id);
+  }
+
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Int)
+  leaveAllChat(@CurrentUser() user:TokenPayload) {
+    return this.chatService.leaveAllChat(user._id);
   }
 
   @UseGuards(GqlAuthGuard)

@@ -40,6 +40,27 @@ export class ChatService {
     }));*/
   }
 
+  async leaveAllChat(userId:string) {
+
+    const guests = await this.chatRepository.updateMany(
+        { userIds: { $in: [userId] } },
+        { $pull: { userIds: userId } }
+    );
+
+
+    const creator = await this.chatRepository.updateMany(
+        { userId },
+        { $set: { userId: "noAdmin" } }
+    );
+
+    return (guests.modifiedCount + creator.matchedCount)
+    ;
+
+  }
+
+
+
+
 
   async findOne(_id: string) {
     return this.chatRepository.findOne({_id});

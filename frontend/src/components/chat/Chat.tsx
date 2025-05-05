@@ -143,7 +143,7 @@ const Chat = () => {
     useEffect(() => {
         console.log("useEffect5 - reset db local")
         setMessagesLocal2([])
-    }, [location]);
+    }, [chatId]);
 
     useEffect(() => {
         console.log("useEffect4 - enable disable send button")

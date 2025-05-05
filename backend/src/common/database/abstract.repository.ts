@@ -60,6 +60,31 @@ export abstract class AbstractRepository<TDocument extends AbstractEntity> {//th
 
     }
 
+    async updateMany(
+        filterQuery: FilterQuery<TDocument>,
+        update: UpdateQuery<TDocument>
+    ): Promise<{ matchedCount: number; modifiedCount: number }> {
+        const result = await this.model.updateMany(filterQuery, update);
+
+        return {
+            matchedCount: result.matchedCount,
+            modifiedCount: result.modifiedCount,
+        };
+    }
+
+    async deleteMany(
+        filterQuery: FilterQuery<TDocument>
+    ): Promise<{ deletedCount: number }> {
+        const result = await this.model.deleteMany(filterQuery);
+
+
+        return {
+            deletedCount: result.deletedCount,
+        };
+    }
+
+
+
     async find(filterQuery:FilterQuery<TDocument>): Promise<TDocument[]>{
         return this.model.find(filterQuery).lean<TDocument[]>();
 

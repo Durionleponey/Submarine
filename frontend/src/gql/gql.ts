@@ -23,6 +23,7 @@ type Documents = {
     "\n    query Chats{\n        chatss {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n        }\n    }\n": typeof types.ChatsDocument,
     "\n    query getMessages($chatId: String!) {\n        getMessages(chatId: $chatId) {\n            _id\n            content\n            createdAt\n            userPseudo\n            userId\n        }\n    }\n": typeof types.GetMessagesDocument,
     "\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n            \n        }\n    }\n": typeof types.ChatDocument,
+    "\n    mutation LeaveAllChat {\n        leaveAllChat\n    }\n": typeof types.LeaveAllChatDocument,
     "\n    subscription messageCreated($chatId: String!){\n        messageCreated(chatId:$chatId){\n            ...MessageFragment\n        }\n    }\n": typeof types.MessageCreatedDocument,
 };
 const documents: Documents = {
@@ -35,6 +36,7 @@ const documents: Documents = {
     "\n    query Chats{\n        chatss {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n        }\n    }\n": types.ChatsDocument,
     "\n    query getMessages($chatId: String!) {\n        getMessages(chatId: $chatId) {\n            _id\n            content\n            createdAt\n            userPseudo\n            userId\n        }\n    }\n": types.GetMessagesDocument,
     "\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n            \n        }\n    }\n": types.ChatDocument,
+    "\n    mutation LeaveAllChat {\n        leaveAllChat\n    }\n": types.LeaveAllChatDocument,
     "\n    subscription messageCreated($chatId: String!){\n        messageCreated(chatId:$chatId){\n            ...MessageFragment\n        }\n    }\n": types.MessageCreatedDocument,
 };
 
@@ -88,6 +90,10 @@ export function graphql(source: "\n    query getMessages($chatId: String!) {\n  
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n            \n        }\n    }\n"): (typeof documents)["\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n            \n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation LeaveAllChat {\n        leaveAllChat\n    }\n"): (typeof documents)["\n    mutation LeaveAllChat {\n        leaveAllChat\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

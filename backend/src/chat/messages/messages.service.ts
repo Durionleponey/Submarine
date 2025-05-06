@@ -26,11 +26,14 @@ export class MessagesService {
         if (content.length < 1) {throw new Error("Message can't be empty");}
         if (content.length > 2000) {throw new Error("Message to long");}
 
+        const views: string[] = [];
+
         const message: Message = {
             content,
             userId,
             userPseudo,
             chatId,
+            views;
             createdAt: new Date(),
             _id: new Types.ObjectId(),
         };

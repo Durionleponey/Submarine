@@ -26,4 +26,7 @@ export class Message extends AbstractEntity{
     @Prop()
     chatId:string;
 
+    @Field(() => [String])
+    @Prop()
+    views:string[];
 }

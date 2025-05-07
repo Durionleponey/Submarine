@@ -10,6 +10,7 @@ import {string} from "joi";
 import {MessageCreatedArgs} from "../dto/message-created.args";
 import {UsersRepository} from "../../users/users.repository";
 import {response} from "express";
+import {ObjectId} from "mongodb";
 
 @Injectable()
 export class MessagesService {
@@ -165,5 +166,23 @@ export class MessagesService {
 
         } catch (e ){ throw new Error("Error viewing messages!") }
         return("succes!")
+    }
+
+    async getMessageViewers(messageId:string, chatId:string, userId:string) {
+        const message = await this.chatRepository.findOne({
+            _id: new Types.ObjectId(chatId),
+            $or: [
+                { userId },
+                { userIds: { $in: [userId] } }
+            ]
+        },
+        { messages: {
+            $elemMatch: {
+                _id: new Types.ObjectId(messageId) }
+            }
+        });
+        
+        console.log("­ƒÿ▒­ƒÿ▒­ƒÿ▒", message.messages[0].views)
+        return message.messages[0].views
     }
 }

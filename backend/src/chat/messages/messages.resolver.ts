@@ -37,6 +37,16 @@ export class MessagesResolver {
     return this.messagesService.getMessages(getMessageArgs, user._id);
   }
 
+  @Query(() => [String])
+  @UseGuards(GqlAuthGuard)
+  async getMessageViewers(
+    @Args('messageId', { type: () => String })messageId:string,
+    @Args('chatId', { type: () => String })chatId:string,
+    @CurrentUser() user:TokenPayload
+  ) {
+    return this.messagesService.getMessageViewers(messageId, chatId, user._id);
+  }
+
   @Subscription(() => Message, {
     filter:(payload, variables, context) => {//payload --> in the message, variables --> graphQL request
 

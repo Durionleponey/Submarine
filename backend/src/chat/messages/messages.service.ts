@@ -9,6 +9,7 @@ import {PubSub} from "graphql-subscriptions";
 import {string} from "joi";
 import {MessageCreatedArgs} from "../dto/message-created.args";
 import {UsersRepository} from "../../users/users.repository";
+import {response} from "express";
 
 @Injectable()
 export class MessagesService {
@@ -72,15 +73,7 @@ export class MessagesService {
                     }
                 }
             );
-
-
         }
-
-
-
-
-
-
         console.log("--->", message)
 
 
@@ -125,7 +118,6 @@ export class MessagesService {
 
 
     async messageCreated({chatId}: MessageCreatedArgs, userId:string) {
-
         await this.chatRepository.findOne(
             {   //findOneAndUpdate take two argument, first is the filter and the second is the update
                 //_id: chatId --> finding the correct chat to update
@@ -136,6 +128,42 @@ export class MessagesService {
                 ]
             })
         return this.pubSub.asyncIterableIterator('messageCreated');
+    }
 
+    async viewMessage(messageId:string, userId:string, chatId:string) {
+        try {
+            await this.chatRepository.findOne(
+                {   //findOneAndUpdate take two argument, first is the filter and the second is the update
+                    //_id: chatId --> finding the correct chat to update
+                    _id: chatId,
+                    $or: [//a leaste one of the two condition shoud be true
+                        { userId },
+                        { userIds: { $in: [userId] } }
+                    ]
+                }
+            )
+        } catch { throw new Error("You don't have access to this chat!") }
+
+        const userPseudo = await this.usersRepository.findPseudoWithId({_id:userId});
+        console.log("--->", userPseudo);
+        console.log("--->", messageId);
+
+        try {
+            const rep =  await this.chatRepository.findOneAndUpdate(
+                {
+                    _id: chatId,
+                    messages: {
+                        $elemMatch: {
+                            _id: new Types.ObjectId(messageId),
+                            views: { $ne: userPseudo }
+                        }
+                    }
+                },
+                {
+                    $addToSet: { 'messages.$.views': userPseudo }
+                },)
+
+        } catch (e ){ throw new Error("Error viewing messages!") }
+        return("succes!")
     }
 }

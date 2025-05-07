@@ -15,16 +15,16 @@ import {MessageCreatedArgs} from "../dto/message-created.args";
 export class MessagesResolver {
   constructor(private readonly messagesService: MessagesService, @Inject('PUB_SUB') private readonly pubSub:PubSub) {}
 
-
-  @Mutation(() => Message)
+  @Mutation(() => String)
   @UseGuards(GqlAuthGuard)
-  async createMessage(
-      @Args('createMessageInput') createMessageInput: CreateMessageInput,
+  async viewMessage(
+      @Args('messageId', { type: () => String })messageId:string,
+      @Args('chatId', { type: () => String })chatId:string,
       @CurrentUser() user:TokenPayload
   ) {
-    console.log("hello from resolveur 🥳", createMessageInput);
+    //console.log("hello from resolveur ­ƒÑ│", createMessageInput);
     //console.log(user);
-    return this.messagesService.createMessage(createMessageInput, user._id)
+    return this.messagesService.viewMessage(messageId, user._id, chatId)
   }
 
 

@@ -21,6 +21,8 @@ import {useGetMe} from "../../hooks/useGetMe";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {SnackInterface, snackVar} from "../../constants/snack";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import ViewerPop from "./Chat-viewer";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const messageToLong:SnackInterface = {
 
@@ -43,6 +45,7 @@ const Chat = () => {
     const [isSendButtonDisabled, SetisSendButtonDisabled] = useState(false);
     //console.log("hello",location)
     const {data: latestMessage} = useMessageCreated({chatId})
+    const [openViewers, setOpenViewers] = React.useState(false);
 
 
     const [isAtBottom, setIsAtBottom] = useState(true);
@@ -180,9 +183,6 @@ const Chat = () => {
 
     return (
         <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between"}}>
-
-
-
             <ChatHeader chatName={data?.chat.name} />
             <Box   ref={boxRef}
                    onScroll={handleScroll} sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto", /* pour WebKit (Chrome, Safari) */
@@ -210,9 +210,11 @@ const Chat = () => {
                 )}
 
                 {[...messagesLocal].map((message) => (
+                    <><ChatBubble message={message} loggedUserId={user?.me?._id}/>
 
-                        <ChatBubble message={message} loggedUserId={user?.me?._id}/>
-
+                    <IconButton onClick={() => {setOpenViewers(true)}} aria-label="voir">
+                <VisibilityIcon />
+            </IconButton></>
                     ))}
 
 
@@ -232,7 +234,7 @@ const Chat = () => {
                     fontSize:50
                 }}  onClick={() =>{scrollToBottom()}}></KeyboardArrowDownIcon>)}
 
-
+                {openViewers && <ViewerPop open={openViewers} setOpen={setOpenViewers}/>}
 
                 <div ref={divRef}></div>
             </Box>

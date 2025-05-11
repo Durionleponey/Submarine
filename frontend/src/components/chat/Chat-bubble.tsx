@@ -1,102 +1,100 @@
 import {Paper, Stack, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import React from "react";
+import React, {useState} from "react";
 import { Message } from "../../gql/graphql";
+import DoneAllIcon from '@mui/icons-material/DoneAll';import IconButton from "@mui/material/IconButton";
+import {useGetMessageViewers} from "../../hooks/useGetMessageViewers";
+import {useLazyQuery} from "@apollo/client";
 
 interface ChatBubbleProps {
     message: Message;
     loggedUserId: string | undefined;
+    chatId: string;
 }
 
+// Unlike message.views, this will not query directly to the parent for better performance.
+// Users do not need to know all of the viewers for every single message sent.
 
+const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
+    const [open, setOpen] = useState(false);
 
+    const [loadMessageViewers, { data, loading, error }] = useGetMessageViewers();
 
-const ChatBubble = ({ message, loggedUserId }:ChatBubbleProps) => {
+    const handleClickIconButton = () => {
+        loadMessageViewers({
+            variables: {
+                messageId: message._id,
+                chatId: chatId,
+            },
+        });
+        setOpen(true);
+        setTimeout(() => {
+            // Optional: add logic here if needed
+        }, 0);
+    };
 
-    //console.log(message);
-    //console.log(loggedUserId);
+    const formattedDate = new Date(message.createdAt).toLocaleDateString();
+    const formattedTime = new Date(message.createdAt).toLocaleTimeString();
 
-    if (message.userId === loggedUserId) {
-        return(
-
-
-
-                <Stack
-                    direction="row"
-                    spacing={2}
-                    alignItems="flex-end"
-                    justifyContent="flex-end"
-                    sx={{ width: "100%", mb: 2, ml:-2 }}
-                >
-
-
-                    <Stack spacing={0.5} alignItems="flex-end" sx={{maxWidth: "80%"}}>  {}
-                        <Paper
-                            component="span"
-                            elevation={1}
-                            sx={{
-                                display: "inline-block",
-                                width: "fit-content",
-                                p: "0.7rem 1.2rem",
-                                backgroundColor: "rgba(244,189,48,0.56)",
-                                borderRadius: "15px",
-                            }}
-                        >
-                            <Typography sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }} variant={"body1"}>{message?.content}</Typography>
-                        </Paper>
-                        <Typography variant="caption" color="text.secondary">
-
-                            {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
-
-                        </Typography>
-                    </Stack>
-                </Stack>
-
-
-        )
-    }
-
-
+    const isSender = message.userId === loggedUserId;
 
     return (
+        <Stack
+            direction="row"
+            spacing={2}
+            alignItems={isSender ? "flex-end" : "flex-start"}
+            justifyContent={isSender ? "flex-end" : "flex-start"}
+            sx={{ width: "100%", mb: 2, ml: isSender ? -2 : 0 }}
+        >
+            {!isSender && (
+                <Avatar
+                    src=""
+                    sx={{
+                        width: 25,
+                        height: 25,
+                    }}
+                />
+            )}
 
+            <Stack spacing={0.5} alignItems={isSender ? "flex-end" : "flex-start"} sx={{ maxWidth: "80%" }}>
+                <Paper
+                    component="span"
+                    elevation={1}
+                    sx={{
+                        display: "inline-block",
+                        width: "fit-content",
+                        p: "0.7rem 1.2rem",
+                        backgroundColor: isSender ? "rgba(244,189,48,0.56)" : "rgb(43,45,48)",
+                        borderRadius: "15px",
+                        cursor: "pointer",
+                    }}
+                    onClick={handleClickIconButton}
+                >
+                    <Typography sx={{ wordBreak: "break-word", whiteSpace: "normal" }} variant="body1">
+                        {message?.content}
+                    </Typography>
+                </Paper>
 
+                <Typography variant="caption" color="text.secondary">
+                    {formattedDate} at {formattedTime}
+                </Typography>
 
-    <Stack
-        direction="row"
-        spacing={2}
-        alignItems="flex-start"
-        sx={{ mb: 2 }}
-    >
-
-        <Avatar src=""   sx={{
-            width: 25,
-            height: 25,
-        }}/>
-        <Stack spacing={0.5} alignItems="flex-start" sx={{maxWidth: "80%"}}>  {}
-            <Paper
-                component="span"
-                elevation={1}
-                sx={{
-                    display: "inline-block",
-                    width: "fit-content",
-                    p: "0.7rem 1.2rem",
-                    backgroundColor: "rgb(43,45,48)",
-                    borderRadius: "15px",
-                }}
-            >
-                <Typography sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }} variant={"body1"}>{message?.content}</Typography>
-            </Paper>
-            <Typography variant="caption" color="text.secondary">
-
-                {message.userPseudo} - {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
-
-            </Typography>
+                {open && (
+                    <Typography variant="caption" color="text.secondary">
+                        {loading && "Loading viewers..."}
+                        {error && "Error loading viewers."}
+                        {!loading && !error && (
+                            <>
+                                {data?.getMessageViewers?.length === 0
+                                    ? "Read by nobody yet"
+                                    : `Read by ${data.getMessageViewers.join(", ")}`}
+                            </>
+                        )}
+                    </Typography>
+                )}
+            </Stack>
         </Stack>
-    </Stack>
-
-)
-
-}
+    );
+};
 
 export default ChatBubble;

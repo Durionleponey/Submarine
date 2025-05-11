@@ -210,7 +210,7 @@ const Chat = () => {
                 )}
 
                 {[...messagesLocal].map((message) => (
-                    <><ChatBubble message={message} loggedUserId={user?.me?._id}/>
+                    <><ChatBubble message={message} loggedUserId={user?.me?._id} chatId={chatId} />
 
                     <IconButton onClick={() => {setOpenViewers(true)}} aria-label="voir">
                 <VisibilityIcon />

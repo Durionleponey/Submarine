@@ -85,9 +85,11 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
                         {error && "Error loading viewers."}
                         {!loading && !error && (
                             <>
-                                {data?.getMessageViewers?.length === 0
-                                    ? "Read by nobody yet"
-                                    : `Read by ${data.getMessageViewers.join(", ")}`}
+                                {data?.getMessageViewers?.length === 0 ? (
+                                    <>Sent, but read by nobody yet</>
+                                    ) : (
+                                    <>Read by {data?.getMessageViewers.join(", ")}</>
+                                )}
                             </>
                         )}
                     </Typography>

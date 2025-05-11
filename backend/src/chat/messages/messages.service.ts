@@ -150,19 +150,14 @@ export class MessagesService {
         console.log("--->", messageId);
 
         try {
-            const rep =  await this.chatRepository.findOneAndUpdate(
+            const rep = await this.chatRepository.findOneAndUpdate(
                 {
-                    _id: chatId,
-                    messages: {
-                        $elemMatch: {
-                            _id: new Types.ObjectId(messageId),
-                            views: { $ne: userPseudo }
-                        }
-                    }
+                    _id:chatId
                 },
                 {
-                    $addToSet: { 'messages.$.views': userPseudo }
-                },)
+                    $addToSet: { 'messages.$[].views': userPseudo }
+                }
+            )
 
         } catch (e ){ throw new Error("Error viewing messages!") }
         return("succes!")

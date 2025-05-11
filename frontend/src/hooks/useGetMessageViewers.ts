@@ -8,7 +8,9 @@ const QueryGetMessageViewers = graphql(`
 `);
 
 const useGetMessageViewers = () => {
-    return useLazyQuery(QueryGetMessageViewers);
-};
+    return useLazyQuery(QueryGetMessageViewers, {
+        fetchPolicy: 'network-only'
+    });
+}
 
 export { useGetMessageViewers };

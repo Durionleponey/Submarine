@@ -1,6 +1,6 @@
-import {Paper, Stack, Typography} from "@mui/material";
+import {CircularProgress, Paper, Stack, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Message } from "../../gql/graphql";
 import DoneAllIcon from '@mui/icons-material/DoneAll';import IconButton from "@mui/material/IconButton";
 import {useGetMessageViewers} from "../../hooks/useGetMessageViewers";
@@ -16,17 +16,28 @@ interface ChatBubbleProps {
 // Users do not need to know all of the viewers for every single message sent.
 
 const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
+    useEffect(() => {
+        console.log("disable view viewers")
+        setOpen(false);
+    }, [chatId]);
+
+    } catch (error) {
+        console.error("Error fetching viewers:", error);
+    }
+
+
     const [open, setOpen] = useState(false);
 
     const [loadMessageViewers, { data, loading, error }] = useGetMessageViewers();
 
-    const handleClickIconButton = () => {
-        loadMessageViewers({
-            variables: {
-                messageId: message._id,
-                chatId: chatId,
-            },
-        });
+    const handleClickIconButton = async() => {
+        try {
+            const { data,loading } = await loadMessageViewers({
+                variables: {
+                    messageId: message._id,
+                    chatId: chatId,
+                }
+            })
         setOpen(true);
         setTimeout(() => {
             // Optional: add logic here if needed
@@ -76,8 +87,16 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
                 </Paper>
 
                 <Typography variant="caption" color="text.secondary">
-                    {formattedDate} at {formattedTime}
+                {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
+                    <IconButton onClick={handleClickIconButton} aria-label="voir" disabled={loading}>
+                        {loading ? (
+                            <CircularProgress size={16} />
+                        ) : (
+                            <DoneAllIcon fontSize="small" />
+                        )}
+                    </IconButton>
                 </Typography>
+
 
                 {open && (
                     <Typography variant="caption" color="text.secondary">
@@ -86,9 +105,10 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
                         {!loading && !error && (
                             <>
                                 {data?.getMessageViewers?.length === 0 ? (
-                                    <>Sent, but read by nobody yet</>
-                                    ) : (
-                                    <>Read by {data?.getMessageViewers.join(", ")}</>
+                                    <Typography variant="caption" color="text.secondary">
+                                        Read by {data?.getMessageViewers}
+                                        Read by {data?.getMessageViewers.join(', ')}
+                                    </Typography>
                                 )}
                             </>
                         )}

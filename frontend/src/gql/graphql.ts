@@ -99,6 +99,7 @@ export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
 };
 
+
 export type MutationViewMessageArgs = {
   chatId: Scalars['String']['input'];
   messageId?: InputMaybe<Scalars['String']['input']>;
@@ -119,12 +120,6 @@ export type Query = {
 
 export type QueryChatArgs = {
   _id: Scalars['String']['input'];
-};
-
-
-export type QueryGetMessageViewersArgs = {
-  chatId: Scalars['String']['input'];
-  messageId: Scalars['String']['input'];
 };
 
 
@@ -208,7 +203,6 @@ export type ChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ChatsQuery = { __typename?: 'Query', chatss: Array<{ __typename?: 'Chat', _id: string, userId: string, isPrivate: boolean, userIds: Array<string>, name?: string | null }> };
 
-
 export type GetMessageViewersQueryVariables = Exact<{
   messageId: Scalars['String']['input'];
   chatId: Scalars['String']['input'];
@@ -216,7 +210,6 @@ export type GetMessageViewersQueryVariables = Exact<{
 
 
 export type GetMessageViewersQuery = { __typename?: 'Query', getMessageViewers: Array<string> };
-
 
 export type GetMessagesQueryVariables = Exact<{
   chatId: Scalars['String']['input'];
@@ -245,8 +238,7 @@ export type MessageCreatedSubscriptionVariables = Exact<{
 export type MessageCreatedSubscription = { __typename?: 'Subscription', messageCreated: (
     { __typename?: 'Message' }
     & { ' $fragmentRefs'?: { 'MessageFragmentFragment': MessageFragmentFragment } }
-)};
-
+  ) };
 
 export type ViewMessageMutationVariables = Exact<{
   messageId?: InputMaybe<Scalars['String']['input']>;
@@ -255,7 +247,6 @@ export type ViewMessageMutationVariables = Exact<{
 
 
 export type ViewMessageMutation = { __typename?: 'Mutation', viewMessage: string };
-
 
 export const MessageFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MessageFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Message"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"chatId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"userPseudo"}}]}}]} as unknown as DocumentNode<MessageFragmentFragment, unknown>;
 export const ChatFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ChatFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Chat"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"isPrivate"}},{"kind":"Field","name":{"kind":"Name","value":"userIds"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]} as unknown as DocumentNode<ChatFragmentFragment, unknown>;

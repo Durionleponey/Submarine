@@ -15,24 +15,39 @@ import {MessageCreatedArgs} from "../dto/message-created.args";
 export class MessagesResolver {
   constructor(private readonly messagesService: MessagesService, @Inject('PUB_SUB') private readonly pubSub:PubSub) {}
 
+
+  @Mutation(() => Message)
+  @UseGuards(GqlAuthGuard)
+  async createMessage(
+      @Args('createMessageInput') createMessageInput: CreateMessageInput,
+      @CurrentUser() user:TokenPayload
+  ) {
+    console.log("hello from resolveur 🥳", createMessageInput);
+    //console.log(user);
+    return this.messagesService.createMessage(createMessageInput, user._id)
+  }
+
+
+
   @Mutation(() => String)
   @UseGuards(GqlAuthGuard)
   async viewMessage(
-    @Args('messageId', { type: () => String, nullable: true })messageId:string,
-    Args('chatId', { type: () => String })chatId:string,
-    @CurrentUser() user:TokenPayload
+      @Args('messageId', { type: () => String, nullable: true })messageId:string,
+      @Args('chatId', { type: () => String })chatId:string,
+      @CurrentUser() user:TokenPayload
   ) {
-    //console.log("hello from resolveur ­ƒÑ│", createMessageInput);
+    //console.log("hello from resolveur 🥳", createMessageInput);
     //console.log(user);
     return this.messagesService.viewMessage(messageId, user._id, chatId)
   }
 
 
+
   @Query(() => [Message])
   @UseGuards(GqlAuthGuard)
   async getMessages(
-    @Args() getMessageArgs: GetMessages,//defautl argument no name required
-    @CurrentUser() user:TokenPayload
+      @Args() getMessageArgs: GetMessages,//defautl argument no name required
+      @CurrentUser() user:TokenPayload
   ) {
     return this.messagesService.getMessages(getMessageArgs, user._id);
   }
@@ -40,9 +55,9 @@ export class MessagesResolver {
   @Query(() => [String])
   @UseGuards(GqlAuthGuard)
   async getMessageViewers(
-    @Args('messageId', { type: () => String })messageId:string,
-    @Args('chatId', { type: () => String })chatId:string,
-    @CurrentUser() user:TokenPayload
+      @Args('messageId', { type: () => String })messageId:string,
+      @Args('chatId', { type: () => String })chatId:string,
+      @CurrentUser() user:TokenPayload
   ) {
     return this.messagesService.getMessageViewers(messageId, chatId, user._id);
   }

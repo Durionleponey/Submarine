@@ -23,7 +23,7 @@ import {SnackInterface, snackVar} from "../../constants/snack";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ViewerPop from "./Chat-viewer";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import {useViewMessage} from "../../hooks/useViewMessage";
+import {useViewMessage} from "../../hooks/useviewMessage";
 
 const messageToLong:SnackInterface = {
 
@@ -86,9 +86,9 @@ const Chat = () => {
     };
 
     const viewMessageLogic = () => {
+
         viewMessage({variables:{chatId: chatId}})
     };
-
     const {data:dbMessages,error:dbMessagesError} = useGetMessages(chatId);
 
 
@@ -111,7 +111,7 @@ const Chat = () => {
             // @ts-ignore
             setMessagesLocal(limitedMessages);
 
-            //console.log("🦬🦬 Nouvelle valeur de messagesLocal :", limitedMessages);
+            console.log("🦬🦬 Nouvelle valeur de messagesLocal :", limitedMessages);
         }
 
 
@@ -128,10 +128,16 @@ const Chat = () => {
         // @ts-ignore
         if(latestMessage?.messageCreated && LastMessage !== latestMessage?.messageCreated._id) {
 
+
+
+
             // @ts-ignore
             setMessagesLocal2([...messagesLocal2, latestMessage.messageCreated]);
             // @ts-ignore
             viewMessage({variables:{chatId: chatId, messageId:latestMessage?.messageCreated._id}})
+
+
+
         }
         //console.log("🦬🦬 Nouvelle valeur de messagesLocal2 :", messagesLocal2);
     }, [latestMessage]);
@@ -141,7 +147,6 @@ const Chat = () => {
 
     useEffect(() => {
         console.log("useEffect3 - enter a conv")
-        viewMessageLogic()
         setTimeout(() => {
             inputRef.current?.focus();
         }, 0);
@@ -152,6 +157,7 @@ const Chat = () => {
 
     useEffect(() => {
         console.log("useEffect5 - reset db local")
+        viewMessageLogic()
         setMessagesLocal2([])
     }, [chatId]);
 
@@ -190,6 +196,9 @@ const Chat = () => {
 
     return (
         <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between"}}>
+
+
+
             <ChatHeader chatName={data?.chat.name} />
             <Box   ref={boxRef}
                    onScroll={handleScroll} sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto", /* pour WebKit (Chrome, Safari) */
@@ -217,31 +226,32 @@ const Chat = () => {
                 )}
 
                 {[...messagesLocal].map((message) => (
-                    <><ChatBubble message={message} loggedUserId={user?.me?._id} chatId={chatId} />
 
-                    <IconButton onClick={() => {setOpenViewers(true)}} aria-label="voir">
-                <VisibilityIcon />
-            </IconButton></>
-                    ))}
+                    <ChatBubble message={message} loggedUserId={user?.me?._id} chatId={chatId} />
+
+
+                ))}
 
 
 
                 {!isAtBottom &&(
-                <KeyboardArrowDownIcon   sx={{
-                    position: 'fixed',
-                    bottom: 150,
-                    right: 16,
-                    cursor: 'pointer',
-                    bgcolor: 'background.paper',
-                    borderRadius: '50%',
-                    boxShadow: 3,
-                    p: 1,
-                    backgroundColor: "#2b2d30",
-                    zIndex: 1000,
-                    fontSize:50
-                }}  onClick={() =>{scrollToBottom()}}></KeyboardArrowDownIcon>)}
+                    <KeyboardArrowDownIcon   sx={{
+                        position: 'fixed',
+                        bottom: 150,
+                        right: 16,
+                        cursor: 'pointer',
+                        bgcolor: 'background.paper',
+                        borderRadius: '50%',
+                        boxShadow: 3,
+                        p: 1,
+                        backgroundColor: "#2b2d30",
+                        zIndex: 1000,
+                        fontSize:50
+                    }}  onClick={() =>{scrollToBottom()}}></KeyboardArrowDownIcon>)}
 
                 {openViewers && <ViewerPop open={openViewers} setOpen={setOpenViewers}/>}
+
+
 
                 <div ref={divRef}></div>
             </Box>

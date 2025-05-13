@@ -107,7 +107,7 @@ const Chat = () => {
             // @ts-ignore
             setMessagesLocal(limitedMessages);
 
-            console.log("🦬🦬 Nouvelle valeur de messagesLocal :", limitedMessages);
+            //console.log("🦬🦬 Nouvelle valeur de messagesLocal :", limitedMessages);
         }
 
 

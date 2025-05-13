@@ -6,11 +6,13 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';import IconButton from "@m
 import {useGetMessageViewers} from "../../hooks/useGetMessageViewers";
 import {useLazyQuery} from "@apollo/client";
 
+
 interface ChatBubbleProps {
     message: Message;
     loggedUserId: string | undefined;
     chatId: string;
 }
+
 
 // Unlike message.views, this will not query directly to the parent for better performance.
 // Users do not need to know all of the viewers for every single message sent.

@@ -23,6 +23,7 @@ import {SnackInterface, snackVar} from "../../constants/snack";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ViewerPop from "./Chat-viewer";
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import {useViewMessage} from "../../hooks/useViewMessage";
 
 const messageToLong:SnackInterface = {
 
@@ -41,6 +42,7 @@ const Chat = () => {
     const { data, loading, error} = useGetSingleChat({_id: chatId || ""})
     const [createMessage] = useCreateMessage(chatId);
     const divRef = useRef<HTMLDivElement | null>(null);
+    const [viewMessage] = useViewMessage();
     const location = useLocation();
     const [isSendButtonDisabled, SetisSendButtonDisabled] = useState(false);
     //console.log("hello",location)
@@ -81,8 +83,10 @@ const Chat = () => {
         //wait for createMessage before setMessageState("")
 
         setMessageState("");
+    };
 
-
+    const viewMessageLogic = () => {
+        viewMessage({variables:{chatId: chatId}})
     };
 
     const {data:dbMessages,error:dbMessagesError} = useGetMessages(chatId);
@@ -126,6 +130,8 @@ const Chat = () => {
 
             // @ts-ignore
             setMessagesLocal2([...messagesLocal2, latestMessage.messageCreated]);
+            // @ts-ignore
+            viewMessage({variables:{chatId: chatId, messageId:latestMessage?.messageCreated._id}})
         }
         //console.log("🦬🦬 Nouvelle valeur de messagesLocal2 :", messagesLocal2);
     }, [latestMessage]);
@@ -135,6 +141,7 @@ const Chat = () => {
 
     useEffect(() => {
         console.log("useEffect3 - enter a conv")
+        viewMessageLogic()
         setTimeout(() => {
             inputRef.current?.focus();
         }, 0);

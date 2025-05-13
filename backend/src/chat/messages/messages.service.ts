@@ -145,21 +145,41 @@ export class MessagesService {
             )
         } catch { throw new Error("You don't have access to this chat!") }
 
-        const userPseudo = await this.usersRepository.findPseudoWithId({_id:userId});
+        const userPseudo = await this.usersRepository.findPseudoWithId({ _id: userId });
         console.log("--->", userPseudo);
-        console.log("--->", messageId);
+        console.log("---> message ID", messageId);
 
-        try {
-            const rep = await this.chatRepository.findOneAndUpdate(
-                {
-                    _id:chatId
-                },
-                {
-                    $addToSet: { 'messages.$[].views': userPseudo }
-                }
-            )
-
-        } catch (e ){ throw new Error("Error viewing messages!") }
+        if (!messageId) {
+            try {
+                const rep = await this.chatRepository.findOneAndUpdate(
+                    { _id: chatId },
+                    {
+                        $addToSet: { 'messages.$[].views': userPseudo }
+                    }
+                );
+            } catch (e) {
+                throw new Error("Error viewing messages!");
+            }
+        } else {
+            try {
+                const rep = await this.chatRepository.findOneAndUpdate(
+                    {
+                        _id: chatId,
+                        messages: {
+                            $elemMatch: {
+                                _id: new Types.ObjectId(messageId),
+                                views: { $ne: userPseudo }
+                            }
+                        }
+                    },
+                    {
+                        $addToSet: { 'messages.$.views': userPseudo }
+                    }
+                );
+            } catch (e) {
+                throw new Error("Error viewing a specific message!");
+            }
+        }   
         return("succes!")
     }
 

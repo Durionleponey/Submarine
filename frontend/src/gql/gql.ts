@@ -26,7 +26,8 @@ type Documents = {
     "\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            _id\n            userId\n            isPrivate\n            userIds\n            name\n            \n        }\n    }\n": typeof types.ChatDocument,
     "\n    mutation LeaveAllChat {\n        leaveAllChat\n    }\n": typeof types.LeaveAllChatDocument,
     "\n    subscription messageCreated($chatId: String!){\n        messageCreated(chatId:$chatId){\n            ...MessageFragment\n        }\n    }\n": typeof types.MessageCreatedDocument,
-};
+    "\n    mutation viewMessage($messageId: String, $chatId: String!) {\n        viewMessage(messageId: $messageId, chatId: $chatId)\n    }\n": typeof types.ViewMessageDocument,
+  };
 
 const documents: Documents = {
     "\n    mutation addUserToChat($email: String!, $chatId: String!) {\n        addUserToChat(email: $email, chatId: $chatId)\n    }\n": types.AddUserToChatDocument,
@@ -116,6 +117,13 @@ export function graphql(source: "\n    mutation LeaveAllChat {\n        leaveAll
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    subscription messageCreated($chatId: String!){\n        messageCreated(chatId:$chatId){\n            ...MessageFragment\n        }\n    }\n"): (typeof documents)["\n    subscription messageCreated($chatId: String!){\n        messageCreated(chatId:$chatId){\n            ...MessageFragment\n        }\n    }\n"];
+
+
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation viewMessage($messageId: String, $chatId: String!) {\n        viewMessage(messageId: $messageId, chatId: $chatId)\n    }\n"): (typeof documents)["\n    mutation viewMessage($messageId: String, $chatId: String!) {\n        viewMessage(messageId: $messageId, chatId: $chatId)\n    }\n"];
+
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

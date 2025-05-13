@@ -89,7 +89,7 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
                 </Paper>
 
                 <Typography variant="caption" color="text.secondary">
-                {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
+                    {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
                     <IconButton onClick={handleClickIconButton} aria-label="voir" disabled={loading}>
                         {loading ? (
                             <CircularProgress size={16} />
@@ -99,22 +99,20 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
                     </IconButton>
                 </Typography>
 
-
                 {open && (
-                    <Typography variant="caption" color="text.secondary">
-                        {loading && "Loading viewers..."}
-                        {error && "Error loading viewers."}
-                        {!loading && !error && (
-                            <>
-                                {data?.getMessageViewers?.length === 0 ? (
-                                    <Typography variant="caption" color="text.secondary">
-                                        Read by {data?.getMessageViewers}
-                                        Read by {data?.getMessageViewers.join(', ')}
-                                    </Typography>
-                                )}
-                            </>
+                    <>
+                        {data?.getMessageViewers?.length === 0 && (
+                            <Typography variant="caption" color="text.secondary">
+                                Sent, but read by nobody yet
+                            </Typography>
                         )}
-                    </Typography>
+
+                        {data?.getMessageViewers?.length > 0 && (
+                            <Typography variant="caption" color="text.secondary">
+                                Read by {data.getMessageViewers.join(', ')}
+                            </Typography>
+                        )}
+                    </>
                 )}
             </Stack>
         </Stack>

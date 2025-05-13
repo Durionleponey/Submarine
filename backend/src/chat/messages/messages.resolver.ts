@@ -18,9 +18,9 @@ export class MessagesResolver {
   @Mutation(() => String)
   @UseGuards(GqlAuthGuard)
   async viewMessage(
-      @Args('messageId', { type: () => String })messageId:string,
-      @Args('chatId', { type: () => String })chatId:string,
-      @CurrentUser() user:TokenPayload
+    @Args('messageId', { type: () => String, nullable: true })messageId:string,
+    Args('chatId', { type: () => String })chatId:string,
+    @CurrentUser() user:TokenPayload
   ) {
     //console.log("hello from resolveur ­ƒÑ│", createMessageInput);
     //console.log(user);

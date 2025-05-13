@@ -32,6 +32,7 @@ const messageToLong:SnackInterface = {
 }
 
 
+
 const Chat = () => {
     const params = useParams();
     const {data: user} = useGetMe();

@@ -2,7 +2,7 @@
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {FormControlLabel, FormGroup, InputBase, Paper, Stack, Switch, TextField} from "@mui/material";
+import {FormControlLabel, FormGroup, InputBase, List, ListSubheader, Paper, Stack, Switch, TextField} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
@@ -13,6 +13,10 @@ import {useAddUserToChat} from "../../../hooks/useAddUserToChat";
 import any = jasmine.any;
 import {useParams} from "react-router-dom";
 import {SnackInterface, snackVar} from "../../../constants/snack";
+import {useGetUsers} from "../../../hooks/useGetUsers";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import {cursorTo} from "node:readline";
 
 
 interface ChatListAddMenberInterface {
@@ -37,6 +41,8 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
     const [isError, setIsError] = useState("");
     const [email, setEmail] = useState("")
     const [addUser] = useAddUserToChat();
+    const [getUsers, { data, error, loading }] = useGetUsers();
+    const [showSearchResult, setShowSearchResult] = useState(false)
 
     const params = useParams();
     const chatId = params._id || ""
@@ -53,6 +59,18 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                 inputRef.current?.focus();
             }, 0);
     }, [open]);
+
+    useEffect(() => {
+        if (email.length > 0){
+            getUsers({ variables: { search: email } });
+            setShowSearchResult(true)
+        }else{
+            setShowSearchResult(false)
+        }
+
+    }, [email]);
+
+
 
 
 
@@ -100,6 +118,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
 
 
 
+    // @ts-ignore
     return(
         <Modal open={open} onClose={() => {
             handleClose();
@@ -122,10 +141,13 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
             >
                 <Stack spacing={2}>
 
-                <Typography variant="h5" component="h2">Add a user to the group</Typography>
+                    <Typography variant="h5" component="h2">Add a user to the group</Typography>
 
-                {(
-                        <TextField inputRef={inputRef} error={!!isError} helperText={isError} label={"Email or pseudo of the user"} onChange={(event) => setEmail(event.target.value)} onKeyDown={async event =>  {
+                    {(
+                        <TextField inputRef={inputRef} error={!!isError} helperText={isError}
+                                   label={"Email or pseudo of the user"}
+                                   value={email}
+                                   onChange={(event) => setEmail(event.target.value)} onKeyDown={async event => {
                             if (event.key == "Enter") {
                                 await handleChatListAddMenber()
                             }
@@ -133,9 +155,40 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                         }}/>
 
                     )
-                }
+                    }
 
-                    <Button variant="contained" onClick={handleChatListAddMenber} sx={{ textTransform: "none" }}>Add User</Button>
+
+                    {showSearchResult && <List
+                        sx={{
+                        width: '100%',
+                        maxWidth: 360,
+                        position: 'relative',
+                        overflow: 'auto',
+                        maxHeight: 300,
+                        '& ul': { padding: 0 },
+                    }}
+                        subheader={<li />}
+                        >
+                    {data?.users.map((user) => (
+                        <li key={user.pseudo}>
+                    <ul>
+                            <ListItem key={user.pseudo}>
+                                <ListItemText primary={user.pseudo} sx={{ cursor: 'pointer' }} onClick={() => {
+                                    setEmail(user.pseudo)
+                                    setShowSearchResult(false)
+                                }}/>
+                            </ListItem>
+                    </ul>
+                </li>
+                ))}
+            </List>}
+
+                    {showSearchResult && !data?.users[0] && <>no pseudo matching</>}
+
+
+
+                    <Button variant="contained" onClick={handleChatListAddMenber} sx={{textTransform: "none"}}>Add
+                        User</Button>
                 </Stack>
 
 

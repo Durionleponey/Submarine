@@ -65,7 +65,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
 
 
         if (email.length == 0) {
-                setIsError("Please enter a email");
+                setIsError("Please enter a email or a pseudo");
                 return;
 
             }
@@ -125,7 +125,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                 <Typography variant="h5" component="h2">Add a user to the group</Typography>
 
                 {(
-                        <TextField inputRef={inputRef} error={!!isError} helperText={isError} label={"Email of the user"} onChange={(event) => setEmail(event.target.value)} onKeyDown={async event =>  {
+                        <TextField inputRef={inputRef} error={!!isError} helperText={isError} label={"Email or pseudo of the user"} onChange={(event) => setEmail(event.target.value)} onKeyDown={async event =>  {
                             if (event.key == "Enter") {
                                 await handleChatListAddMenber()
                             }

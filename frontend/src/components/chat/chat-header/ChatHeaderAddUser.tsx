@@ -2,7 +2,7 @@
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {FormControlLabel, FormGroup, InputBase, List, ListSubheader, Paper, Stack, Switch, TextField} from "@mui/material";
+import {CircularProgress, FormControlLabel, FormGroup, InputBase, List, ListSubheader, Paper, Stack, Switch, TextField} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
@@ -43,6 +43,8 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
     const [addUser] = useAddUserToChat();
     const [getUsers, { data, error, loading }] = useGetUsers();
     const [showSearchResult, setShowSearchResult] = useState(false)
+    const [continueTheSearch, setContinueTheSearch] = useState(false)
+
 
     const params = useParams();
     const chatId = params._id || ""
@@ -183,7 +185,14 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                 ))}
             </List>}
 
-                    {showSearchResult && !data?.users[0] && <>no pseudo matching</>}
+                    {showSearchResult && loading && (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
+                            <CircularProgress color="secondary" />
+                        </Box>
+                    )}
+
+
+                    {showSearchResult && !loading && !data?.users[0] && <>no pseudo matching</>}
 
 
 

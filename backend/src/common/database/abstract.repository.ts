@@ -87,11 +87,13 @@ export abstract class AbstractRepository<TDocument extends AbstractEntity> {//th
     }
 
 
-
-    async find(filterQuery:FilterQuery<TDocument>): Promise<TDocument[]>{
-        return this.model.find(filterQuery).lean<TDocument[]>();
-
+    async find(
+        filterQuery: FilterQuery<TDocument>,//refactor to limit the number of result
+        limit?: number
+    ): Promise<TDocument[]> {
+        return this.model.find(filterQuery).limit(limit ?? 0).lean<TDocument[]>();
     }
+
 
     async findOneAndDelete(filterQuery:FilterQuery<TDocument>,): Promise<TDocument | null>{
         const document = await this.model.findOne(filterQuery).lean<TDocument>();

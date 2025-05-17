@@ -34,9 +34,18 @@ export class UsersService {
     return bcrypt.hash(password, 10)
   }
 
-  async findAll() {
-    return this.userRepository.find({});
+  async findAll(search: string) {
+
+    if (!search) {
+      throw new UnauthorizedException("Type a character to search for a pseudo");
+    }
+    return this.userRepository.find({
+      pseudo: {// the $ in search is not related to mongo it's just regular js like ${hello}
+        $regex: new RegExp(`^${search}`, 'i')//$ is a special operator, pseudo is a regular opertator options i is unsensible to the case
+      }
+    },5);
   }
+
 
   async findOne(id: string) {//mongo db's _id can be search as a string apparently
     return this.userRepository.findOne({ _id:id});

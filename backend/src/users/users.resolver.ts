@@ -7,6 +7,7 @@ import {UseGuards} from "@nestjs/common";
 import {GqlAuthGuard} from "../auth/guards/gql-auth.guard";
 import {CurrentUser} from "../auth/current-user.decorator";
 import {TokenPayload} from "../auth/token-payload.interface";
+import * as sea from "node:sea";
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -18,9 +19,9 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'users' })
-  //@UseGuards(GqlAuthGuard)//test
-  findAll() {
-    return this.usersService.findAll();
+  @UseGuards(GqlAuthGuard)
+  findAll(@Args('search', { type: () => String! }) search: string) {
+    return this.usersService.findAll(search);
   }
 
 
@@ -29,6 +30,8 @@ export class UsersResolver {
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.usersService.findOne(id);
   }
+
+
 
   @Query(() => User, { name: 'userMail' })
   findOneWithMail(@Args('email', { type: () => String }) email: string) {

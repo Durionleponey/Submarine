@@ -3,6 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import React, {useEffect, useState} from "react";
 import { Message } from "../../gql/graphql";
 import DoneAllIcon from '@mui/icons-material/DoneAll';import IconButton from "@mui/material/IconButton";
+import DoneIcon from '@mui/icons-material/Done';
 import {useGetMessageViewers} from "../../hooks/useGetMessageViewers";
 import {useLazyQuery} from "@apollo/client";
 
@@ -100,7 +101,7 @@ const ChatBubble = ({ message, loggedUserId, chatId }:ChatBubbleProps) => {
                             {loading ? (
                                 <CircularProgress size={16} />
                             ) : (
-                                <DoneAllIcon fontSize="small" />
+                                <DoneIcon fontSize="small" />
                             )}
                         </IconButton>
 
@@ -161,7 +162,7 @@ const ChatBubble = ({ message, loggedUserId, chatId }:ChatBubbleProps) => {
                         {loading ? (
                             <CircularProgress size={16} />
                         ) : (
-                            <DoneAllIcon fontSize="small" />
+                            <DoneIcon fontSize="small" />
                         )}
                     </IconButton>
 

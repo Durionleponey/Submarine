@@ -45,6 +45,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
     const [showSearchResult, setShowSearchResult] = useState(false)
     const [continueTheSearch, setContinueTheSearch] = useState(false)
     const [isTyping, setIsTyping] = useState(false)
+    const [previousMailL, setPreviousMailL] = useState(0)
 
 
     const params = useParams();
@@ -63,18 +64,17 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
             }, 0);
     }, [open]);
 
-    let previousEmailLength:number
 
     useEffect(() => {
         setIsTyping(true)
         if (email.length > 0) {
-            //if(data?.users.length == 0 && previousEmailLength < email.length){return}
+            if(data?.users.length == 0 && previousMailL < email.length){setIsTyping(false);return}
             const timeoutId = setTimeout(() => {
-                setIsTyping(false)
                 console.log("👀👀👀👀-->query")
                 getUsers({ variables: { search: email } });
+                setIsTyping(false)
                 setShowSearchResult(true);
-                previousEmailLength = email.length
+                setPreviousMailL(email.length)
             }, 1000);
 
             return () => {setIsTyping(false);clearTimeout(timeoutId);}

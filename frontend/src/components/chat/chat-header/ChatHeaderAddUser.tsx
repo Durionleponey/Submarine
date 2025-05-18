@@ -43,7 +43,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
     const [addUser] = useAddUserToChat();
     const [getUsers, { data, error, loading }] = useGetUsers();
     const [showSearchResult, setShowSearchResult] = useState(false)
-    const [continueTheSearch, setContinueTheSearch] = useState(false)
+    const [continueTheSearch, setContinueTheSearch] = useState(true)
     const [isTyping, setIsTyping] = useState(false)
     const [previousMailL, setPreviousMailL] = useState(0)
 
@@ -66,6 +66,8 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
 
 
     useEffect(() => {
+
+        if (!continueTheSearch){setContinueTheSearch(true);return}
         setIsTyping(true)
         if (email.length > 0) {
             if(data?.users.length == 0 && previousMailL < email.length){setIsTyping(false);return}
@@ -174,8 +176,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
 
                     {showSearchResult && <List
                         sx={{
-                        width: '100%',
-                        maxWidth: 360,
+                        Width: 360,
                         position: 'relative',
                         overflow: 'auto',
                         maxHeight: 300,
@@ -186,10 +187,22 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                     {data?.users.map((user) => (
                         <li key={user.pseudo}>
                     <ul>
-                            <ListItem key={user.pseudo}>
+                            <ListItem key={user.pseudo}   sx={{
+                                border: '1px solid #ccc',
+                                borderRadius: '12px',
+                                mb: 1,
+                                px: 2,
+                                transition: 'all 0.2s ease-in-out',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(244,189,48,0.73)',
+                                    borderColor: '#1976d2',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                },
+                            }}>
                                 <ListItemText primary={user.pseudo} sx={{ cursor: 'pointer' }} onClick={() => {
                                     setEmail(user.pseudo)
-                                    setShowSearchResult(false)
+                                    setContinueTheSearch(false)
+
                                 }}/>
                             </ListItem>
                     </ul>
@@ -204,7 +217,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                     )}
 
 
-                    {showSearchResult && !loading && !data?.users[0] && <>no pseudo matching</>}
+                    {showSearchResult && !loading && !isTyping && !data?.users[0] && <>no pseudo matching</>}
 
 
 

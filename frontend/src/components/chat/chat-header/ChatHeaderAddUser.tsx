@@ -44,6 +44,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
     const [getUsers, { data, error, loading }] = useGetUsers();
     const [showSearchResult, setShowSearchResult] = useState(false)
     const [continueTheSearch, setContinueTheSearch] = useState(false)
+    const [isTyping, setIsTyping] = useState(false)
 
 
     const params = useParams();
@@ -62,14 +63,25 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
             }, 0);
     }, [open]);
 
-    useEffect(() => {
-        if (email.length > 0){
-            getUsers({ variables: { search: email } });
-            setShowSearchResult(true)
-        }else{
-            setShowSearchResult(false)
-        }
+    let previousEmailLength:number
 
+    useEffect(() => {
+        setIsTyping(true)
+        if (email.length > 0) {
+            //if(data?.users.length == 0 && previousEmailLength < email.length){return}
+            const timeoutId = setTimeout(() => {
+                setIsTyping(false)
+                console.log("👀👀👀👀-->query")
+                getUsers({ variables: { search: email } });
+                setShowSearchResult(true);
+                previousEmailLength = email.length
+            }, 1000);
+
+            return () => {setIsTyping(false);clearTimeout(timeoutId);}
+        } else {
+            setIsTyping(false);
+            setShowSearchResult(false);
+        }
     }, [email]);
 
 
@@ -185,7 +197,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                 ))}
             </List>}
 
-                    {showSearchResult && loading && (
+                    {loading || isTyping && (
                         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
                             <CircularProgress color="secondary" />
                         </Box>

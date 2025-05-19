@@ -1,4 +1,4 @@
-import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
+import {Args, Context, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
 import { MessagesService } from './messages.service';
 import {Message} from "./entities/message.entity";
 import {Inject, UseGuards} from "@nestjs/common";
@@ -10,6 +10,8 @@ import {TokenPayload} from "../../auth/token-payload.interface";
 import {GetMessages} from "./dto/get-messages";
 import {PubSub} from "graphql-subscriptions";
 import {MessageCreatedArgs} from "../dto/message-created.args";
+import { Request } from 'express';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Resolver(() => Message)
 export class MessagesResolver {
@@ -46,10 +48,16 @@ export class MessagesResolver {
   @Query(() => [Message])
   @UseGuards(GqlAuthGuard)
   async getMessages(
-      @Args() getMessageArgs: GetMessages,//defautl argument no name required
-      @CurrentUser() user:TokenPayload
+      @Args() getMessageArgs: GetMessages,
+      @CurrentUser() user: TokenPayload,
+      @Context() context: { req: Request } // ← ici
   ) {
-    return this.messagesService.getMessages(getMessageArgs, user._id);
+    const ip =
+        typeof context.req.headers['x-forwarded-for'] === 'string'
+            ? context.req.headers['x-forwarded-for']
+            : context.req.ip || '0.0.0.0';
+
+    return this.messagesService.getMessages(getMessageArgs, user._id, ip);
   }
 
   @Query(() => [String])

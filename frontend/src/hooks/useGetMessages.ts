@@ -13,6 +13,7 @@ export const getMessagesDocument = graphql(`
             createdAt
             userPseudo
             userId
+            radius
         }
     }
 `);

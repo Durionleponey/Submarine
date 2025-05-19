@@ -11,15 +11,18 @@ import {MessageCreatedArgs} from "../dto/message-created.args";
 import {UsersRepository} from "../../users/users.repository";
 import {response} from "express";
 import {ObjectId} from "mongodb";
+import {getLocationFromIp} from "./dto/ip-localisation";
 
 @Injectable()
 export class MessagesService {
     constructor(private readonly chatRepository: ChatRepository, @Inject('PUB_SUB') private readonly pubSub:PubSub,private readonly usersRepository: UsersRepository) {}
 
-    async createMessage({ content, chatId }: CreateMessageInput, userId: string) {
+    async createMessage({ content, chatId, latitude, longitude, radius, city }: CreateMessageInput, userId: string) {
 
 
         const userPseudo = await this.usersRepository.findPseudoWithId({_id:userId});
+
+        console.log(userPseudo)
 
         if (!userPseudo) {
             throw new Error("Impossible to math a email with UserId");
@@ -38,6 +41,10 @@ export class MessagesService {
             views,
             createdAt: new Date(),
             _id: new Types.ObjectId(),
+            latitude,
+            longitude,
+            radius,
+            city,
         };
 
         console.log(message)
@@ -92,31 +99,28 @@ export class MessagesService {
         return message;
     }
 
-    async getMessages({chatId}:GetMessages, userId:string){
+    async getMessages({ chatId }: GetMessages, userId: string, ip: string) {
+        const userLocation = await getLocationFromIp(ip); // appel API
+        const chat = await this.chatRepository.findOne({ _id: chatId });
 
-        let messages
+        const messages = chat?.messages ?? [];
 
-        try {
+        const visibleMessages = messages
+            .map((msg) => {
+                if (msg.userId === userId || !msg.latitude || !msg.longitude || !msg.radius) return { ...msg, isVisible: true };
+                const distance = getDistanceFromLatLonInKm(userLocation.lat, userLocation.lon, msg.latitude, msg.longitude);
+                let isVisible = distance <= msg.radius;
+                //                return { ...msg, isVisible };
+                if (!isVisible) {
+                    msg.content = "Not visible due to geolocalization restriction (visible nearby " + msg.city + "(" + msg.radius + "Km))";
+                    isVisible = true;
+                }
+                return { ...msg, isVisible };
+            })
+            .filter((msg) => msg.isVisible)
+            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
-            messages = (
-                await this.chatRepository.findOne(
-                    {   //findOneAndUpdate take two argument, first is the filter and the second is the update
-                        //_id: chatId --> finding the correct chat to update
-                        _id: chatId,
-                        $or: [//a leaste one of the two condition shoud be true
-                            { userId },
-                            { userIds: { $in: [userId] } }
-                        ]
-                    })
-            )
-
-
-        }catch (err){
-            throw new Error('Error getting messages!, do you have the acces to this chat ?');
-        }
-
-        return messages.messages;
-
+        return visibleMessages;
     }
 
 
@@ -213,6 +217,19 @@ export class MessagesService {
         return message.messages[0].views
     }
 
+}
+function getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371; // Rayon de la Terre en km
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
 
-
+function deg2rad(deg: number): number {
+    return deg * (Math.PI / 180);
 }

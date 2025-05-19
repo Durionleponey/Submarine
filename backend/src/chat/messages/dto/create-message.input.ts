@@ -11,4 +11,16 @@ export class CreateMessageInput {
     @Field()
     @IsNotEmpty()
     chatId:string;
+
+    @Field({ nullable: true })
+    latitude?: number;
+
+    @Field({ nullable: true })
+    longitude?: number;
+
+    @Field({ nullable: true })
+    radius?: number;
+
+    @Field({ nullable: true })
+    city?: string;
 }

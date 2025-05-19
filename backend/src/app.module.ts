@@ -31,7 +31,7 @@ import {AuthService} from "./auth/auth.service";
               autoSchemaFile: true,
               subscriptions: {
                   'graphql-ws': {
-                      onConnect: (context: any) => {//sucurity check of day
+                      onConnect: (context: any) => {//security check of day
 
                           try {
                               const request: Request = context.extra.request;

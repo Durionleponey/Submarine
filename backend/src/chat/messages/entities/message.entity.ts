@@ -29,4 +29,22 @@ export class Message extends AbstractEntity{
     @Field(() => [String])
     @Prop()
     views:string[];
+
+
+    @Field({ nullable: true })
+    @Prop()
+    latitude?: number;
+
+    @Field({ nullable: true })
+    @Prop()
+    longitude?: number;
+
+    @Field({ nullable: true })
+    @Prop()
+    radius?: number; // en km
+
+    @Field({ nullable: true })
+    @Prop()
+    city?: string;
+
 }

@@ -1,52 +1,63 @@
-import {useLocation, useParams} from "react-router-dom";
-import {useGetSingleChat} from "../../hooks/useGetSingleChat";
-import {Box, CircularProgress, InputBase, Paper, Stack, Typography} from "@mui/material";
+import { useLocation, useParams } from "react-router-dom";
+import { useGetSingleChat } from "../../hooks/useGetSingleChat";
+import { Box, CircularProgress, InputBase, Paper, Stack, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import {useCreateMessage} from "../../hooks/useCeateMessage";
-import React, {useEffect, useLayoutEffect, useRef, useState} from "react";
-import {useGetMessages} from "../../hooks/useGetMessages";
+import { useCreateMessage } from "../../hooks/useCeateMessage";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useGetMessages } from "../../hooks/useGetMessages";
 import Avatar from "@mui/material/Avatar";
-import {useMessageCreated} from "../../hooks/useMessageCreated";
+import { useMessageCreated } from "../../hooks/useMessageCreated";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    Button,
+} from "@mui/material";
 
 import { Message } from "../../gql/graphql";
 import Tooltip from "@mui/material/Tooltip";
 import ClearAllIcon from "@mui/icons-material/esm/icon";
 import ChatHeader from "./chat-header/Chat-header";
-import {LoadingChat} from "./chat-header/LoadingChat";
+import { LoadingChat } from "./chat-header/LoadingChat";
 import ChatBubble from "./Chat-bubble";
-import {useGetMe} from "../../hooks/useGetMe";
+import { useGetMe } from "../../hooks/useGetMe";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import {SnackInterface, snackVar} from "../../constants/snack";
+import { SnackInterface, snackVar } from "../../constants/snack";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ViewerPop from "./Chat-viewer";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import {useViewMessage} from "../../hooks/useviewMessage";
+import { useViewMessage } from "../../hooks/useviewMessage";
+import EditLocationIcon from '@mui/icons-material/EditLocation';
 
-const messageToLong:SnackInterface = {
 
-    text:"Message must have max 2000 caracter",
-    type:"warning",
+
+const messageToLong: SnackInterface = {
+
+    text: "Message must have max 2000 caracter",
+    type: "warning",
 
 }
 
 
 const Chat = () => {
     const params = useParams();
-    const {data: user} = useGetMe();
+    const { data: user } = useGetMe();
     const [messageState, setMessageState] = useState("");
     const chatId = params._id || ""
     //console.log("chatId", chatId);
-    const { data, loading, error} = useGetSingleChat({_id: chatId || ""})
+    const { data, loading, error } = useGetSingleChat({ _id: chatId || "" })
     const [createMessage] = useCreateMessage(chatId);
     const divRef = useRef<HTMLDivElement | null>(null);
     const [viewMessage] = useViewMessage();
     const location = useLocation();
     const [isSendButtonDisabled, SetisSendButtonDisabled] = useState(false);
     //console.log("hello",location)
-    const {data: latestMessage} = useMessageCreated({chatId})
+    const { data: latestMessage } = useMessageCreated({ chatId })
     const [openViewers, setOpenViewers] = React.useState(false);
 
 
@@ -78,8 +89,8 @@ const Chat = () => {
 
     const createMessageLogic = async () => {
 
-        if (!messageState) {return}
-        await createMessage({variables:{createMessageInput: {content:messageState, chatId:chatId}}})
+        if (!messageState) { return }
+        await createMessage({ variables: { createMessageInput: { content: messageState, chatId: chatId } } })
         //wait for createMessage before setMessageState("")
 
         setMessageState("");
@@ -87,9 +98,9 @@ const Chat = () => {
 
     const viewMessageLogic = () => {
 
-        viewMessage({variables:{chatId: chatId}})
+        viewMessage({ variables: { chatId: chatId } })
     };
-    const {data:dbMessages,error:dbMessagesError} = useGetMessages(chatId);
+    const { data: dbMessages, error: dbMessagesError } = useGetMessages(chatId);
 
 
 
@@ -115,7 +126,12 @@ const Chat = () => {
         }
 
 
-    }, [dbMessages,messagesLocal2]);
+    }, [dbMessages, messagesLocal2]);
+
+    const [openLocationDialog, setOpenLocationDialog] = useState(false);
+    const [cityInput, setCityInput] = useState("");
+    const [radiusInput, setRadiusInput] = useState("");
+
 
     useEffect(() => {
         console.log("useEffect2 - adding last message to messageLocal")
@@ -126,7 +142,7 @@ const Chat = () => {
 
 
         // @ts-ignore
-        if(latestMessage?.messageCreated && LastMessage !== latestMessage?.messageCreated._id) {
+        if (latestMessage?.messageCreated && LastMessage !== latestMessage?.messageCreated._id) {
 
 
 
@@ -134,7 +150,7 @@ const Chat = () => {
             // @ts-ignore
             setMessagesLocal2([...messagesLocal2, latestMessage.messageCreated]);
             // @ts-ignore
-            viewMessage({variables:{chatId: chatId, messageId:latestMessage?.messageCreated._id}})
+            viewMessage({ variables: { chatId: chatId, messageId: latestMessage?.messageCreated._id } })
 
 
 
@@ -160,15 +176,95 @@ const Chat = () => {
         viewMessageLogic()
         setMessagesLocal2([])
     }, [chatId]);
+    const handleConfirmLocation = async () => {
+        if (!cityInput || !radiusInput) return;
+
+        const radius = parseFloat(radiusInput);
+        if (isNaN(radius)) {
+            alert("⛔ Rayon invalide !");
+            return;
+        }
+
+        const geoUrl = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(cityInput)}&format=json`;
+
+        try {
+            const res = await fetch(geoUrl);
+            const data = await res.json();
+
+            if (!data || data.length === 0) {
+                alert("❌ Ville introuvable.");
+                return;
+            }
+
+            let options = "📍 Plusieurs résultats trouvés, choisis :\n";
+            data.forEach((city: any, i: number) => {
+                options += `${i + 1}. ${city.display_name}\n`;
+            });
+
+            const choice = prompt(options);
+            const index = parseInt(choice ?? "");
+            if (isNaN(index) || !data[index - 1]) {
+                alert("❌ Choix invalide.");
+                return;
+            }
+
+            const selectedCity = data[index - 1];
+            const latitude = parseFloat(selectedCity.lat);
+            const longitude = parseFloat(selectedCity.lon);
+
+            await createMessage({
+                variables: {
+                    createMessageInput: {
+                        content: messageState,
+                        chatId,
+                        latitude,
+                        longitude,
+                        radius,
+                        city: selectedCity.display_name, // ← IMPORTANT
+                    },
+                },
+            });
+            console.log({
+                content: messageState,
+                chatId,
+                latitude,
+                longitude,
+                radius,
+                city: selectedCity.display_name,
+            });
+
+
+
+            setMessageState("");
+            setOpenLocationDialog(false);
+        } catch (err) {
+            alert("❌ Erreur lors de la géolocalisation.");
+            console.error(err);
+        }
+    };
+    const [geoLat, setGeoLat] = useState<number | null>(null);
+    const [geoLon, setGeoLon] = useState<number | null>(null);
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((pos) => {
+            setGeoLat(pos.coords.latitude);
+            setGeoLon(pos.coords.longitude);
+        });
+    }, []);
+
+
+
+
+
 
     useEffect(() => {
         console.log("useEffect4 - enable disable send button")
-        if (!messageState || messageState.length>2000){
+        if (!messageState || messageState.length > 2000) {
             SetisSendButtonDisabled(true);
-        }else{
+        } else {
             SetisSendButtonDisabled(false);
         }
-        if(messageState.length>2000){
+        if (messageState.length > 2000) {
             snackVar(messageToLong)
         }
 
@@ -181,42 +277,32 @@ const Chat = () => {
     //console.log(messages)
 
     if (!messagesLocal || loading) {
-        return <LoadingChat/>;
+        return <LoadingChat />;
     }
 
     if (error) {
-        return <h1>We looked everywhere, but your chat doesn’t exist 😯</h1>;    }
+        return <h1>We looked everywhere, but your chat doesn’t exist 😯</h1>;
+    }
 
 
-    if (dbMessagesError) {return<h1>{dbMessagesError.message}</h1>}
+    if (dbMessagesError) { return <h1>{dbMessagesError.message}</h1> }
+    type MessageWithVisibilityEntry = {
+        message: Message;
+        isVisible: boolean;
+        info?: string | null;
+    };
 
 
 
 
+
+
+    const displayedMessageIds = new Set(messagesLocal.map((msg) => msg._id));
 
     return (
-        <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between"}}>
-
-
-
+        <Stack sx={{ height: `calc(100dvh - 140px)`, justifyContent: "space-between" }}>
             <ChatHeader chatName={data?.chat.name} />
-            <Box   ref={boxRef}
-                   onScroll={handleScroll} sx={{maxHeight:"80vh",height:"80vh", overflowY:"auto", /* pour WebKit (Chrome, Safari) */
-                "&::-webkit-scrollbar": {
-                    width: 8,
-                },
-                "&::-webkit-scrollbar-track": {
-                    background: "transparent",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                    backgroundColor: "rgba(255,255,255,0.2)",
-                    borderRadius: 4,
-                },
-
-                scrollbarWidth: "thin",
-                scrollbarColor: "rgba(255,255,255,0.2) transparent",}}>
-
-
+            <Box ref={boxRef} onScroll={handleScroll} sx={{ maxHeight: "80vh", height: "80vh", overflowY: "auto", scrollbarWidth: "thin", scrollbarColor: "rgba(255,255,255,0.2) transparent", "&::-webkit-scrollbar": { width: 8 }, "&::-webkit-scrollbar-track": { background: "transparent" }, "&::-webkit-scrollbar-thumb": { backgroundColor: "rgba(255,255,255,0.2)", borderRadius: 4 } }}>
                 {(!messagesLocal || messagesLocal.length === 0) && (
                     <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 4 }}>
                         <Typography variant="h6" color="text.secondary">
@@ -226,33 +312,14 @@ const Chat = () => {
                 )}
 
                 {[...messagesLocal].map((message) => (
-
-                    <ChatBubble message={message} loggedUserId={user?.me?._id} chatId={chatId} />
-
-
+                    <ChatBubble key={message._id} message={message} loggedUserId={user?.me?._id} chatId={chatId} />
                 ))}
 
+                {!isAtBottom && (
+                    <KeyboardArrowDownIcon sx={{ position: 'fixed', bottom: 150, right: 16, cursor: 'pointer', bgcolor: 'background.paper', borderRadius: '50%', boxShadow: 3, p: 1, backgroundColor: "#2b2d30", zIndex: 1000, fontSize: 50 }} onClick={() => { scrollToBottom() }} />
+                )}
 
-
-                {!isAtBottom &&(
-                    <KeyboardArrowDownIcon   sx={{
-                        position: 'fixed',
-                        bottom: 150,
-                        right: 16,
-                        cursor: 'pointer',
-                        bgcolor: 'background.paper',
-                        borderRadius: '50%',
-                        boxShadow: 3,
-                        p: 1,
-                        backgroundColor: "#2b2d30",
-                        zIndex: 1000,
-                        fontSize:50
-                    }}  onClick={() =>{scrollToBottom()}}></KeyboardArrowDownIcon>)}
-
-                {openViewers && <ViewerPop open={openViewers} setOpen={setOpenViewers}/>}
-
-
-
+                {openViewers && <ViewerPop open={openViewers} setOpen={setOpenViewers} />}
                 <div ref={divRef}></div>
             </Box>
             <Paper
@@ -273,7 +340,7 @@ const Chat = () => {
                 }}
             >
                 <IconButton sx={{ mr: 1 }} disabled={true}>
-                    <AttachFileIcon fontSize="small"/>
+                    <AttachFileIcon fontSize="small" />
                 </IconButton>
 
                 <InputBase
@@ -281,10 +348,10 @@ const Chat = () => {
                     value={messageState}
                     placeholder="Message"
                     onChange={(e) => setMessageState(e.target.value)}
-                    onKeyDown={async event =>  {
-                        if (event.key == "Enter" && messageState.length<2000 && messageState.length>0) {
+                    onKeyDown={async event => {
+                        if (event.key == "Enter" && messageState.length < 2000 && messageState.length > 0) {
                             await createMessageLogic()
-                        }if (messageState.length>2000){
+                        } if (messageState.length > 2000) {
                             snackVar(messageToLong)
                         }
 
@@ -305,7 +372,47 @@ const Chat = () => {
                 >
                     <ArrowCircleUpIcon sx={{ fontSize: 28 }} />
                 </IconButton>
+                <IconButton
+                    disabled={isSendButtonDisabled}
+                    color="secondary"
+                    onClick={() => setOpenLocationDialog(true)}
+                >
+                    <EditLocationIcon sx={{ fontSize: 28 }} />
+                </IconButton>
+
+
             </Paper>
+            <Dialog open={openLocationDialog} onClose={() => setOpenLocationDialog(false)}>
+                <DialogTitle>📍 Message géolocalisé</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="Ville"
+                        value={cityInput}
+                        onChange={(e) => setCityInput(e.target.value)}
+                        fullWidth
+                        margin="dense"
+                    />
+                    <TextField
+                        label="Rayon (km)"
+                        value={radiusInput}
+                        onChange={(e) => setRadiusInput(e.target.value)}
+                        type="number"
+                        fullWidth
+                        margin="dense"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenLocationDialog(false)}>Annuler</Button>
+                    <Button
+                        onClick={handleConfirmLocation}
+                        variant="contained"
+                        disabled={!messageState || isSendButtonDisabled}
+                    >
+                        Envoyer
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
 
         </Stack>)
 }

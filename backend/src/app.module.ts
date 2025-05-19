@@ -21,7 +21,33 @@ import { AuthModule } from './auth/auth.module';
       }),
       GraphQLModule.forRoot<ApolloDriverConfig>({
           driver: ApolloDriver,
+<<<<<<< Updated upstream
           autoSchemaFile:true
+=======
+          imports: [AuthModule],
+          inject: [AuthService],
+          useFactory: (authService: AuthService) => ({
+              autoSchemaFile: true,
+              subscriptions: {
+                  'graphql-ws': {
+                      onConnect: (context: any) => {//security check of day
+
+                          try {
+                              const request: Request = context.extra.request;
+                              //console.log('✨✨✨', request, '🥰🥰🥰');
+                              const user = authService.verifyWs(request);
+                              context.user = user;
+                              //console.log('✨✨✨', user, '🥰🥰🥰');
+                          } catch (err) {
+                              //console.log('no auth cookie 👻👻👻👻👻👻');
+                              new Logger().error(err);
+                              throw new UnauthorizedException();
+                          }
+                      }
+                  }
+              }
+          }),
+>>>>>>> Stashed changes
       }),
       DatabaseModule,
       UsersModule,

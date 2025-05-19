@@ -35,7 +35,26 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
+<<<<<<< Updated upstream
   removeUser(@Args('id') id: string) {
+=======
+  @UseGuards(GqlAuthGuard)
+  removeUser(
+      //@Args('id') id: string,
+      @CurrentUser() user: TokenPayload) {
+    return this.usersService.remove(user._id);
+  }
+
+  @Query(() => User, { name: 'me' })
+  @UseGuards(GqlAuthGuard)
+  getMe(@CurrentUser() user: TokenPayload) {//getMe will return the current login user idk how it works but it works
+    return user;
+  }
+/*
+  @Mutation(() => User)
+  @UseGuards(GqlAuthGuard, AdminGuard)
+  removeUserAdmin(@Args('id') id: string) {
+>>>>>>> Stashed changes
     return this.usersService.remove(id);
   }
 }

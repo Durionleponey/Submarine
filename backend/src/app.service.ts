@@ -6,9 +6,14 @@ export class AppService {
     return 'Hello World!';
   }
 
-
   getHello2(): string {
     return 'Hello Submarine !';
   }
 
+<<<<<<< Updated upstream
+=======
+  pong(): string {
+    return 'pong';
+  }
+>>>>>>> Stashed changes
 }

@@ -91,6 +91,14 @@ export class MessagesService {
                     messageCreated: 'pommes de terre'
                 })*/
 
+
+        if (message?.city){
+
+
+            message.content = ("Message with geolocalisation restrictions please reload page to view")
+
+        }
+
         await this.pubSub.publish('messageCreated', {
             messageCreated: message
         })

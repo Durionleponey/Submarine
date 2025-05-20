@@ -112,10 +112,13 @@ const Chat = () => {
         setMessageState("");
     };
 
-    const viewMessageLogic = () => {
+    const viewMessageLogic = async () => {
 
-        viewMessage({ variables: { chatId: chatId } })
+        try{await viewMessage({ variables: { chatId: chatId } })}catch (err){return}
+
     };
+
+
     const { data: dbMessages, error: dbMessagesError } = useGetMessages(chatId);
 
 

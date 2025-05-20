@@ -60,7 +60,7 @@ const Chat = () => {
     //console.log("hello",location)
     const { data: latestMessage } = useMessageCreated({ chatId })
 
-    const { data: latestChat } = useChatCreated()
+    //const { data: latestChat } = useChatCreated()
     const [openViewers, setOpenViewers] = React.useState(false);
 
 
@@ -86,10 +86,10 @@ const Chat = () => {
 
     }
 
-    useEffect(() => {
+/*    useEffect(() => {
         console.log("❤️❤️❤️❤️❤️❤️❤️❤️-->", latestChat)
 
-    }, [latestChat]);
+    }, [latestChat]);*/
 
     useLayoutEffect(() => {
         divRef.current?.scrollIntoView({ block: "end" });

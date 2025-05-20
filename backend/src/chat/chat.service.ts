@@ -117,9 +117,12 @@ export class ChatService {
       throw new Error("unknow error are you trying to hack the system 😉? it's was a good try!");
     }
 
+    const chatName = await this.chatRepository.findOne({_id:chatId})
+    console.log("🤮",chatName)
+
 
     await this.pubSub.publish('chatCreated', {
-      chatCreated: chatId
+      chatCreated: chatName
     })
 
 

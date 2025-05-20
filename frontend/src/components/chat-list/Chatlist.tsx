@@ -15,14 +15,35 @@ import {useGetChat} from "../../hooks/useGetChat";
 import {Chat} from "../../gql/graphql";
 import ChatListItem from './chat-list-item/ChatList-Item';
 import {usePath} from "../../hooks/usePatch";
+import {useMessageCreated} from "../../hooks/useMessageCreated";
+import {useChatCreated} from "../../hooks/useChatCreated";
+
 
 const ChatList  = () =>  {
 
     const [chatListaddModel, setChatListaddModel] = useState(false);
     const {data} = useGetChat();
     const {path} = usePath();
+    const { data: latestChat } = useChatCreated()
+
+    const [chats, setChats] = useState<Chat[]>([]);
+
+
+
+
 
     const [selectedChatId, setSelectedChatId] = useState("");
+
+
+    //console.log(chatList)
+
+
+    useEffect(() => {
+        if (data?.chatss) {
+            setChats(data.chatss);
+        }
+    }, [data]);
+
 
     useEffect(() => {
         const pathSplit = path.split('chats/');
@@ -32,6 +53,14 @@ const ChatList  = () =>  {
         }
 
     },[path])
+
+
+    useEffect(() => {
+        if (latestChat?.chatCreated) {
+            setChats((prev) => [...prev, latestChat.chatCreated]);
+        }
+    }, [latestChat]);
+
 
     // @ts-ignore
 
@@ -58,7 +87,7 @@ const ChatList  = () =>  {
                     scrollbarColor: "rgba(255,255,255,0.2) transparent",}}>
 
 
-                    {data?.chatss.map((chat: Chat) => (
+                    {chats?.map((chat: Chat) => (
                         <ChatListItem chat={chat} selected={chat._id === selectedChatId}/>
                     )).reverse()}
 

@@ -65,7 +65,7 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
         }
     };
 
-    console.log("message " + JSON.stringify(message));
+    //console.log("message " + JSON.stringify(message));
 
     if (message.userId === loggedUserId) {
         return (

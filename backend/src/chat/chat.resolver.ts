@@ -52,7 +52,7 @@ export class ChatResolver {
   }
 
 
-  @Subscription(() => String, {
+  @Subscription(() => Chat, {
     filter:(payload, variables, context) => {//payload --> in the message, variables --> graphQL request execuse in every publi
 
       const userId= context.req.user._id

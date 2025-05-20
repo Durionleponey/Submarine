@@ -11,7 +11,7 @@ export async function getLocationFromIp(ip: string): Promise<{ lat: number; lon:
             lon: number;
         };
 
-        console.log(`Geolocalization: ${data.status} ${data.lat} ${data.lon}`);
+        //console.log(`Geolocalization: ${data.status} ${data.lat} ${data.lon}`);
         if (data.status === "success") {
             return {
                 lat: data.lat,

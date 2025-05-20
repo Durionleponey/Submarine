@@ -20,7 +20,7 @@ const Guard = ({children}:GuardProps) =>  {
 
     },[user])
 
-    console.log('USER ----> ',user);
+    //console.log('USER ----> ',user);
 
 
     return(<>

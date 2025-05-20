@@ -124,7 +124,7 @@ export class ChatService {
       throw new Error("unknow error are you trying to hack the system 😉? it's was a good try!");
     }
 
-    console.log("🤮",chatName)
+    //console.log("🤮",chatName)
 
     chatName["newuserid"] = user._id
 
@@ -160,7 +160,7 @@ export class ChatService {
           ]
         })*/
 
-    console.log("🐺🐺--->",userId)
+    //console.log("🐺🐺--->",userId)
     return this.pubSub.asyncIterableIterator('chatCreated');
 
   }

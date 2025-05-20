@@ -35,11 +35,11 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
         <AppBar position="static" color="transparent" sx={{ mt: 1 }}>
             <Toolbar sx={{ justifyContent: "center" }}>
 
-                <Tooltip title="Start a new private conversation">
+{/*                <Tooltip title="Start a new private conversation">
                     <IconButton size="large" edge="start" disabled={true}>
                         <AddCircleIcon />
                     </IconButton>
-                </Tooltip>
+                </Tooltip>*/}
 
                 <Tooltip title="Create a new group">
                     <IconButton size="large" edge="start" onClick={handleAddChat}>
@@ -47,7 +47,7 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                     </IconButton>
                 </Tooltip>
 
-                <Tooltip title="Toggle visibility of the conversation">
+{/*                <Tooltip title="Toggle visibility of the conversation">
                     <IconButton size="large" edge="start" disabled={true}>
                         <DisabledVisibleIcon />
                     </IconButton>
@@ -57,7 +57,7 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                     <IconButton size="large" edge="start" disabled={true}>
                         <CompareIcon />
                     </IconButton>
-                </Tooltip>
+                </Tooltip>*/}
 
                 <Tooltip title="Leave all your the chat">
                     <IconButton onClick={() => {setOpen(true)}} size="large" edge="start">
@@ -65,11 +65,11 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                     </IconButton>
                 </Tooltip>
 
-                <Tooltip title="Delete all your chats and your account">
+{/*                <Tooltip title="Delete all your chats and your account">
                     <IconButton size="large" edge="start" disabled={true}>
                         <CrisisAlertIcon />
                     </IconButton>
-                </Tooltip>
+                </Tooltip>*/}
 
                 {open && <AlertDialog title={"Leave all your chats ?"} AlertMessage="Leave all chats ? Your messages will not be deleted ! This action can't be undone." open={open} setOpen={setOpen} />}
 

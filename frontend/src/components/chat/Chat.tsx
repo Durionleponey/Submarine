@@ -121,7 +121,7 @@ const Chat = () => {
 
 
     useEffect(() => {
-        console.log("useEffect1 - cache message change copy in messageLocal");
+        //console.log("useEffect1 - cache message change copy in messageLocal");
 
         if (dbMessages) {
             const mergedMessages = [
@@ -138,7 +138,7 @@ const Chat = () => {
             // @ts-ignore
             setMessagesLocal(limitedMessages);
 
-            console.log("🦬🦬 Nouvelle valeur de messagesLocal :", limitedMessages);
+            //console.log("🦬🦬 Nouvelle valeur de messagesLocal :", limitedMessages);
         }
 
 
@@ -152,7 +152,7 @@ const Chat = () => {
 
 
     useEffect(() => {
-        console.log("useEffect2 - adding last message to messageLocal")
+        //console.log("useEffect2 - adding last message to messageLocal")
 
         // @ts-ignore
         const LastMessage = messagesLocal2[messagesLocal2.length - 1]?._id;
@@ -180,7 +180,7 @@ const Chat = () => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        console.log("useEffect3 - enter a conv")
+        //console.log("useEffect3 - enter a conv")
         setTimeout(() => {
             inputRef.current?.focus();
         }, 0);
@@ -190,7 +190,7 @@ const Chat = () => {
 
 
     useEffect(() => {
-        console.log("useEffect5 - reset db local")
+        //console.log("useEffect5 - reset db local")
         viewMessageLogic()
         setMessagesLocal2([])
     }, [chatId]);
@@ -242,14 +242,14 @@ const Chat = () => {
                     },
                 },
             });
-            console.log({
+/*            console.log({
                 content: messageState,
                 chatId,
                 latitude,
                 longitude,
                 radius,
                 city: selectedCity.display_name,
-            });
+            });*/
 
 
 
@@ -264,7 +264,7 @@ const Chat = () => {
     const [geoLon, setGeoLon] = useState<number | null>(null);
 
     useEffect(() => {
-        console.log("geolocation useeffect")
+        //console.log("geolocation useeffect")
         navigator.geolocation.getCurrentPosition((pos) => {
             setGeoLat(pos.coords.latitude);
             setGeoLon(pos.coords.longitude);
@@ -277,7 +277,7 @@ const Chat = () => {
 
 
     useEffect(() => {
-        console.log("useEffect4 - enable disable send button")
+        //console.log("useEffect4 - enable disable send button")
         if (!messageState || messageState.length > 2000) {
             SetisSendButtonDisabled(true);
         } else {

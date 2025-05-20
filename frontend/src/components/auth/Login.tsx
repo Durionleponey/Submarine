@@ -11,8 +11,8 @@ import {authenticateVar} from "../../constants/authenticated";
 const Login = () => {
     const { login, error, } = useLogin()
     const [loading, setLoading] = useState(false);
-    console.log(login)
-    console.log(error)
+    //console.log(login)
+    //console.log(error)
     const authenticated = useReactiveVar(authenticateVar);
 
 

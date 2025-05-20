@@ -42,7 +42,7 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
             </ListItemAvatar>
             <ListItemText
                 primary={chat.name}
-                secondary={
+/*                secondary={
                     <React.Fragment>
                         <Typography
                             component="span"
@@ -68,7 +68,7 @@ const ChatListItem  = ({chat, selected}:ChatListItemProps) => {
                         </Typography>
 
                     </React.Fragment>
-                }
+                }*/
             />
 
             </ListItemButton>

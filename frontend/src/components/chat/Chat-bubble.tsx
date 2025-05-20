@@ -21,7 +21,7 @@ interface ChatBubbleProps {
 const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
 
     useEffect(() => {
-        console.log("disable view viewers")
+        //console.log("disable view viewers")
         setOpen(false);
 
 
@@ -42,7 +42,7 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
 
 
     const handleClickIconButton = async () => {
-        console.log("from bubble", message)
+        //console.log("from bubble", message)
 
         try {
             const { data, loading } = await loadMessageViewers({
@@ -52,7 +52,7 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
                 }
             })
 
-            console.log("--> error", error)
+            //console.log("--> error", error)
 
             setOpen(true);
 

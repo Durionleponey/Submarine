@@ -1,5 +1,5 @@
 import "./style.css";
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Container,
   createTheme,
@@ -25,6 +25,9 @@ const darkTheme = createTheme({
 
 const App = () => {
   const authenticated = useReactiveVar(authenticateVar);
+  useEffect(() => {
+    document.title = "Submarine";
+  }, []);
 
   return (
     <ApolloProvider client={client}>

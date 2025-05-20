@@ -22,7 +22,7 @@ export class MessagesService {
 
         const userPseudo = await this.usersRepository.findPseudoWithId({_id:userId});
 
-        console.log(userPseudo)
+        //console.log(userPseudo)
 
         if (!userPseudo) {
             throw new Error("Impossible to math a email with UserId");
@@ -47,7 +47,7 @@ export class MessagesService {
             city,
         };
 
-        console.log(message)
+        //console.log(message)
 
         await this.chatRepository.findOneAndUpdate(
             {   //findOneAndUpdate take two argument, first is the filter and the second is the update
@@ -84,7 +84,7 @@ export class MessagesService {
 
 
         }
-        console.log("--->", message)
+        //console.log("--->", message)
 
 
         /*        await this.pubSub.publish('messageCreated', {
@@ -165,8 +165,8 @@ export class MessagesService {
         }catch{throw new Error("You don't have access to this chat!")}
 
         const userPseudo = await this.usersRepository.findPseudoWithId({_id:userId});
-        console.log("--->", userPseudo);
-        console.log("---> message ID", messageId);
+        //console.log("--->", userPseudo);
+        //console.log("---> message ID", messageId);
 
         if (!messageId){
             try{
@@ -219,7 +219,7 @@ export class MessagesService {
             ]
         },{ messages: { $elemMatch: { _id: new Types.ObjectId(messageId) } } });
 
-        console.log("😱😱😱", message.messages[0].views)
+        //console.log("😱😱😱", message.messages[0].views)
 
 
         return message.messages[0].views

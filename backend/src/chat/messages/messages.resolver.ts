@@ -24,7 +24,7 @@ export class MessagesResolver {
       @Args('createMessageInput') createMessageInput: CreateMessageInput,
       @CurrentUser() user:TokenPayload
   ) {
-    console.log("hello from resolveur 🥳", createMessageInput);
+    //console.log("hello from resolveur 🥳", createMessageInput);
     //console.log(user);
     return this.messagesService.createMessage(createMessageInput, user._id)
   }
@@ -75,7 +75,7 @@ export class MessagesResolver {
 
       const userId= context.req.user._id
 
-      console.log("🏓🏓",context.req.user._id);
+      //console.log("🏓🏓",context.req.user._id);
 
       return payload.messageCreated.chatId === variables.chatId && userId !== payload.messageCreated.userId;
     }

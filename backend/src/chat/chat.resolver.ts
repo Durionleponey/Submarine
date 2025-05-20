@@ -42,7 +42,7 @@ export class ChatResolver {
   @UseGuards(GqlAuthGuard)
   @Mutation(() => String)
   addUserToChat(@Args('email') email: string,@Args('chatId') chatId: string,@CurrentUser() user:TokenPayload) {
-    console.log("hello frot resolveur")
+    //console.log("hello frot resolveur")
     return this.chatService.addUserToChat(user._id,email,chatId);
   }
 
@@ -59,8 +59,8 @@ export class ChatResolver {
 
       //console.log("🏓🏓",context.req.user._id);
 
-      console.log("🍕 payload",payload)//its the data send
-      console.log("🚩 variable",variables)//var
+      //console.log("🍕 payload",payload)//its the data send
+      //console.log("🚩 variable",variables)//var
 
       //return payload.messageCreated.chatId === variables.chatId && userId !== payload.messageCreated.userId;
 
@@ -77,7 +77,7 @@ export class ChatResolver {
     }
   })
   chatCreated(@CurrentUser() user:TokenPayload) {
-    console.log("aaaa",user)
+    //console.log("aaaa",user)
 
 
     return this.chatService.chatCreated(user._id)

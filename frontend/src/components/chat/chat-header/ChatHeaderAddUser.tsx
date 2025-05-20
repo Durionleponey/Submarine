@@ -72,7 +72,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
         if (email.length > 0) {
             if(data?.users.length == 0 && previousMailL < email.length){setIsTyping(false);return}
             const timeoutId = setTimeout(() => {
-                console.log("👀👀👀👀-->query")
+                //console.log("👀👀👀👀-->query")
                 getUsers({ variables: { search: email } });
                 setIsTyping(false)
                 setShowSearchResult(true);
@@ -120,7 +120,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
 
             // @ts-ignore
             setIsError((err.message).toString());
-            console.log(err)
+            //console.log(err)
             return;
 
         }

@@ -59,7 +59,7 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                     </IconButton>
                 </Tooltip>*/}
 
-                <Tooltip title="Leave all your the chat">
+                <Tooltip title="Leave all your chat">
                     <IconButton onClick={() => {setOpen(true)}} size="large" edge="start">
                         <ClearAllIcon />
                     </IconButton>

@@ -333,7 +333,9 @@ const Chat = () => {
                     </Box>
                 )}
 
-                {[...messagesLocal].map((message) => (
+                {[...messagesLocal].filter((msg, index, self) =>
+                    index === self.findIndex(m => m._id === msg._id)
+                ).map((message) => (
                     <ChatBubble key={message._id} message={message} loggedUserId={user?.me?._id} chatId={chatId} />
                 ))}
 

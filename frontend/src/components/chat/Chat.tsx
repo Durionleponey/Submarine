@@ -373,7 +373,7 @@ const Chat = () => {
 
                                 //console.log(data)
 
-                                let data2:any
+                                let data2:any=""
                                 let i:any
 
                                 for (i in data){

@@ -65,7 +65,7 @@ const Chat = () => {
     const location = useLocation();
     const [isSendButtonDisabled, SetisSendButtonDisabled] = useState(false);
     //console.log("hello",location)
-    const { data: latestMessage } = useMessageCreated({ chatId })
+    const { data: latestMessage,error:errorSubMessage } = useMessageCreated({ chatId })
 
     //const { data: latestChat } = useChatCreated()
     const [openViewers, setOpenViewers] = React.useState(false);
@@ -299,7 +299,7 @@ const Chat = () => {
         return <LoadingChat />;
     }
 
-    if (error) {
+    if (error || errorSubMessage) {
         return <h1>We looked everywhere, but your chat doesn’t exist 😯</h1>;
     }
 

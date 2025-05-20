@@ -28,6 +28,7 @@ const useGetMessages = (
             variables: { chatId },
             skip,                           // if true will not execute
             fetchPolicy: "network-only",
+            errorPolicy:"all",
             nextFetchPolicy: "cache-first",
         }
     );

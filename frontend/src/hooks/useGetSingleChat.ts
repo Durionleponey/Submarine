@@ -23,7 +23,7 @@ const getSingleChat = graphql(`
 
 const useGetSingleChat = (variables: { _id: string }) =>{
     // @ts-ignore
-    return useQuery(getSingleChat, {variables})
+    return useQuery(getSingleChat, {variables,errorPolicy:"all"})
 }
 
 export {useGetSingleChat};

@@ -11,5 +11,7 @@ const messageCreatedDocument = graphql(`
 `)
 
 export const useMessageCreated = (variables:SubscriptionMessageCreatedArgs) => {
-    return useSubscription(messageCreatedDocument, {variables});
+    return useSubscription(messageCreatedDocument, {variables,errorPolicy: 'all',onError: (err) => {
+            console.error('Subscription error:', err);
+        },});
 }

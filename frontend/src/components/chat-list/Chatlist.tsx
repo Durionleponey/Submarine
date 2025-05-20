@@ -19,6 +19,7 @@ import {useMessageCreated} from "../../hooks/useMessageCreated";
 import {useChatCreated} from "../../hooks/useChatCreated";
 import router from "../Routes";
 import {useLeaveAllChat} from "../../hooks/useLeaveAllChat";
+import client from "../../constants/apollo-client";
 
 
 
@@ -70,6 +71,8 @@ const ChatList  = () =>  {
         try {
             await leaveAllChat();
             router.navigate("/")
+            client.cache.evict({ fieldName: "chatss" });
+            client.cache.gc();
             setChats([])
         } catch (e) {
 

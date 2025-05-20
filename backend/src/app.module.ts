@@ -35,7 +35,7 @@ import {AuthService} from "./auth/auth.service";
 
                           try {
                               const request: Request = context.extra.request;
-                              //console.log('✨✨✨', request, '🥰🥰🥰');
+                              //console.log('✨✨✨',request);
                               const user = authService.verifyWs(request);
                               context.user = user;
                               //console.log('✨✨✨', user, '🥰🥰🥰');
@@ -46,7 +46,7 @@ import {AuthService} from "./auth/auth.service";
                           }
                       }
                   }
-              }
+              },
           }),
       }),
       DatabaseModule,

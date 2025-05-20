@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {Resolver, Query, Mutation, Args, Int, Subscription} from '@nestjs/graphql';
 import { ChatService } from './chat.service';
 import { Chat } from './entities/chat.entity';
 import { CreateChatInput } from './dto/create-chat.input';
@@ -8,6 +8,8 @@ import {GqlAuthGuard} from "../auth/guards/gql-auth.guard";
 import {CurrentUser} from "../auth/current-user.decorator";
 import {TokenPayload} from "../auth/token-payload.interface";
 import {string} from "joi";
+import {Message} from "./messages/entities/message.entity";
+import {MessageCreatedArgs} from "./dto/message-created.args";
 
 @Resolver(() => Chat)
 export class ChatResolver {
@@ -47,5 +49,26 @@ export class ChatResolver {
   @Mutation(() => Chat)
   removeChat(@Args('id', { type: () => Int }) id: number) {
     return this.chatService.remove(id);
+  }
+
+
+  @Subscription(() => String, {
+    filter:(payload, variables, context) => {//payload --> in the message, variables --> graphQL request execuse in every publi
+
+      const userId= context.req.user._id
+
+      //console.log("🏓🏓",context.req.user._id);
+
+      //return payload.messageCreated.chatId === variables.chatId && userId !== payload.messageCreated.userId;
+
+      return true
+
+    }
+  })
+  chatCreated(@CurrentUser() user:TokenPayload) {
+    console.log("aaaa",user)
+
+
+    return this.chatService.chatCreated(user._id)
   }
 }

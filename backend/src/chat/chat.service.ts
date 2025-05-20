@@ -6,11 +6,13 @@ import {GqlAuthGuard} from "../auth/guards/gql-auth.guard";
 import {Chat} from "./entities/chat.entity";
 import {string} from "joi";
 import {UsersRepository} from "../users/users.repository";
+import {MessageCreatedArgs} from "./dto/message-created.args";
+import {PubSub} from "graphql-subscriptions";
 
 @Injectable()
 export class ChatService {
 
-  constructor(private readonly chatRepository: ChatRepository, private readonly usersRepository: UsersRepository) {} // i need a instance of chatRepostroy give it to me please
+  constructor(private readonly chatRepository: ChatRepository, private readonly usersRepository: UsersRepository, @Inject('PUB_SUB') private readonly pubSub:PubSub) {} // i need a instance of chatRepostroy give it to me please
 
 
 
@@ -116,6 +118,11 @@ export class ChatService {
     }
 
 
+    await this.pubSub.publish('chatCreated', {
+      chatCreated: chatId
+    })
+
+
 
       return("succes")
   }
@@ -126,5 +133,24 @@ export class ChatService {
 
   remove(id: number) {
     return `This action removes a #${id} chat`;
+  }
+
+
+
+  async chatCreated(userId:String) {
+
+/*    await this.chatRepository.findOne(
+        {   //findOneAndUpdate take two argument, first is the filter and the second is the update
+          //_id: chatId --> finding the correct chat to update
+          _id: chatId,
+          $or: [//a leaste one of the two condition shoud be true
+            { userId },
+            { userIds: { $in: [userId] } }
+          ]
+        })*/
+
+    console.log("🐺🐺--->",userId)
+    return this.pubSub.asyncIterableIterator('chatCreated');
+
   }
 }

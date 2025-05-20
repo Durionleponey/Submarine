@@ -82,9 +82,6 @@ export class MessagesResolver {
     }
   })
 
-
-
-
   messageCreated(@Args()chatId:MessageCreatedArgs, @CurrentUser() user:TokenPayload) {
 
 

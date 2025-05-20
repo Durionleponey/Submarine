@@ -33,6 +33,7 @@ import ViewerPop from "./Chat-viewer";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useViewMessage } from "../../hooks/useviewMessage";
 import EditLocationIcon from '@mui/icons-material/EditLocation';
+import {useChatCreated} from "../../hooks/useChatCreated";
 
 
 
@@ -58,6 +59,8 @@ const Chat = () => {
     const [isSendButtonDisabled, SetisSendButtonDisabled] = useState(false);
     //console.log("hello",location)
     const { data: latestMessage } = useMessageCreated({ chatId })
+
+    const { data: latestChat } = useChatCreated()
     const [openViewers, setOpenViewers] = React.useState(false);
 
 
@@ -82,6 +85,11 @@ const Chat = () => {
         divRef.current?.scrollIntoView({ block: "end" });
 
     }
+
+    useEffect(() => {
+        console.log("❤️❤️❤️❤️❤️❤️❤️❤️-->", latestChat)
+
+    }, [latestChat]);
 
     useLayoutEffect(() => {
         divRef.current?.scrollIntoView({ block: "end" });
@@ -131,6 +139,8 @@ const Chat = () => {
     const [openLocationDialog, setOpenLocationDialog] = useState(false);
     const [cityInput, setCityInput] = useState("");
     const [radiusInput, setRadiusInput] = useState("");
+
+
 
 
     useEffect(() => {

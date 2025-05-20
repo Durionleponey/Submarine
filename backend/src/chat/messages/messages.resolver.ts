@@ -78,7 +78,6 @@ export class MessagesResolver {
       console.log("🏓🏓",context.req.user._id);
 
       return payload.messageCreated.chatId === variables.chatId && userId !== payload.messageCreated.userId;
-
     }
   })
 

@@ -53,15 +53,23 @@ export class ChatResolver {
 
 
   @Subscription(() => Chat, {
-    filter:(payload, variables, context) => {//payload --> in the message, variables --> graphQL request execuse in every publi
+    filter:(payload, variables, context) => {//payload --> in the message to waiting to be published, variables --> graphQL request execuse in every publi
 
       const userId= context.req.user._id
 
       //console.log("🏓🏓",context.req.user._id);
 
+      console.log("🍕 payload",payload)//its the data send
+      console.log("🚩 variable",variables)//var
+
       //return payload.messageCreated.chatId === variables.chatId && userId !== payload.messageCreated.userId;
 
-      return true
+      //return payload.messageCreated.chatId === variables.chatId && userId !== payload.messageCreated.userId;
+
+      return userId === payload.chatCreated.userIds[payload.chatCreated.userIds.length - 1]
+
+
+
 
     }
   })

@@ -92,7 +92,7 @@ const ChatBubble = ({ message, loggedUserId, chatId }: ChatBubbleProps) => {
                     </Paper>
                     <Typography variant="caption" color="text.secondary">
 
-                        {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
+                        Send by you ({message.userPseudo}) - {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
                         <IconButton onClick={handleClickIconButton} aria-label="voir" disabled={loading}>
                             {loading ? (
                                 <CircularProgress size={16} />

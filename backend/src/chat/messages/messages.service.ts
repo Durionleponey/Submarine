@@ -221,8 +221,11 @@ export class MessagesService {
 
         //console.log("😱😱😱", message.messages[0].views)
 
+        const user = await this.usersRepository.findOne({ _id:userId});
 
-        return message.messages[0].views
+
+
+        return (message.messages[0].views).filter((x)=>{return x !== user.pseudo})
     }
 
 }

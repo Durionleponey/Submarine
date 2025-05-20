@@ -256,6 +256,7 @@ const Chat = () => {
     const [geoLon, setGeoLon] = useState<number | null>(null);
 
     useEffect(() => {
+        console.log("geolocation useeffect")
         navigator.geolocation.getCurrentPosition((pos) => {
             setGeoLat(pos.coords.latitude);
             setGeoLon(pos.coords.longitude);
@@ -349,9 +350,9 @@ const Chat = () => {
                     marginBottom: "-70px",
                 }}
             >
-                <IconButton sx={{ mr: 1 }} disabled={true}>
+{/*                <IconButton sx={{ mr: 1 }} disabled={true}>
                     <AttachFileIcon fontSize="small" />
-                </IconButton>
+                </IconButton>*/}
 
                 <InputBase
                     inputRef={inputRef}
@@ -382,6 +383,8 @@ const Chat = () => {
                 >
                     <ArrowCircleUpIcon sx={{ fontSize: 28 }} />
                 </IconButton>
+
+                <Tooltip title={"Use localisation to protect your message"}>
                 <IconButton
                     disabled={isSendButtonDisabled}
                     color="secondary"
@@ -389,21 +392,22 @@ const Chat = () => {
                 >
                     <EditLocationIcon sx={{ fontSize: 28 }} />
                 </IconButton>
+                </Tooltip>
 
 
             </Paper>
             <Dialog open={openLocationDialog} onClose={() => setOpenLocationDialog(false)}>
-                <DialogTitle>📍 Message géolocalisé</DialogTitle>
+                <DialogTitle>📍 Message with geolocation restrictions</DialogTitle>
                 <DialogContent>
                     <TextField
-                        label="Ville"
+                        label="Street"
                         value={cityInput}
                         onChange={(e) => setCityInput(e.target.value)}
                         fullWidth
                         margin="dense"
                     />
                     <TextField
-                        label="Rayon (km)"
+                        label="Radius (km)"
                         value={radiusInput}
                         onChange={(e) => setRadiusInput(e.target.value)}
                         type="number"
@@ -412,13 +416,13 @@ const Chat = () => {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenLocationDialog(false)}>Annuler</Button>
+                    <Button onClick={() => setOpenLocationDialog(false)}>Cancel</Button>
                     <Button
                         onClick={handleConfirmLocation}
                         variant="contained"
                         disabled={!messageState || isSendButtonDisabled}
                     >
-                        Envoyer
+                        Send
                     </Button>
                 </DialogActions>
             </Dialog>

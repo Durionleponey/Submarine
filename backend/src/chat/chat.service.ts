@@ -85,14 +85,21 @@ export class ChatService {
         user = await this.usersRepository.findOne({pseudo:email});
 
       }catch(err){
-
         throw new Error('User not found!');
-
-
       }
+
 
     }
 
+    let chatName = await this.chatRepository.findOne({_id:chatId})
+
+
+
+    if (
+        chatName.userId === user._id.toString() || chatName.userIds.includes(user._id.toString())
+    ) {
+      throw new Error("User already in the chat!");
+    }
 
     try{
 
@@ -117,14 +124,15 @@ export class ChatService {
       throw new Error("unknow error are you trying to hack the system 😉? it's was a good try!");
     }
 
-    let chatName = await this.chatRepository.findOne({_id:chatId})
     console.log("🤮",chatName)
+
+    chatName["newuserid"] = user._id
+
 
 
     await this.pubSub.publish('chatCreated', {
       chatCreated: chatName
     })
-
 
 
       return("succes")

@@ -66,7 +66,10 @@ export class ChatResolver {
 
       //return payload.messageCreated.chatId === variables.chatId && userId !== payload.messageCreated.userId;
 
-      return userId === payload.chatCreated.userIds[payload.chatCreated.userIds.length - 1]
+      //console.log("userid",userId)
+      //console.log(payload.newuserid)
+
+      return userId === payload.chatCreated.newuserid.toString()
 
 
 

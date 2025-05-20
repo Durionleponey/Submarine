@@ -17,6 +17,7 @@ import AlertDialog from "./AlertDialog";
 
 interface ChatListHeaderProps {
     handleAddChat:() => void;
+    fun:()=>void;
 
 }
 
@@ -24,7 +25,7 @@ interface ChatListHeaderProps {
 
 
 
-const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
+const ChatListHeader = ({handleAddChat, fun}:ChatListHeaderProps) => {
     const [open, setOpen] = React.useState(false);
 
 
@@ -71,7 +72,7 @@ const ChatListHeader = ({handleAddChat}:ChatListHeaderProps) => {
                     </IconButton>
                 </Tooltip>*/}
 
-                {open && <AlertDialog title={"Leave all your chats ?"} AlertMessage="Leave all chats ? Your messages will not be deleted ! This action can't be undone." open={open} setOpen={setOpen} />}
+                {open && <AlertDialog fun={fun} title={"Leave all your chats ?"} AlertMessage="Leave all chats ? Your messages will not be deleted ! This action can't be undone." open={open} setOpen={setOpen} />}
 
 
                 {/*                <Tooltip title="Refresh the chat list">

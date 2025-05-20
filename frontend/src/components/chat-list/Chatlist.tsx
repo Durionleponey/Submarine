@@ -17,9 +17,14 @@ import ChatListItem from './chat-list-item/ChatList-Item';
 import {usePath} from "../../hooks/usePatch";
 import {useMessageCreated} from "../../hooks/useMessageCreated";
 import {useChatCreated} from "../../hooks/useChatCreated";
+import router from "../Routes";
+import {useLeaveAllChat} from "../../hooks/useLeaveAllChat";
+
 
 
 const ChatList  = () =>  {
+    const [leaveAllChat] = useLeaveAllChat();
+
 
     const [chatListaddModel, setChatListaddModel] = useState(false);
     const {data} = useGetChat();
@@ -61,6 +66,16 @@ const ChatList  = () =>  {
         }
     }, [latestChat]);
 
+    const fun = async () => {
+        try {
+            await leaveAllChat();
+            router.navigate("/")
+            setChats([])
+        } catch (e) {
+
+        }
+    };
+
 
     // @ts-ignore
 
@@ -70,7 +85,7 @@ const ChatList  = () =>  {
             <Stack >
 
 
-                <ChatListHeader handleAddChat={() => setChatListaddModel(true)}/>
+                <ChatListHeader fun={fun} handleAddChat={() => setChatListaddModel(true)}/>
 
                 <List sx={{ width: '100%', maxWidth: 380, bgcolor: 'background.paper', height: `calc(101dvh - 150px)`, overflowY: 'auto',                "&::-webkit-scrollbar": {
                         width: 8,

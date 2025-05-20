@@ -47,7 +47,7 @@ const ChatHeader = ({ chatName }: IChatHeaderProps) => {
                 </Tooltip>
             </Box>
 
-            <ChatListAddMenber open={openAddMember} handleClose={handleClose} />
+            <ChatListAddMenber open={openAddMember} handleClose={handleClose}/>
         </>
     );
 }

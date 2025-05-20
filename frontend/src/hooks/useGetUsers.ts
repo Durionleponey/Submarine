@@ -6,6 +6,7 @@ const users = graphql(`
     query users($search: String!) {
         users(search: $search){
             pseudo
+            email
         }
     }
 `);

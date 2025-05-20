@@ -199,7 +199,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                                     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                                 },
                             }}>
-                                <ListItemText primary={user.pseudo} sx={{ cursor: 'pointer' }} onClick={() => {
+                                <ListItemText primary={user.pseudo} secondary={user.email} sx={{ cursor: 'pointer' }} onClick={() => {
                                     setEmail(user.pseudo)
                                     setContinueTheSearch(false)
 
@@ -217,7 +217,7 @@ const ChatListAddMenber = ({open, handleClose}:ChatListAddMenberInterface) => {
                     )}
 
 
-                    {showSearchResult && !loading && !isTyping && !data?.users[0] && <>no pseudo matching</>}
+                    {showSearchResult && !loading && !isTyping && !data?.users[0] && <>no pseudo or email matching</>}
 
 
 

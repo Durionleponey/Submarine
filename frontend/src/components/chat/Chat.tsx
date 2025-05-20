@@ -260,7 +260,7 @@ const Chat = () => {
             setOpenLocationDialog(false);
         } catch (err) {
             alert("❌ Erreur lors de la géolocalisation.");
-            console.error(err);
+            //console.error(err);
         }
     };
     const [geoLat, setGeoLat] = useState<number | null>(null);

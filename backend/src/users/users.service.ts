@@ -39,11 +39,26 @@ export class UsersService {
     if (!search) {
       throw new UnauthorizedException("Type a character to search for a pseudo");
     }
-    return this.userRepository.find({
+
+
+    const r1 =await this.userRepository.find({
       pseudo: {// the $ in search is not related to mongo it's just regular js like ${hello}
         $regex: new RegExp(`^${search}`, 'i')//$ is a special operator, pseudo is a regular opertator options i is unsensible to the case
       }
     },5);
+
+    const r2 =await this.userRepository.find({
+      email: {// the $ in search is not related to mongo it's just regular js like ${hello}
+        $regex: new RegExp(`^${search}`, 'i')//$ is a special operator, pseudo is a regular opertator options i is unsensible to the case
+      }
+    },5);
+
+    console.log("-->",r2)
+
+    const merged = [...r1, ...r2];
+
+    return merged
+
   }
 
 

@@ -35,7 +35,7 @@ const Signup = () => {
 
                 }catch (error) {
                     //alert("Password not strong anought or email already use!")
-                    setIsError("Password not strong anought, or bad email !")
+                    setIsError("The email is already in use or the password is not strong enough. It must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.");
                     setIsSucces(false);
                 }
 

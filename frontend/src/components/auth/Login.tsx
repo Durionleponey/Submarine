@@ -43,7 +43,7 @@ const Login = () => {
             await login(request);
         }}
               error={
-            error ? "Credential are wrong! try 'Azerty123!' if you are loking for the password" : ""}>
+            error ? "Credential are wrong!" : ""}>
             <Link to="/signup" style={{alignSelf:"center"}}>
                 <MUIlink>
                     Signup

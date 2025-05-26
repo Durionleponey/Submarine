@@ -3,7 +3,6 @@ import fetch from 'node-fetch';
 export async function getLocationFromIp(ip: string): Promise<{ lat: number; lon: number }> {
     // if (ip != "127.0.0.1") {
     try {
-        //const res = await fetch(`http://ip-api.com/json/91.86.174.37`);
         const res = await fetch(`http://ip-api.com/json/${ip}`);
         const data = await res.json() as {
             status: string;

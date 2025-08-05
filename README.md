@@ -1,4 +1,4 @@
-Real time chat app
+Real time chat app - NestJS, GraphQL, Mongodb, React.
 
 
 
@@ -12,3 +12,4 @@ Real time chat app
 <img width="1280" height="800" alt="Capture d'écran 2025-06-09 214009" src="https://github.com/user-attachments/assets/7732e195-a46a-4bb2-948e-6bf27458152a" />
 <img width="1280" height="800" alt="Capture d'écran 2025-06-09 213640" src="https://github.com/user-attachments/assets/72756a41-ac01-453d-a56a-e4f55dfc68e9" />
 <img width="1280" height="800" alt="Capture d'écran 2025-06-09 213602" src="https://github.com/user-attachments/assets/4f796f1a-dcc3-49d4-b18a-3b02282cdc9b" />
+
